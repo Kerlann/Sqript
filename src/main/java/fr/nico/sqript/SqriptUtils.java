@@ -6,9 +6,12 @@ import fr.nico.sqript.meta.*;
 import fr.nico.sqript.types.*;
 import fr.nico.sqript.types.primitive.TypeBoolean;
 import fr.nico.sqript.types.primitive.TypeNumber;
+import fr.nico.sqript.types.primitive.TypeResource;
 import fr.nico.sqript.types.primitive.TypeString;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -18,6 +21,7 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import sun.reflect.ReflectionFactory;
 
 import java.io.*;
@@ -25,6 +29,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class SqriptUtils {
 
@@ -304,5 +309,24 @@ public class SqriptUtils {
         } else if(value instanceof TypeArray){
             tag.setTag(key, ((TypeArray) value).write(new NBTTagCompound()));
         }
+    }
+    
+    public static ItemStack getItemWithParameter(ScriptType param, int amount){
+        ItemStack item = null;
+        if (param instanceof TypeResource) {
+            Item i = ForgeRegistries.ITEMS.getValue(((TypeResource) (param)).getObject());
+            if (i == null) {
+                i = Item.getItemFromBlock(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(((TypeResource) (param)).getObject())));
+                if (i == null){
+                    ScriptManager.log.error("No item found for identifier : " + param.getObject().toString());
+                    return null;
+                }
+            }
+            item = new ItemStack(i,amount);
+        }
+        if (param instanceof TypeItem) {
+            item = ((TypeItem) (param)).getObject();
+        }
+        return item;
     }
 }

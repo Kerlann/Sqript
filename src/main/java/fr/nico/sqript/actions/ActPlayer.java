@@ -2,6 +2,7 @@ package fr.nico.sqript.actions;
 
 import fr.nico.sqript.ScriptManager;
 import fr.nico.sqript.meta.Feature;
+import fr.nico.sqript.structures.Side;
 import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.TypeItem;
 import fr.nico.sqript.compiling.ScriptException;
@@ -9,12 +10,15 @@ import fr.nico.sqript.meta.Action;
 import fr.nico.sqript.structures.ScriptContext;
 import fr.nico.sqript.types.primitive.TypeNumber;
 import fr.nico.sqript.types.primitive.TypeResource;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.GuiConnecting;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
+import scala.collection.parallel.ParIterableLike;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -23,7 +27,7 @@ import java.util.Objects;
         features = {
             @Feature(name = "Teleport player", description = "Teleports a player to a given location.", examples = "teleport player at [10,25,20]", pattern = "teleport {player} (to|at) {array}"),
             @Feature(name = "Give item to player", description = "Gives an item to a player.", examples = "give 1 minecraft:diamond_sword to player\n", pattern = "give {item} to {player}"),
-            @Feature(name = "Kick player", description = "Kicks a player from the server.", examples = "kick player with message \"You've been kicked for cheating\"", pattern = "kick {player} [with message {string}]")
+            @Feature(name = "Kick player", description = "Kicks a player from the server.", examples = "kick player with message \"You've been kicked for cheating\"", pattern = "kick {player} [with message {string}]"),
         }
 )
 public class ActPlayer extends ScriptAction {
