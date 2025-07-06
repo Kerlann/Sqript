@@ -1,7 +1,5 @@
 package fr.nico.sqript.meta;
 
-import fr.nico.sqript.structures.Side;
-
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -19,3 +17,8 @@ public @interface Event {
     Feature[] accessors();
 
 }
+
+
+
+
+

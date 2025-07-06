@@ -10,7 +10,14 @@ import java.lang.annotation.RetentionPolicy;
 public @interface Primitive {
 
     String name();
+
     Class<? extends ScriptType>[] parsableAs();
+
     String pattern();
 
 }
+
+
+
+
+

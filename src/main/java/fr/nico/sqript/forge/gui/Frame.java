@@ -20,36 +20,34 @@ import java.util.List;
 
 public class Frame extends GuiScreen {
 
-    protected Vector2f origin = new Vector2f(0, 0);
+    public static final IAnchor top_left = (x, y, w, h) -> new Vector2f(x, y);
+    public static final IAnchor center = (x, y, w, h) -> new Vector2f(Widget.xFromCenter(x) - w / 2, Widget.yFromCenter(y) - h / 2);
     public int interactCode;
     public boolean isInteracting = false;
-    private boolean drawToolTip = true;
     public List<String> tooltip = null;
     public boolean refreshing = true;
     public int tickExisted = 0;
     public Message message;
     public boolean hold = false;
     public boolean specialInteractionMode = false;
+    protected Vector2f origin = new Vector2f(0, 0);
     protected List<Widget> blankWidgets = new ArrayList<Widget>();
     protected List<Widget> runningWidgets = new ArrayList<Widget>();
     protected ScaledResolution scaledResolution = new ScaledResolution(Minecraft.getMinecraft());
     List<IMouseWheelListener> widgetsHandlingMouseWheel = new ArrayList<IMouseWheelListener>();
     List<IClickListener> widgetsHandlingMouseClick = new ArrayList<IClickListener>();
     List<IKeyListener> widgetsHandlingKeyType = new ArrayList<IKeyListener>();
+    private boolean drawToolTip = true;
     private boolean canBeClosed = true;
     private List<String> tooltipToDraw;
     private Widget drawingToolTipWidget;
+    private final IAnchor anchor;
 
-    public static final IAnchor top_left = (x,y,w,h) -> new Vector2f(x,y);
-    public static final IAnchor center = (x,y,w,h) -> new Vector2f(Widget.xFromCenter(x)-w/2,Widget.yFromCenter(y)-h/2);
-
-    private IAnchor anchor;
-
-    public Frame(){
+    public Frame() {
         this(center);
     }
 
-    public Frame(IAnchor anchor){
+    public Frame(IAnchor anchor) {
         this.anchor = anchor;
     }
 
@@ -207,9 +205,9 @@ public class Frame extends GuiScreen {
             if (fontRenderer.getStringWidth(s) > bestWidth)
                 bestWidth = fontRenderer.getStringWidth(s);
         }
-        GlStateManager.translate(mouseX, mouseY,0);
-        GlStateManager.scale(0.8,0.8,1);
-        drawRect(0,0, bestWidth + 7, ((tooltip.size()) * fontRenderer.FONT_HEIGHT) + 5,
+        GlStateManager.translate(mouseX, mouseY, 0);
+        GlStateManager.scale(0.8, 0.8, 1);
+        drawRect(0, 0, bestWidth + 7, ((tooltip.size()) * fontRenderer.FONT_HEIGHT) + 5,
                 0x55000000);
         String s = "";
 
@@ -233,7 +231,7 @@ public class Frame extends GuiScreen {
             }
     }
 
-    public void addWidget(Widget w){
+    public void addWidget(Widget w) {
         blankWidgets.add(w);
     }
 
@@ -241,10 +239,10 @@ public class Frame extends GuiScreen {
         //System.out.println("Adding widget :"+w);
 
         isInteracting = false;
-        Vector2f position = anchor.transformPosition(w.initX,w.initY,w.style.width,w.style.height);
+        Vector2f position = anchor.transformPosition(w.initX, w.initY, w.style.width, w.style.height);
         //System.out.println("position : "+position);
-        w.x = (int) position.x+ (int)origin.x;
-        w.y = (int) position.y+ (int)origin.y;
+        w.x = (int) position.x + (int) origin.x;
+        w.y = (int) position.y + (int) origin.y;
         w.setId(runningWidgets.size());
         w.onAddToFrame(this);
         w.parentFrame = this;
@@ -286,7 +284,6 @@ public class Frame extends GuiScreen {
     protected void keyTyped(char typedChar, int keyCode) throws IOException {
         if (message != null) {
             message.keyTyped(typedChar, keyCode);
-            return;
         } else {
             if (canBeClosed && keyCode == 1) {
                 this.closeFrame();
@@ -401,3 +398,8 @@ public class Frame extends GuiScreen {
 
 
 }
+
+
+
+
+

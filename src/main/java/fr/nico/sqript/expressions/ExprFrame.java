@@ -35,14 +35,14 @@ public class ExprFrame extends ScriptExpression {
             case 1:
                 ResourceLocation resourceLocation = (ResourceLocation) parameters[0].getObject();
 
-                return new TypeImageWidget(new Image(new ResourceLocation(resourceLocation.toString()),100,100));
+                return new TypeImageWidget(new Image(new ResourceLocation(resourceLocation.toString()), 100, 100));
             case 2:
-                resourceLocation = (ResourceLocation) getParameterOrDefault(parameters[0],null);
-                String text = getParameterOrDefault(parameters[1],"");
+                resourceLocation = (ResourceLocation) getParameterOrDefault(parameters[0], null);
+                String text = getParameterOrDefault(parameters[1], "");
                 Vec3d pos = parameters[2] == null ? Vec3d.ZERO : SqriptUtils.arrayToLocation((ArrayList) parameters[2].getObject());
-                Vec3d size = parameters[3] == null ? new Vec3d(100,20,0): SqriptUtils.arrayToLocation((ArrayList) parameters[3].getObject());
-                int id = getParameterOrDefault(parameters[4],0d).intValue();
-                Button button = new Button((int)pos.x,(int)pos.y,(int)size.x,(int)size.y,text);
+                Vec3d size = parameters[3] == null ? new Vec3d(100, 20, 0) : SqriptUtils.arrayToLocation((ArrayList) parameters[3].getObject());
+                int id = getParameterOrDefault(parameters[4], 0d).intValue();
+                Button button = new Button((int) pos.x, (int) pos.y, (int) size.x, (int) size.y, text);
                 button.setResourceLocation(resourceLocation);
                 if (resourceLocation != null) {
                     button.setDrawType(Button.DRAW_TEXT_AND_TEXTURE);
@@ -54,14 +54,14 @@ public class ExprFrame extends ScriptExpression {
                 button.setButtonId(id);
                 return new TypeButton(button);
             case 3:
-                text = getParameterOrDefault(parameters[0],"");
+                text = getParameterOrDefault(parameters[0], "");
                 pos = parameters[1] == null ? Vec3d.ZERO : SqriptUtils.arrayToLocation((ArrayList) parameters[1].getObject());
-                float scale =  getParameterOrDefault(parameters[2],1d).floatValue();
-                int color = getParameterOrDefault(parameters[3],0xFFFFFFFF);
-                Label label = new Label(text,color,scale);
-                label.setX((int)pos.x);
-                label.setY((int)pos.y);
-                if(getMarks()>>1==1)
+                float scale = getParameterOrDefault(parameters[2], 1d).floatValue();
+                int color = getParameterOrDefault(parameters[3], 0xFFFFFFFF);
+                Label label = new Label(text, color, scale);
+                label.setX((int) pos.x);
+                label.setY((int) pos.y);
+                if (getMarks() >> 1 == 1)
                     label.setStyleDisplay(EnumDisplayStyle.CENTER);
                 return new TypeLabel(label);
             case 4:
@@ -73,13 +73,18 @@ public class ExprFrame extends ScriptExpression {
 
     @Override
     public boolean set(ScriptContext context, ScriptType to, ScriptType[] parameters) {
-        switch(getMatchedIndex()){
+        switch (getMatchedIndex()) {
             case 4:
                 Label label = (Label) parameters[0].getObject();
-                String text = (String)to.getObject();
+                String text = (String) to.getObject();
                 label.setDisplayText(text);
                 return true;
         }
         return false;
     }
 }
+
+
+
+
+

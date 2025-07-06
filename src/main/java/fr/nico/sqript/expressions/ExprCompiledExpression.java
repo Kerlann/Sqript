@@ -1,18 +1,19 @@
 package fr.nico.sqript.expressions;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.compiling.*;
-import fr.nico.sqript.compiling.parsers.ScriptExpressionParser;
+import fr.nico.sqript.core.compilation.*;
 import fr.nico.sqript.meta.ExpressionDefinition;
 import fr.nico.sqript.structures.IOperation;
 import fr.nico.sqript.structures.ScriptContext;
 import fr.nico.sqript.structures.ScriptElement;
 import fr.nico.sqript.structures.ScriptOperator;
 import fr.nico.sqript.types.ScriptType;
-import fr.nico.sqript.types.TypeNull;
 import fr.nico.sqript.types.primitive.TypeBoolean;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Stack;
 
 
 public class ExprCompiledExpression extends ScriptExpression {
@@ -71,10 +72,10 @@ public class ExprCompiledExpression extends ScriptExpression {
             Node node = nodes.remove(0);
             //System.out.println("Top is : "+node);
             if (node instanceof NodeExpression || node instanceof NodeSwitch || (node instanceof NodeOperation && node.getChildren() != null && node.getChildren().length > 0)) {
-                if(node instanceof NodeSwitch || node instanceof NodeOperation){
+                if (node instanceof NodeSwitch || node instanceof NodeOperation) {
                     //System.out.println("Pushing "+node+" into : "+treeStack);
                     treeStack.push(node);
-                }else {
+                } else {
                     NodeExpression nodeExpression = (NodeExpression) node;
                     //System.out.println(nodeExpression+" arity is "+nodeExpression.getArity());
                     if (nodeExpression.getArity() > 0 && nodeExpression.childrenAreNull()) {
@@ -129,7 +130,7 @@ public class ExprCompiledExpression extends ScriptExpression {
                     pile.add(nodeExpression);
                 else out.add(nodeExpression);
                 //System.out.println("Out : " + out);
-            }else if (node instanceof NodeSwitch) {
+            } else if (node instanceof NodeSwitch) {
                 out.add(node);
                 //System.out.println("Out : " + out);
             } else if (node instanceof NodeOperation) {
@@ -189,7 +190,7 @@ public class ExprCompiledExpression extends ScriptExpression {
     }
 
     @Override
-    public ScriptType get(ScriptContext context, ScriptType<?>[] parameters) throws ScriptException, ScriptException.ScriptInterfaceNotImplementedException {
+    public ScriptType get(ScriptContext context, ScriptType<?>[] parameters) throws ScriptException {
         return get(ast, context, null);
     }
 
@@ -241,9 +242,9 @@ public class ExprCompiledExpression extends ScriptExpression {
                 }
             } else {
                 for (Node branch : node.getChildren()) {
-                    if (ScriptExpressionParser.isTypeValid(branch.getReturnType(), validTypes)) {
+                    if (fr.nico.sqript.core.registry.ScriptRegistry.isTypeValid(branch.getReturnType(), validTypes)) {
                         ScriptType result = get(branch, context, null);
-                        if (ScriptExpressionParser.isTypeValid(result.getClass(), validTypes))
+                        if (fr.nico.sqript.core.registry.ScriptRegistry.isTypeValid(result.getClass(), validTypes))
                             return result;
                     }
                 }
@@ -390,3 +391,8 @@ public class ExprCompiledExpression extends ScriptExpression {
         return "C:" + ast.toString();
     }
 }
+
+
+
+
+

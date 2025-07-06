@@ -1,11 +1,7 @@
 package fr.nico.sqript.forge.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
@@ -17,17 +13,11 @@ public class Container extends Widget implements IClickListener, IKeyListener, I
     public static final int DRAW_COLOR = 0;
     public static final int DRAW_IMAGE = 1;
     public static final int DRAW_IMAGE_FIXED = 2;
+    private final boolean canHold = false;
+    private final boolean hover = false;
+    private final boolean hold = false;
     public ResourceLocation imageSource;
     public boolean drawHoverColor = false;
-
-    public boolean isAdaptScissorBoxToParent() {
-        return adaptScissorBoxToParent;
-    }
-
-    public void setAdaptScissorBoxToParent(boolean adaptScissorBoxToParent) {
-        this.adaptScissorBoxToParent = adaptScissorBoxToParent;
-    }
-
     public boolean adaptScissorBoxToParent = true;
     public DisplayInfos display;
     public int draw_type = 0;
@@ -40,15 +30,10 @@ public class Container extends Widget implements IClickListener, IKeyListener, I
     int mtop = 0;
     int mleft = 0, mright = 0;
     int bestHeight = 0;
-    private final boolean canHold = false;
-    private final boolean hover = false;
-    private final boolean hold = false;
-
     public Container(int width, int height) {
         this.style.width = width;
         this.style.height = height;
     }
-
     public Container(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
@@ -68,6 +53,14 @@ public class Container extends Widget implements IClickListener, IKeyListener, I
 
     public Container(Style style) {
         this.style = style;
+    }
+
+    public boolean isAdaptScissorBoxToParent() {
+        return adaptScissorBoxToParent;
+    }
+
+    public void setAdaptScissorBoxToParent(boolean adaptScissorBoxToParent) {
+        this.adaptScissorBoxToParent = adaptScissorBoxToParent;
     }
 
     public void clearWidgets() {
@@ -350,3 +343,8 @@ public class Container extends Widget implements IClickListener, IKeyListener, I
     }
 
 }
+
+
+
+
+

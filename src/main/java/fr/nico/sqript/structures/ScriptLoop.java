@@ -1,9 +1,10 @@
 package fr.nico.sqript.structures;
 
-import fr.nico.sqript.compiling.ScriptCompilationContext;
-import fr.nico.sqript.compiling.ScriptDecoder;
-import fr.nico.sqript.compiling.ScriptException;
-import fr.nico.sqript.compiling.ScriptToken;
+import fr.nico.sqript.core.compilation.CompilationResult;
+import fr.nico.sqript.core.compilation.ScriptCompilationContext;
+import fr.nico.sqript.core.compilation.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptToken;
+import fr.nico.sqript.core.registry.ScriptRegistry;
 import fr.nico.sqript.expressions.ScriptExpression;
 import fr.nico.sqript.meta.Expression;
 import fr.nico.sqript.meta.Loop;
@@ -42,17 +43,17 @@ public class ScriptLoop extends ScriptWrapper {
 
     }
 
-    @Loop(name = "if", pattern = "if .*")
+    @Loop(name = "if", pattern = "if .+:")
     public static class ScriptLoopIF extends ScriptLoop {
 
         public ScriptLoopIF elseContainer;
         public ScriptExpression condition;
 
-        public void setCondition(ScriptExpression condition) {
-            this.condition = condition;
+        public ScriptLoopIF() {
         }
 
-        public ScriptLoopIF() {
+        public void setCondition(ScriptExpression condition) {
+            this.condition = condition;
         }
 
         public void setElseContainer(ScriptLoopIF loop) {
@@ -70,21 +71,44 @@ public class ScriptLoop extends ScriptWrapper {
 
         @Override
         public void build(ScriptToken line, ScriptCompilationContext compileGroup) throws ScriptException {
-            String condition = line.getText().replaceFirst("\\s*if\\s*", "").trim();
-            condition = condition.substring(0, condition.length() - 1);
-            line = line.with(condition);
-            ScriptToken transformed = new ScriptToken(condition, line.getLineNumber(), line.getScriptInstance());
-            ScriptExpression scriptExpression = ScriptDecoder.parse(transformed, compileGroup);
+            String conditionText = line.getText().replaceFirst("\\s*if\\s*", "").trim();
+            if (conditionText.isEmpty() || conditionText.equals(":")) {
+                throw new ScriptException(line, "Empty condition in if statement");
+            }
+            if (conditionText.endsWith(":")) {
+                conditionText = conditionText.substring(0, conditionText.length() - 1).trim();
+            }
+            if (conditionText.isEmpty()) {
+                throw new ScriptException(line, "Empty condition in if statement after removing colon");
+            }
+
+            ScriptToken transformed = new ScriptToken(conditionText, line.getLineNumber(), line.getScriptInstance());
+            ScriptExpression scriptExpression = null;
+            try {
+                CompilationResult<ScriptExpression> result = fr.nico.sqript.forge.SqriptForge.getHybridEngine().compileExpression(transformed, compileGroup);
+                if (result != null && result.isSuccess()) {
+                    scriptExpression = result.getResult();
+                } else {
+                    throw new ScriptException(transformed, "Erreur de compilation d'expression dans ScriptLoop");
+                }
+            } catch (Exception e) {
+                throw new ScriptException(transformed, "Erreur de compilation d'expression dans ScriptLoop : " + e.getMessage());
+            }
             setLine(line);
-            if (scriptExpression != null)
+            if (scriptExpression != null) {
                 setCondition(scriptExpression);
-            else {
-                throw new ScriptException.ScriptUnknownExpressionException(line);
+            } else {
+                throw new ScriptException.ScriptUnknownExpressionException(transformed);
             }
         }
 
         @Override
         public IScript run(ScriptContext context) throws ScriptException {
+            // FIX: Vérifier que condition n'est pas null avant de l'utiliser
+            if (condition == null) {
+                throw new ScriptException(new ScriptToken("Condition is null in ScriptLoopIF at line " + (getLine() != null ? getLine().getLineNumber() : "unknown")));
+            }
+
             //System.out.println("At line "+getLine().getLineNumber()+", condition is : "+(condition==null?"null":condition.getClass()+" "+condition.getMatchedIndex()+" "+getWrapped()+ ":"+getWrapped().getLine()));
             if ((boolean) (condition.get(context).getObject())) {
                 //System.out.println("Returning wrapped");
@@ -124,7 +148,7 @@ public class ScriptLoop extends ScriptWrapper {
         }
     }
 
-    @Loop(name = "else if", pattern = "else if .*", priority = 1)
+    @Loop(name = "else if", pattern = "else if .+:", priority = 1)
     public static class ScriptLoopELSEIF extends ScriptLoopIF {
 
         public IScript elseContainer;
@@ -145,18 +169,33 @@ public class ScriptLoop extends ScriptWrapper {
 
         @Override
         public void build(ScriptToken line, ScriptCompilationContext compileGroup) throws ScriptException {
-            line = line.with(line.getText().replaceFirst("\\s*", ""));
-            ScriptToken transformed = new ScriptToken(line.getText().replaceFirst("\\s*else if\\s*", "").replaceAll(":", ""), line.getLineNumber(), line.getScriptInstance());
-            ScriptExpression scriptExpression = ScriptDecoder.parse(transformed, compileGroup);
-            if (scriptExpression != null)
+            String conditionText = line.getText().replaceFirst("\\s*else if\\s*", "").replaceAll(":", "").trim();
+            if (conditionText.isEmpty()) {
+                throw new ScriptException(line, "Empty condition in else if statement");
+            }
+
+            ScriptToken transformed = new ScriptToken(conditionText, line.getLineNumber(), line.getScriptInstance());
+            ScriptExpression scriptExpression = null;
+            try {
+                CompilationResult<ScriptExpression> result = fr.nico.sqript.forge.SqriptForge.getHybridEngine().compileExpression(transformed, compileGroup);
+                if (result != null && result.isSuccess()) {
+                    scriptExpression = result.getResult();
+                } else {
+                    throw new ScriptException(transformed, "Erreur de compilation d'expression dans ScriptLoop");
+                }
+            } catch (Exception e) {
+                throw new ScriptException(transformed, "Erreur de compilation d'expression dans ScriptLoop : " + e.getMessage());
+            }
+            setLine(line);
+            if (scriptExpression != null) {
                 setCondition(scriptExpression);
-            else {
-                throw new ScriptException.ScriptUnknownExpressionException(line);
+            } else {
+                throw new ScriptException.ScriptUnknownExpressionException(transformed);
             }
         }
     }
 
-    @Loop(name = "for", pattern = "for .*")
+    @Loop(name = "for", pattern = "for .+ in .+:")
     public static class ScriptLoopFOR extends ScriptLoopRepeated {
 
         int varHash;
@@ -173,7 +212,17 @@ public class ScriptLoop extends ScriptWrapper {
                 //System.out.println("Building for loop");
                 varName = m.group(1);
                 String array = m.group(2);
-                ScriptExpression scriptExpression = ScriptDecoder.parse(line.with(array), compileGroup);
+                ScriptExpression scriptExpression = null;
+                try {
+                    CompilationResult<ScriptExpression> result = fr.nico.sqript.forge.SqriptForge.getHybridEngine().compileExpression(line.with(array), compileGroup);
+                    if (result != null && result.isSuccess()) {
+                        scriptExpression = result.getResult();
+                    } else {
+                        throw new ScriptException(line.with(array), "Erreur de compilation d'expression dans ScriptLoop");
+                    }
+                } catch (Exception e) {
+                    throw new ScriptException(line.with(array), "Erreur de compilation d'expression dans ScriptLoop : " + e.getMessage());
+                }
                 //System.out.println("Parsed : "+scriptExpression);
                 Class<? extends ScriptElement> type;
 
@@ -181,7 +230,7 @@ public class ScriptLoop extends ScriptWrapper {
                     throw new ScriptException.ScriptUnknownExpressionException(line);
 
                 if (scriptExpression.getClass().getAnnotation(Expression.class) != null)
-                    type = ScriptDecoder.parseType(scriptExpression.getClass().getAnnotation(Expression.class).features()[scriptExpression.getMatchedIndex()].type());
+                    type = ScriptRegistry.parseType(scriptExpression.getClass().getAnnotation(Expression.class).features()[scriptExpression.getMatchedIndex()].type());
                 else
                     type = scriptExpression.getReturnType();
 
@@ -194,9 +243,9 @@ public class ScriptLoop extends ScriptWrapper {
                 this.array = scriptExpression;
                 this.setLine(line);
                 ScriptTypeAccessor indexAccessor = new ScriptTypeAccessor();
-                indexAccessor.setPattern(Pattern.compile(Pattern.quote(varName)+"'s index"));
-                indexAccessor.setKey(varName+"'s index");
-                indexAccessor.setHash((varName+"'s index").hashCode());
+                indexAccessor.setPattern(Pattern.compile(Pattern.quote(varName) + "'s index"));
+                indexAccessor.setKey(varName + "'s index");
+                indexAccessor.setHash((varName + "'s index").hashCode());
                 indexAccessor.setReturnType(TypeNumber.class);
                 compileGroup.declaredVariables.add(indexAccessor);
                 return;
@@ -207,19 +256,19 @@ public class ScriptLoop extends ScriptWrapper {
 
         @Override
         public IScript getNext(ScriptContext context) throws ScriptException {
-            if (context.getVariable(varName+"'s index", true) == null) {
+            if (context.getVariable(varName + "'s index", true) == null) {
                 //System.out.println("Registering new variable");
                 ScriptTypeAccessor indexAccessor = new ScriptTypeAccessor();
                 indexAccessor.setElement(new TypeNumber(-1));
-                indexAccessor.setPattern(Pattern.compile(Pattern.quote(varName)+"'s index"));
-                indexAccessor.setKey(varName+"'s index");
-                indexAccessor.setHash((varName+"'s index").hashCode());
+                indexAccessor.setPattern(Pattern.compile(Pattern.quote(varName) + "'s index"));
+                indexAccessor.setKey(varName + "'s index");
+                indexAccessor.setHash((varName + "'s index").hashCode());
                 context.put(indexAccessor);
             }
             //System.out.println(context.printVariables());
             //System.out.println(context.printPatterns());
             //System.out.println("Getting : "+varName+" "+context.getVariable(varName+"'s index"));
-            TypeNumber index = (TypeNumber) context.getVariable(varName+"'s index", true);
+            TypeNumber index = (TypeNumber) context.getVariable(varName + "'s index", true);
 
             index.setObject(index.getObject() + 1);
             //System.out.println("o for "+varName+" :"+index.getObject());
@@ -233,7 +282,7 @@ public class ScriptLoop extends ScriptWrapper {
             //System.out.println("typeArray is null : " + (typeArray == null) + " " + array.getClass() + " " + array.getMatchedIndex());
             if (index.getObject() < typeArray.getObject().size() && !broken) {
                 //System.out.println("Added variable "+varName+", now it contains : "+context.printVariables());
-                ScriptTypeAccessor sa = new ScriptTypeAccessor((ScriptType<?>) typeArray.getObject().get(index.getObject().intValue()), varHash);
+                ScriptTypeAccessor sa = new ScriptTypeAccessor(typeArray.getObject().get(index.getObject().intValue()), varHash);
                 context.put(sa);
                 return getWrapped();
             } else {
@@ -250,20 +299,34 @@ public class ScriptLoop extends ScriptWrapper {
         }
     }
 
-    @Loop(name = "while", pattern = "while .*")
+    @Loop(name = "while", pattern = "while .+:")
     public static class ScriptLoopWHILE extends ScriptLoopRepeated {
         public ScriptExpression condition;
 
 
         @Override
         public void build(ScriptToken line, ScriptCompilationContext compileGroup) throws ScriptException {
-            line = line.with(line.getText().replaceFirst("\\s*", ""));
-            ScriptToken transformed = line.with(line.getText().replaceFirst("\\s*while\\s*", "").replaceAll(":", ""));
-            ScriptExpression scriptExpression = ScriptDecoder.parse(transformed, compileGroup);
+            String conditionText = line.getText().replaceFirst("\\s*while\\s*", "").replaceAll(":", "").trim();
+            if (conditionText.isEmpty()) {
+                throw new ScriptException(line, "Empty condition in while statement");
+            }
+
+            ScriptToken transformed = new ScriptToken(conditionText, line.getLineNumber(), line.getScriptInstance());
+            ScriptExpression scriptExpression = null;
+            try {
+                CompilationResult<ScriptExpression> result = fr.nico.sqript.forge.SqriptForge.getHybridEngine().compileExpression(transformed, compileGroup);
+                if (result != null && result.isSuccess()) {
+                    scriptExpression = result.getResult();
+                } else {
+                    throw new ScriptException(transformed, "Erreur de compilation d'expression dans ScriptLoop");
+                }
+            } catch (Exception e) {
+                throw new ScriptException(transformed, "Erreur de compilation d'expression dans ScriptLoop : " + e.getMessage());
+            }
             this.setLine(line);
-            if (scriptExpression != null)
+            if (scriptExpression != null) {
                 this.condition = scriptExpression;
-            else {
+            } else {
                 throw new ScriptException.ScriptUnknownExpressionException(transformed);
             }
         }
@@ -271,10 +334,14 @@ public class ScriptLoop extends ScriptWrapper {
         @Override
         public IScript getNext(ScriptContext context) throws ScriptException {
             try {
-                if ((boolean) condition.get(context).getObject() && !broken)
+                // FIX: Vérifier que condition n'est pas null
+                if (condition != null && (boolean) condition.get(context).getObject() && !broken)
                     return getWrapped();
             } catch (ScriptException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                throw new ScriptException(getLine(), "Error in while loop condition at line " +
+                        (getLine() != null ? getLine().getLineNumber() : "unknown") + ": " + e.getMessage());
             }
             broken = false;
             return super.getNext(context);
@@ -282,10 +349,22 @@ public class ScriptLoop extends ScriptWrapper {
 
         @Override
         public IScript run(ScriptContext context) throws ScriptException {
-            if ((boolean) condition.get(context).getObject()) {
-                return getWrapped();
-            } else
-                return super.getNext(context);
+            // FIX: Vérifier que condition n'est pas null
+            if (condition == null) {
+                throw new ScriptException(getLine(), "Condition is null in ScriptLoopWHILE at line " +
+                        (getLine() != null ? getLine().getLineNumber() : "unknown"));
+            }
+
+            try {
+                if ((boolean) condition.get(context).getObject()) {
+                    return getWrapped();
+                } else {
+                    return super.getNext(context);
+                }
+            } catch (Exception e) {
+                throw new ScriptException(getLine(), "Error evaluating while condition at line " +
+                        (getLine() != null ? getLine().getLineNumber() : "unknown") + ": " + e.getMessage());
+            }
         }
 
 

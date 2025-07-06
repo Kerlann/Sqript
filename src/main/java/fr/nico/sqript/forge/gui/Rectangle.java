@@ -1,7 +1,6 @@
 package fr.nico.sqript.forge.gui;
 
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.opengl.GL11;
 
 public class Rectangle extends Widget {
 
@@ -27,3 +26,8 @@ public class Rectangle extends Widget {
     }
 
 }
+
+
+
+
+

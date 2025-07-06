@@ -1,13 +1,13 @@
 package fr.nico.sqript.meta;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.compiling.ScriptDecoder;
-import fr.nico.sqript.compiling.ScriptToken;
+import fr.nico.sqript.core.compilation.ScriptCompilationContext;
+import fr.nico.sqript.core.compilation.ScriptToken;
+import fr.nico.sqript.core.registry.ScriptRegistry;
 import fr.nico.sqript.expressions.ScriptExpression;
-import fr.nico.sqript.structures.ScriptParameterDefinition;
 import fr.nico.sqript.structures.TransformedPattern;
 
-import javax.xml.bind.SchemaOutputResolver;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +31,9 @@ public class ExpressionDefinition {
             this.transformedPatterns = new TransformedPattern[features.length];
             for (int i = 0; i < features.length; i++) {
                 try {
-                    String[] t = ScriptDecoder.splitAtDoubleDot(features[i].pattern());
-                    this.transformedPatterns[i] = ScriptDecoder.transformPattern(t[0]);
-                    this.transformedPatterns[i].setReturnType(ScriptDecoder.parseType(features[i].type()));
+                    String[] t = fr.nico.sqript.core.compilation.MigrationAdapter.splitAtDoubleDot(features[i].pattern());
+                    this.transformedPatterns[i] = ScriptRegistry.transformPattern(t[0]);
+                    this.transformedPatterns[i].setReturnType(fr.nico.sqript.core.compilation.MigrationAdapter.parseType(features[i].type()));
                     //System.out.println("Pattern "+i+" : "+this.transformedPatterns[i].getPattern().pattern());
                 } catch (Exception e) {
                     ScriptManager.log.info("Error trying to build expression : " + name);
@@ -58,7 +58,7 @@ public class ExpressionDefinition {
             if (m.matches()) {
                 //System.out.println(m.matches()+ " for pattern "+pattern.getPattern().pattern()+" matching "+line);
                 for (String argument : pattern.getAllArguments(line)) {
-                    if (!ScriptDecoder.isParenthesageGood(argument))
+                    if (!fr.nico.sqript.core.registry.ScriptRegistry.isParenthesageGood(argument))
                         continue t;
                 }
                 //System.out.println("Added !");
@@ -100,4 +100,26 @@ public class ExpressionDefinition {
     public Feature[] getFeatures() {
         return features;
     }
+
+    public String toString() {
+        return name + " => " + getExpressionClass().getSimpleName();
+    }
+
+    /**
+     * Tente de parser une expression avec ce définition
+     */
+    public ScriptExpression tryParse(ScriptToken token, ScriptCompilationContext context, Class[] requiredTypes) throws Exception {
+        // Implémentation simplifiée - utilise le constructeur par défaut
+        try {
+            Constructor<? extends ScriptExpression> constructor = getExpressionClass().getConstructor();
+            return constructor.newInstance();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
+
+
+
+
+

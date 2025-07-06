@@ -1,16 +1,11 @@
 package fr.nico.sqript.types;
 
 import fr.nico.sqript.meta.Type;
-import fr.nico.sqript.structures.ScriptElement;
-import fr.nico.sqript.types.primitive.TypeResource;
 import net.minecraft.util.DamageSource;
-
-import javax.annotation.Nullable;
 
 @Type(name = "damage_source",
         parsableAs = {})
-public class TypeDamageSource extends ScriptType<DamageSource>
-{
+public class TypeDamageSource extends ScriptType<DamageSource> {
     public TypeDamageSource(DamageSource damageSource) {
         super(damageSource);
     }
@@ -26,3 +21,8 @@ public class TypeDamageSource extends ScriptType<DamageSource>
     }
 
 }
+
+
+
+
+

@@ -4,14 +4,19 @@ import fr.nico.sqript.types.ScriptType;
 
 public interface IIndexedCollection {
 
-    public boolean contains(ScriptType<?> t);
+    boolean contains(ScriptType<?> t);
 
-    public ScriptType<?> get(int index);
+    ScriptType<?> get(int index);
 
-    public IIndexedCollection sort(int mode);
+    IIndexedCollection sort(int mode);
 
-    public IIndexedCollection copy();
+    IIndexedCollection copy();
 
-    public int size();
+    int size();
 
 }
+
+
+
+
+

@@ -50,10 +50,11 @@ public class Widget extends Gui {
     }
 
     public static int xFromCenter(int a) {
-        return (int) xFromCenter((float)a);
+        return (int) xFromCenter((float) a);
     }
+
     public static int yFromCenter(int a) {
-        return (int) yFromCenter((float)a);
+        return (int) yFromCenter((float) a);
     }
 
     public static float xFromCenter(float a) {
@@ -84,6 +85,63 @@ public class Widget extends Gui {
         GlStateManager.disableBlend();
         GL11.glDisable(GL11.GL_LINE_SMOOTH);
 
+    }
+
+    public static void drawTexturedRect(double x, double y, double w, double h) {
+        drawTexturedRect(x, y, w, h, 0.0D, 0.0D, 1.0D, 1.0D);
+    }
+
+    public static void drawTexturedRect(double x, double y, double w, double h, double u1, double v1, double u2,
+                                        double v2) {
+        try {
+            GlStateManager.pushMatrix();
+
+            Tessellator tessellator = Tessellator.getInstance();
+            BufferBuilder vertexbuffer = tessellator.getBuffer();
+            vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
+            vertexbuffer.pos(x + w, y, 0).tex(u2, v1).endVertex();
+            vertexbuffer.pos(x, y, 0).tex(u1, v1).endVertex();
+            vertexbuffer.pos(x, y + h, 0).tex(u1, v2).endVertex();
+            vertexbuffer.pos(x + w, y + h, 0).tex(u2, v2).endVertex();
+            // renderer.finishDrawing();
+            tessellator.draw();
+            GlStateManager.popMatrix();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void drawRect(float left, float top, float right, float bottom, int color) {
+        if (left < right) {
+            float i = left;
+            left = right;
+            right = i;
+        }
+
+        if (top < bottom) {
+            float j = top;
+            top = bottom;
+            bottom = j;
+        }
+
+        float f3 = (float) (color >> 24 & 255) / 255.0F;
+        float f = (float) (color >> 16 & 255) / 255.0F;
+        float f1 = (float) (color >> 8 & 255) / 255.0F;
+        float f2 = (float) (color & 255) / 255.0F;
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferbuilder = tessellator.getBuffer();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.color(f, f1, f2, f3);
+        bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
+        bufferbuilder.pos(left, bottom, 0.0D).endVertex();
+        bufferbuilder.pos(right, bottom, 0.0D).endVertex();
+        bufferbuilder.pos(right, top, 0.0D).endVertex();
+        bufferbuilder.pos(left, top, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
     }
 
     public Style getStyle() {
@@ -122,7 +180,8 @@ public class Widget extends Gui {
     public void draw(int mouseX, int mouseY) {
         try {
             ((Frame) Minecraft.getMinecraft().currentScreen).onWidgetDrawn(this, mouseX, mouseY);
-        } catch (Exception ignored) { }
+        } catch (Exception ignored) {
+        }
     }
 
     public CuboidInfos getCuboidInfos() {
@@ -174,30 +233,6 @@ public class Widget extends Gui {
         GlStateManager.popMatrix();
     }
 
-    public static void drawTexturedRect(double x, double y, double w, double h) {
-        drawTexturedRect(x, y, w, h, 0.0D, 0.0D, 1.0D, 1.0D);
-    }
-
-    public static void drawTexturedRect(double x, double y, double w, double h, double u1, double v1, double u2,
-                                        double v2) {
-        try {
-            GlStateManager.pushMatrix();
-
-            Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder vertexbuffer = tessellator.getBuffer();
-            vertexbuffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX);
-            vertexbuffer.pos(x + w, y, 0).tex(u2, v1).endVertex();
-            vertexbuffer.pos(x, y, 0).tex(u1, v1).endVertex();
-            vertexbuffer.pos(x, y + h, 0).tex(u1, v2).endVertex();
-            vertexbuffer.pos(x + w, y + h, 0).tex(u2, v2).endVertex();
-            // renderer.finishDrawing();
-            tessellator.draw();
-            GlStateManager.popMatrix();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void drawBorders(int color) {
         if (style.bordersize > 0 && style.drawborders) {
             drawRect(this.x - style.bordersize, this.y - style.bordersize, this.x, getY2(), color);
@@ -205,39 +240,6 @@ public class Widget extends Gui {
             drawRect(this.x - style.bordersize, getY(), getX2() + style.bordersize, getY() - style.bordersize, color);
             drawRect(getX2(), getY2() + style.bordersize, getX2() + style.bordersize, this.y - style.bordersize, color);
         }
-    }
-
-    public static void drawRect(float left, float top, float right, float bottom, int color) {
-        if (left < right) {
-            float i = left;
-            left = right;
-            right = i;
-        }
-
-        if (top < bottom) {
-            float j = top;
-            top = bottom;
-            bottom = j;
-        }
-
-        float f3 = (float) (color >> 24 & 255) / 255.0F;
-        float f = (float) (color >> 16 & 255) / 255.0F;
-        float f1 = (float) (color >> 8 & 255) / 255.0F;
-        float f2 = (float) (color & 255) / 255.0F;
-        Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder bufferbuilder = tessellator.getBuffer();
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        GlStateManager.color(f, f1, f2, f3);
-        bufferbuilder.begin(7, DefaultVertexFormats.POSITION);
-        bufferbuilder.pos(left, bottom, 0.0D).endVertex();
-        bufferbuilder.pos(right, bottom, 0.0D).endVertex();
-        bufferbuilder.pos(right, top, 0.0D).endVertex();
-        bufferbuilder.pos(left, top, 0.0D).endVertex();
-        tessellator.draw();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
     }
 
     public void init() {
@@ -338,3 +340,8 @@ public class Widget extends Gui {
     }
 
 }
+
+
+
+
+

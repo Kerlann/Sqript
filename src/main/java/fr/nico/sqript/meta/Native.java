@@ -11,8 +11,16 @@ public @interface Native {
     //Example : "cos(number):number"
 
     String name();
+
     String[] definitions();
+
     String[] description();
+
     String[] examples();
 
 }
+
+
+
+
+

@@ -1,7 +1,6 @@
 package fr.nico.sqript.forge.gui;
 
 import net.minecraft.client.renderer.GlStateManager;
-import org.lwjgl.opengl.GL11;
 
 public class ProgressBar extends Widget {
 
@@ -26,3 +25,8 @@ public class ProgressBar extends Widget {
     }
 
 }
+
+
+
+
+

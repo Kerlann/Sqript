@@ -4,7 +4,7 @@ import fr.nico.sqript.structures.ScriptContext;
 import fr.nico.sqript.structures.ScriptElement;
 import fr.nico.sqript.types.ScriptType;
 
-public class ExprResult extends ScriptExpression{
+public class ExprResult extends ScriptExpression {
 
     //Only useful to wrap a variable that cannot be settable
     //Special one (not registered and no pattern)
@@ -12,7 +12,7 @@ public class ExprResult extends ScriptExpression{
     public ScriptType var;
 
     public ExprResult(ScriptType var) {
-        this.var=var;
+        this.var = var;
     }
 
     @Override
@@ -26,7 +26,12 @@ public class ExprResult extends ScriptExpression{
     }
 
     @Override
-    public boolean set(ScriptContext context,ScriptType to, ScriptType[] parameters) {
+    public boolean set(ScriptContext context, ScriptType to, ScriptType[] parameters) {
         return false;
     }
 }
+
+
+
+
+

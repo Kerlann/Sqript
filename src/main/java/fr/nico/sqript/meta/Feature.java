@@ -2,7 +2,6 @@ package fr.nico.sqript.meta;
 
 import fr.nico.sqript.structures.Side;
 
-import javax.annotation.Nullable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
@@ -54,7 +53,13 @@ public @interface Feature {
 
     /**
      * Highest priorities are checked first.
+     *
      * @return The check priority of this action.
      */
     int priority() default 0;
 }
+
+
+
+
+

@@ -10,7 +10,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -51,10 +50,14 @@ public abstract class MixinModelPlayer extends ModelBiped {
      * @author Nico
      */
     @Inject(method = "setRotationAngles", at = @At("TAIL"))
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn, CallbackInfo callbackInfo)
-    {
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn, CallbackInfo callbackInfo) {
         MinecraftForge.EVENT_BUS.post(new ModelPlayerEvent((EntityPlayer) entityIn, (ModelPlayer) (Object) this, Minecraft.getMinecraft().getRenderPartialTicks(), limbSwing, limbSwingAmount, netHeadYaw, headPitch, scaleFactor));
     }
 
 
 }
+
+
+
+
+

@@ -1,8 +1,8 @@
 package fr.nico.sqript.blocks;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.compiling.ScriptException;
-import fr.nico.sqript.compiling.ScriptToken;
+import fr.nico.sqript.core.compilation.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptToken;
 import fr.nico.sqript.meta.Block;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptInstance;
@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
                 examples = "import:\n" +
                         "    * from my_script",
                 regex = "^import(?:s)?:\\s*")
-        )
+)
 public class ScriptBlockImport extends ScriptBlock {
 
     public ScriptBlockImport(ScriptToken head) throws ScriptException.ScriptSyntaxException {
@@ -26,26 +26,31 @@ public class ScriptBlockImport extends ScriptBlock {
     @Override
     public void init(ScriptLineBlock scriptLineBlock) throws Exception {
         Pattern p = Pattern.compile("\\s+(.*) from (.*)");
-        for(ScriptToken s : scriptLineBlock.getContent()){
+        for (ScriptToken s : scriptLineBlock.getContent()) {
             Matcher m = p.matcher(s.getText());
-            if(m.find()){
+            if (m.find()) {
                 String function = m.group(1);
                 String script = m.group(2);
                 ScriptInstance from = ScriptManager.getScriptFromName(script);
-                if(from!=null){
+                if (from != null) {
                     ScriptFunctionalBlock imported;
-                    if(function.equals("*")){
+                    if (function.equals("*")) {
                         getScriptInstance().getBlocksOfClass(ScriptBlockFunction.class).addAll(from.getBlocksOfClass(ScriptBlockFunction.class));
                         getScriptInstance().getBlocksOfClass(ScriptBlockPacket.class).addAll(from.getBlocksOfClass(ScriptBlockPacket.class));
-                    }else if((imported=from.getFunction(function))!=null){
+                    } else if ((imported = from.getFunction(function)) != null) {
                         getScriptInstance().getBlocksOfClass(ScriptBlockFunction.class).add(imported);
-                    }else{
+                    } else {
                         throw new ScriptException.ScriptUnknownFunctionException(s.with(function));
                     }
-                }else{
+                } else {
                     throw new ScriptException.ScriptUnknownInstanceException(s.with(script));
                 }
             }
         }
     }
 }
+
+
+
+
+

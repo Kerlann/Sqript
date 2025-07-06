@@ -1,10 +1,8 @@
 package fr.nico.sqript.structures;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.meta.Type;
 import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.primitive.TypeBoolean;
-import net.minecraft.command.CommandBase;
 
 import java.util.Objects;
 
@@ -35,6 +33,14 @@ public class ScriptOperator {
                 new TypeBoolean(!((TypeBoolean) ScriptManager.getBinaryOperation(a.getClass(), b.getClass(), EQUAL).getOperation().operate(a, b)).getObject()));
     }
 
+    public final Associativity associativity; //defines in which way Shunting Yard algorithm gonna process this operator.
+    public final String symbol; //ex: "+".
+    public final byte priority; //0 = max priority;
+    public final boolean unary; //defines if this operator operates on one term or two.
+    public final boolean word; //defines if this operator should be recognized if his symbol is bounded with one or more white spaces (regex gonna be : \s+symbol\s+).
+    public final boolean postfixed; //defines if this operator is already postfixed in the expression or not.
+    private final int hashCode;
+    public Order order = Order.LEFT_TO_RIGHT;
     public ScriptOperator(String symbol, int priority, Associativity associativity, boolean unary, boolean word, boolean postfixed) {
         this.symbol = symbol;
         this.priority = (byte) priority;
@@ -43,6 +49,15 @@ public class ScriptOperator {
         this.word = word;
         this.postfixed = postfixed;
         hashCode = Objects.hash(associativity, symbol, priority, unary, word, postfixed);
+    }
+    public ScriptOperator(String symbol, int priority, Associativity associativity, boolean unary, boolean word) {
+        this(symbol, priority, associativity, unary, word, false);
+    }
+    public ScriptOperator(String symbol, int priority, Associativity associativity) {
+        this(symbol, priority, associativity, false);
+    }
+    public ScriptOperator(String symbol, int priority, Associativity associativity, boolean unary) {
+        this(symbol, priority, associativity, unary, false, false);
     }
 
     @Override
@@ -58,34 +73,10 @@ public class ScriptOperator {
                 symbol.equals(that.symbol);
     }
 
-
-    private final int hashCode;
-
     @Override
     public int hashCode() {
         return hashCode;
     }
-
-    public ScriptOperator(String symbol, int priority, Associativity associativity, boolean unary, boolean word) {
-        this(symbol, priority, associativity, unary, word, false);
-    }
-
-    public ScriptOperator(String symbol, int priority, Associativity associativity) {
-        this(symbol, priority, associativity, false);
-    }
-
-    public ScriptOperator(String symbol, int priority, Associativity associativity, boolean unary) {
-        this(symbol, priority, associativity, unary, false, false);
-    }
-
-    public final Associativity associativity; //defines in which way Shunting Yard algorithm gonna process this operator.
-    public final String symbol; //ex: "+".
-    public final byte priority; //0 = max priority;
-    public final boolean unary; //defines if this operator operates on one term or two.
-    public final boolean word; //defines if this operator should be recognized if his symbol is bounded with one or more white spaces (regex gonna be : \s+symbol\s+).
-    public final boolean postfixed; //defines if this operator is already postfixed in the expression or not.
-
-    public Order order = Order.LEFT_TO_RIGHT;
 
     public ScriptOperator setOrder(Order order) {
         ScriptOperator clone = clone();
@@ -113,3 +104,8 @@ public class ScriptOperator {
         RIGHT_TO_LEFT
     }
 }
+
+
+
+
+

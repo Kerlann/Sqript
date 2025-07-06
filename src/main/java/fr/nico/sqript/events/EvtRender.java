@@ -31,7 +31,7 @@ public class EvtRender {
     public static class EvtOnRenderOverlay extends ScriptEvent {
 
         public EvtOnRenderOverlay(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
         }
 
     }
@@ -45,27 +45,27 @@ public class EvtRender {
                     side = Side.CLIENT
             ),
             accessors = {
-                    @Feature(name = "Player",description = "The player being rendered",type = "player",pattern = "player"),
-                    @Feature(name = "Limb swing",description = "The model's limb swing",type = "number",pattern = "limb swing"),
-                    @Feature(name = "Limb swing amount",description = "The model's limb swing amount",type = "number",pattern = "limb swing amount"),
-                    @Feature(name = "Head yaw",description = "The model's head yaw",type = "number",pattern = "head yaw"),
-                    @Feature(name = "Head Pitch",description = "The model's head pitch",type = "number",pattern = "head pitch"),
-                    @Feature(name = "Partial ticks",description = "The current partial ticks",type = "number",pattern = "partial ticks"),
-                    @Feature(name = "Left arm rotation",description = "The player's left arm rotation",type = "array",pattern = "left arm rotation"),
-                    @Feature(name = "Left arm position",description = "The player's left arm position",type = "array",pattern = "left arm position"),
-                    @Feature(name = "Left arm anchor",description = "The player's left arm rotation anchor (or rotation origin, i.e the point that the part will be rotated around)",type = "array",pattern = "left arm anchor"),
-                    @Feature(name = "Right arm rotation",description = "The player's right arm rotation",type = "array",pattern = "right arm rotation"),
-                    @Feature(name = "Right arm position",description = "The player's right arm position",type = "array",pattern = "right arm position"),
-                    @Feature(name = "Right arm anchor",description = "The player's right arm rotation anchor (or rotation origin, i.e the point that the part will be rotated around)",type = "array",pattern = "right arm anchor"),
-                    @Feature(name = "Left leg rotation",description = "The player's left leg rotation",type = "array",pattern = "left leg rotation"),
-                    @Feature(name = "Left leg position",description = "The player's left leg position",type = "array",pattern = "left leg position"),
-                    @Feature(name = "Left leg anchor",description = "The player's left leg rotation anchor (or rotation origin, i.e the point that the part will be rotated around)",type = "array",pattern = "left leg anchor"),
-                    @Feature(name = "Right leg rotation",description = "The player's right leg rotation",type = "array",pattern = "right leg rotation"),
-                    @Feature(name = "Right leg position",description = "The player's right leg position",type = "array",pattern = "right leg position"),
-                    @Feature(name = "Right leg anchor",description = "The player's right leg rotation anchor (or rotation origin, i.e the point that the part will be rotated around)",type = "array",pattern = "right leg anchor"),
-                    @Feature(name = "Head position",description = "The player's head position",type = "array",pattern = "head position"),
-                    @Feature(name = "Head rotation",description = "The player's head rotation",type = "array",pattern = "head rotation"),
-                    @Feature(name = "Head anchor",description = "The player's head rotation anchor (or rotation origin, i.e the point that the part will be rotated around)",type = "array",pattern = "head anchor"),
+                    @Feature(name = "Player", description = "The player being rendered", type = "player", pattern = "player"),
+                    @Feature(name = "Limb swing", description = "The model's limb swing", type = "number", pattern = "limb swing"),
+                    @Feature(name = "Limb swing amount", description = "The model's limb swing amount", type = "number", pattern = "limb swing amount"),
+                    @Feature(name = "Head yaw", description = "The model's head yaw", type = "number", pattern = "head yaw"),
+                    @Feature(name = "Head Pitch", description = "The model's head pitch", type = "number", pattern = "head pitch"),
+                    @Feature(name = "Partial ticks", description = "The current partial ticks", type = "number", pattern = "partial ticks"),
+                    @Feature(name = "Left arm rotation", description = "The player's left arm rotation", type = "array", pattern = "left arm rotation"),
+                    @Feature(name = "Left arm position", description = "The player's left arm position", type = "array", pattern = "left arm position"),
+                    @Feature(name = "Left arm anchor", description = "The player's left arm rotation anchor (or rotation origin, i.e the point that the part will be rotated around)", type = "array", pattern = "left arm anchor"),
+                    @Feature(name = "Right arm rotation", description = "The player's right arm rotation", type = "array", pattern = "right arm rotation"),
+                    @Feature(name = "Right arm position", description = "The player's right arm position", type = "array", pattern = "right arm position"),
+                    @Feature(name = "Right arm anchor", description = "The player's right arm rotation anchor (or rotation origin, i.e the point that the part will be rotated around)", type = "array", pattern = "right arm anchor"),
+                    @Feature(name = "Left leg rotation", description = "The player's left leg rotation", type = "array", pattern = "left leg rotation"),
+                    @Feature(name = "Left leg position", description = "The player's left leg position", type = "array", pattern = "left leg position"),
+                    @Feature(name = "Left leg anchor", description = "The player's left leg rotation anchor (or rotation origin, i.e the point that the part will be rotated around)", type = "array", pattern = "left leg anchor"),
+                    @Feature(name = "Right leg rotation", description = "The player's right leg rotation", type = "array", pattern = "right leg rotation"),
+                    @Feature(name = "Right leg position", description = "The player's right leg position", type = "array", pattern = "right leg position"),
+                    @Feature(name = "Right leg anchor", description = "The player's right leg rotation anchor (or rotation origin, i.e the point that the part will be rotated around)", type = "array", pattern = "right leg anchor"),
+                    @Feature(name = "Head position", description = "The player's head position", type = "array", pattern = "head position"),
+                    @Feature(name = "Head rotation", description = "The player's head rotation", type = "array", pattern = "head rotation"),
+                    @Feature(name = "Head anchor", description = "The player's head rotation anchor (or rotation origin, i.e the point that the part will be rotated around)", type = "array", pattern = "head anchor"),
 
             }
     )
@@ -88,17 +88,17 @@ public class EvtRender {
                     "head"
             };
             List<ScriptTypeAccessor> accessorList = new ArrayList<>();
-            accessorList.add(new ScriptTypeAccessor(new TypePlayer(player),"player"));
-            accessorList.add(new ScriptTypeAccessor(new TypeNumber(limbSwing),"limb swing"));
-            accessorList.add(new ScriptTypeAccessor(new TypeNumber(limbSwingAmount),"limb swing amount"));
-            accessorList.add(new ScriptTypeAccessor(new TypeNumber(netHeadYaw),"head yaw"));
-            accessorList.add(new ScriptTypeAccessor(new TypeNumber(headPitch),"head pitch"));
-            accessorList.add(new ScriptTypeAccessor(new TypeNumber(partialTicks),"partial ticks"));
+            accessorList.add(new ScriptTypeAccessor(new TypePlayer(player), "player"));
+            accessorList.add(new ScriptTypeAccessor(new TypeNumber(limbSwing), "limb swing"));
+            accessorList.add(new ScriptTypeAccessor(new TypeNumber(limbSwingAmount), "limb swing amount"));
+            accessorList.add(new ScriptTypeAccessor(new TypeNumber(netHeadYaw), "head yaw"));
+            accessorList.add(new ScriptTypeAccessor(new TypeNumber(headPitch), "head pitch"));
+            accessorList.add(new ScriptTypeAccessor(new TypeNumber(partialTicks), "partial ticks"));
             for (int i = 0; i < modelRenderers.length; i++) {
                 ModelRenderer part = modelRenderers[i];
-                accessorList.add(new ScriptTypeAccessor(new TypeArray(SqriptUtils.locationToArray(part.rotateAngleX/3.14159*180,part.rotateAngleY/3.14159*180,part.rotateAngleZ/3.14159*180)),modelNames[i]+" rotation"));
-                accessorList.add(new ScriptTypeAccessor(new TypeArray(SqriptUtils.locationToArray(part.offsetX,part.offsetY,part.offsetZ)),modelNames[i]+" position"));
-                accessorList.add(new ScriptTypeAccessor(new TypeArray(SqriptUtils.locationToArray(part.rotationPointX,part.rotationPointY,part.rotationPointZ)),modelNames[i]+" anchor"));
+                accessorList.add(new ScriptTypeAccessor(new TypeArray(SqriptUtils.locationToArray(part.rotateAngleX / 3.14159 * 180, part.rotateAngleY / 3.14159 * 180, part.rotateAngleZ / 3.14159 * 180)), modelNames[i] + " rotation"));
+                accessorList.add(new ScriptTypeAccessor(new TypeArray(SqriptUtils.locationToArray(part.offsetX, part.offsetY, part.offsetZ)), modelNames[i] + " position"));
+                accessorList.add(new ScriptTypeAccessor(new TypeArray(SqriptUtils.locationToArray(part.rotationPointX, part.rotationPointY, part.rotationPointZ)), modelNames[i] + " anchor"));
             }
             setAccessors(accessorList.toArray(new ScriptTypeAccessor[0]));
         }
@@ -118,7 +118,7 @@ public class EvtRender {
     public static class EvtOnRenderCrosshair extends ScriptEvent {
 
         public EvtOnRenderCrosshair(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
         }
 
     }
@@ -136,7 +136,7 @@ public class EvtRender {
     public static class EvtOnRenderXPBar extends ScriptEvent {
 
         public EvtOnRenderXPBar(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
         }
 
     }
@@ -155,7 +155,7 @@ public class EvtRender {
 
 
         public EvtOnRenderChat(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
 
         }
 
@@ -175,7 +175,7 @@ public class EvtRender {
 
 
         public EvtOnRenderFoodBar(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
 
         }
 
@@ -196,7 +196,7 @@ public class EvtRender {
 
 
         public EvtOnRenderHealthBar(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
 
         }
 
@@ -215,7 +215,7 @@ public class EvtRender {
     public static class EvtOnDrawNameplate extends ScriptEvent {
 
         public EvtOnDrawNameplate(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
         }
 
     }
@@ -234,9 +234,14 @@ public class EvtRender {
     public static class EvtOnRenderWorld extends ScriptEvent {
 
         public EvtOnRenderWorld(float partialTicks) {
-            setAccessors(new ScriptTypeAccessor[]{new ScriptTypeAccessor(new TypeNumber(partialTicks),"partial ticks")});
+            setAccessors(new ScriptTypeAccessor[]{new ScriptTypeAccessor(new TypeNumber(partialTicks), "partial ticks")});
         }
 
     }
 
 }
+
+
+
+
+

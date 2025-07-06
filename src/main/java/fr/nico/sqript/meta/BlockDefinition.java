@@ -1,7 +1,6 @@
 package fr.nico.sqript.meta;
 
 import fr.nico.sqript.blocks.ScriptBlock;
-import fr.nico.sqript.structures.Side;
 
 import java.util.regex.Pattern;
 
@@ -11,6 +10,15 @@ public class BlockDefinition {
     Feature[] fields;
     boolean reloadable;
     Pattern regex;
+    private final Class<? extends ScriptBlock> cls;
+
+    public BlockDefinition(Class<? extends ScriptBlock> cls, Feature feature, Feature[] fields, boolean reloadable) {
+        this.cls = cls;
+        this.feature = feature;
+        this.fields = fields;
+        this.regex = Pattern.compile(feature.regex());
+        this.reloadable = reloadable;
+    }
 
     public boolean isReloadable() {
         return reloadable;
@@ -18,16 +26,6 @@ public class BlockDefinition {
 
     public Class<? extends ScriptBlock> getBlockClass() {
         return cls;
-    }
-
-    private Class<? extends ScriptBlock> cls;
-
-    public BlockDefinition(Class<? extends ScriptBlock> cls, Feature feature, Feature[] fields, boolean reloadable) {
-        this.cls=cls;
-        this.feature = feature;
-        this.fields = fields;
-        this.regex = Pattern.compile(feature.regex());
-        this.reloadable = reloadable;
     }
 
     public Pattern getRegex() {
@@ -47,4 +45,22 @@ public class BlockDefinition {
     public Feature[] getFields() {
         return fields;
     }
+
+    /**
+     * Vérifie si le texte correspond au pattern de ce bloc
+     *
+     * @param text Le texte à vérifier
+     * @return 0 si le pattern correspond, -1 sinon
+     */
+    public int getMatchedPatternIndex(String text) {
+        if (text == null || regex == null) {
+            return -1;
+        }
+        return regex.matcher(text).matches() ? 0 : -1;
+    }
 }
+
+
+
+
+

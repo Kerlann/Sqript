@@ -3,18 +3,17 @@ package fr.nico.sqript.events;
 import fr.nico.sqript.ScriptManager;
 import fr.nico.sqript.meta.Event;
 import fr.nico.sqript.meta.Feature;
-import fr.nico.sqript.meta.Type;
 import fr.nico.sqript.structures.ScriptTypeAccessor;
-import fr.nico.sqript.types.*;
+import fr.nico.sqript.types.ScriptType;
+import fr.nico.sqript.types.TypeBlock;
+import fr.nico.sqript.types.TypeNull;
+import fr.nico.sqript.types.TypePlayer;
 import fr.nico.sqript.types.primitive.TypeResource;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
-import net.minecraftforge.fml.common.registry.ForgeRegistries;
-
-import java.util.Arrays;
 
 public class EvtBlock {
     @Cancelable
@@ -93,12 +92,12 @@ public class EvtBlock {
         @Override
         public boolean check(ScriptType[] parameters, int marks) {
 
-            if (checkMark(1,marks)){
+            if (checkMark(1, marks)) {
                 if (clickType != 0)
                     return false;
             }
 
-            if (checkMark(2,marks)){
+            if (checkMark(2, marks)) {
                 if (clickType != 1)
                     return false;
             }
@@ -107,22 +106,21 @@ public class EvtBlock {
             ResourceLocation registryName = null;
             if (parameters[0] != null) {
                 TypeBlock block;
-                if(parameters[0] instanceof TypeBlock)
-                    block = (TypeBlock)parameters[0];
+                if (parameters[0] instanceof TypeBlock)
+                    block = (TypeBlock) parameters[0];
                 else
-                    block = ScriptManager.parse(parameters[0],TypeBlock.class);
+                    block = ScriptManager.parse(parameters[0], TypeBlock.class);
                 registryName = block.getObject().getBlock().getRegistryName();
             }
 
             boolean hand = this.hand == EnumHand.MAIN_HAND;
 
-            if(((marks >> 3) & 1) == 1){
+            if (((marks >> 3) & 1) == 1) {
                 hand = this.hand == EnumHand.OFF_HAND;
             }
 
             if (registryName == null)
                 return hand;
-
 
 
             return registryName.equals(clickedBlock.getObject().getBlock().getRegistryName()) && hand;
@@ -131,3 +129,8 @@ public class EvtBlock {
 
 
 }
+
+
+
+
+

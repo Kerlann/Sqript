@@ -1,9 +1,8 @@
 package fr.nico.sqript.network;
 
 import fr.nico.sqript.ScriptDataManager;
-import fr.nico.sqript.compiling.ScriptDecoder;
-import fr.nico.sqript.types.interfaces.ISerialisable;
 import fr.nico.sqript.types.ScriptType;
+import fr.nico.sqript.types.interfaces.ISerialisable;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -14,11 +13,10 @@ import net.minecraftforge.fml.relauncher.Side;
 
 public class ScriptSyncDataMessage implements IMessage {
 
-    public ScriptSyncDataMessage() {
-    }
-
     String key;
     ScriptType element;
+    public ScriptSyncDataMessage() {
+    }
 
     public ScriptSyncDataMessage(String key, ScriptType element) {
         this.key = key;
@@ -29,7 +27,7 @@ public class ScriptSyncDataMessage implements IMessage {
     public void fromBytes(ByteBuf buf) {
         key = ByteBufUtils.readUTF8String(buf);
         //If the element was not serialized, return void.
-        if(!buf.readBoolean()){
+        if (!buf.readBoolean()) {
             return;
         }
         String type = ByteBufUtils.readUTF8String(buf);
@@ -46,23 +44,27 @@ public class ScriptSyncDataMessage implements IMessage {
         ByteBufUtils.writeUTF8String(buf, key);
         if (element instanceof ISerialisable) {
             buf.writeBoolean(true);
-            ByteBufUtils.writeUTF8String(buf, ScriptDecoder.getNameOfType(element.getClass()));
+            ByteBufUtils.writeUTF8String(buf, fr.nico.sqript.SqriptUtils.getNameOfType(element.getClass()));
             ISerialisable s = (ISerialisable) element;
             ByteBufUtils.writeTag(buf, s.write(new NBTTagCompound()));
-        }else{
+        } else {
             buf.writeBoolean(false);
         }
     }
 
-    public static class ScriptSyncDataMessageHandler implements IMessageHandler<ScriptSyncDataMessage,ScriptSyncDataMessage> {
+    public static class ScriptSyncDataMessageHandler implements IMessageHandler<ScriptSyncDataMessage, ScriptSyncDataMessage> {
 
         @Override
         public ScriptSyncDataMessage onMessage(ScriptSyncDataMessage message, MessageContext ctx) {
-            if(ctx.side == Side.CLIENT){ //Obviously always client-side, but we never know
-                ScriptNetworkManager.put(message.key,message.element);
+            if (ctx.side == Side.CLIENT) { //Obviously always client-side, but we never know
+                ScriptNetworkManager.put(message.key, message.element);
                 //System.out.println("Keys are : " + ScriptNetworkManager.syncValue.keySet());
             }
             return null;
         }
     }
 }
+
+
+
+

@@ -1,6 +1,6 @@
 package fr.nico.sqript.actions;
 
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.meta.Action;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.IScript;
@@ -11,17 +11,17 @@ import fr.nico.sqript.types.primitive.TypeNumber;
 
 @Action(name = "Return/break Actions",
         features = {
-        @Feature(name = "Return", description = "In a function, returns a value to be used as a result of the function", examples = "function plusOne(n):\n    return n + 1", pattern = "return {element}"),
-        @Feature(name = "Cancel event", description = "In an event, cancels it.", examples = "on player movement:\n    cancel event", pattern = "cancel event"),
-        @Feature(name = "Break loop", description = "In a loop, interrupts it and exit it.", examples = "for {i} in numbers in range of 10:\n   if {i} = 9:\n      break loop",pattern = "break loop"),
-        @Feature(name = "Break multiple loops", description = "In multiple loop, interrupts a specific number of loops and exit them.", examples = "for {i} in numbers in range of 10:\n   for {j} in numbers in range of 10:\n      if {j} = 9:\n         break 2 loops",pattern = "break loops"),
+                @Feature(name = "Return", description = "In a function, returns a value to be used as a result of the function", examples = "function plusOne(n):\n    return n + 1", pattern = "return {element}"),
+                @Feature(name = "Cancel event", description = "In an event, cancels it.", examples = "on player movement:\n    cancel event", pattern = "cancel event"),
+                @Feature(name = "Break loop", description = "In a loop, interrupts it and exit it.", examples = "for {i} in numbers in range of 10:\n   if {i} = 9:\n      break loop", pattern = "break loop"),
+                @Feature(name = "Break multiple loops", description = "In multiple loop, interrupts a specific number of loops and exit them.", examples = "for {i} in numbers in range of 10:\n   for {j} in numbers in range of 10:\n      if {j} = 9:\n         break 2 loops", pattern = "break loops"),
         }
 )
 public class ActReturn extends ScriptAction {
 
     @Override
     public void execute(ScriptContext context) throws ScriptException {
-        switch(getMatchedIndex()){
+        switch (getMatchedIndex()) {
             case 0:
                 context.setReturnValue(getParameters().get(0).get(context));
                 return;
@@ -33,9 +33,9 @@ public class ActReturn extends ScriptAction {
                 return;
             case 2:
                 IScript p = super.parent;
-                while(!(p instanceof ScriptLoop.ScriptLoopRepeated)){
-                    if(p.parent == null)
-                        throw new ScriptException(getLine(),"No loop to break.");
+                while (!(p instanceof ScriptLoop.ScriptLoopRepeated)) {
+                    if (p.parent == null)
+                        throw new ScriptException(getLine(), "No loop to break.");
                     p = p.parent;
                 }
                 ((ScriptLoop.ScriptLoopRepeated) p).doBreak();
@@ -45,14 +45,13 @@ public class ActReturn extends ScriptAction {
                 p = this;
                 for (int i = 0; i < n.getObject(); i++) {
                     p = p.parent;
-                    while(!(p instanceof ScriptLoop.ScriptLoopRepeated)){
-                        if(p.parent == null)
-                            throw new ScriptException(getLine(),"No more loop to break.");
+                    while (!(p instanceof ScriptLoop.ScriptLoopRepeated)) {
+                        if (p.parent == null)
+                            throw new ScriptException(getLine(), "No more loop to break.");
                         p = p.parent;
                     }
                     ((ScriptLoop.ScriptLoopRepeated) p).doBreak();
                 }
-                return;
         }
     }
 
@@ -70,8 +69,9 @@ public class ActReturn extends ScriptAction {
     @Override
     public IScript getParent() {
         //If "return" or "cancel event"
-        switch(getMatchedIndex()){
-            case 0: case 1:
+        switch (getMatchedIndex()) {
+            case 0:
+            case 1:
                 return null;
         }
 
@@ -79,3 +79,8 @@ public class ActReturn extends ScriptAction {
         return super.getParent();
     }
 }
+
+
+
+
+

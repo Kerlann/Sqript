@@ -1,11 +1,10 @@
 package fr.nico.sqript.expressions;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.meta.Feature;
-import fr.nico.sqript.types.*;
 import fr.nico.sqript.meta.Expression;
+import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
-import fr.nico.sqript.types.TypeArray;
+import fr.nico.sqript.types.*;
 import fr.nico.sqript.types.primitive.TypeBoolean;
 import fr.nico.sqript.types.primitive.TypeNumber;
 import fr.nico.sqript.types.primitive.TypeResource;
@@ -64,7 +63,7 @@ public class ExprPlayers extends ScriptExpression {
     public ScriptType get(ScriptContext context, ScriptType[] parameters) {
         switch (getMatchedIndex()) {
             case 0:
-                if(FMLCommonHandler.instance().getMinecraftServerInstance().isServerRunning()){
+                if (FMLCommonHandler.instance().getMinecraftServerInstance().isServerRunning()) {
                     synchronized (FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld()) {
                         TypeArray a = new TypeArray();
                         for (EntityPlayer p : FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().playerEntities) {
@@ -72,16 +71,16 @@ public class ExprPlayers extends ScriptExpression {
                         }
                         return a;
                     }
-                }else{
+                } else {
                     return new TypeArray();
                 }
             case 1:
                 TypeString s = (TypeString) parameters[0];
-                if(s.getObject() == null)
+                if (s.getObject() == null)
                     return new TypeNull();
-                if(FMLCommonHandler.instance().getMinecraftServerInstance().isServerRunning()) {
+                if (FMLCommonHandler.instance().getMinecraftServerInstance().isServerRunning()) {
                     return new TypePlayer(FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUsername(s.getObject()));
-                }else
+                } else
                     return new TypeNull();
             case 2:
                 //System.out.println(parameters[0]);
@@ -96,7 +95,7 @@ public class ExprPlayers extends ScriptExpression {
                 return new TypeNumber(player.getFoodStats().getFoodLevel());
             case 5:
                 player = (EntityPlayer) parameters[0].getObject();
-                float partialTicks = getParameterOrDefault(parameters[1],1d).floatValue();
+                float partialTicks = getParameterOrDefault(parameters[1], 1d).floatValue();
                 return new TypeVector(player.getLook(partialTicks));
             case 6:
                 player = (EntityPlayer) parameters[0].getObject();
@@ -146,8 +145,8 @@ public class ExprPlayers extends ScriptExpression {
                 return new TypeAxisAlignedBB(player.getEntityBoundingBox());
             case 15:
                 player = (EntityPlayer) parameters[0].getObject();
-                partialTicks = getParameterOrDefault(parameters[1],1d).floatValue();
-                return new TypeNumber( player.prevRotationYawHead + (player.rotationYawHead - player.prevRotationYawHead) * partialTicks);
+                partialTicks = getParameterOrDefault(parameters[1], 1d).floatValue();
+                return new TypeNumber(player.prevRotationYawHead + (player.rotationYawHead - player.prevRotationYawHead) * partialTicks);
             case 16:
                 player = (EntityPlayer) parameters[0].getObject();
                 TypeArray array = new TypeArray();
@@ -158,11 +157,11 @@ public class ExprPlayers extends ScriptExpression {
                 return array;
             case 17:
                 s = (TypeString) parameters[0];
-                if(s.getObject() == null)
+                if (s.getObject() == null)
                     return new TypeNull();
-                if(FMLCommonHandler.instance().getMinecraftServerInstance().isServerRunning()) {
+                if (FMLCommonHandler.instance().getMinecraftServerInstance().isServerRunning()) {
                     return new TypeBoolean(FMLCommonHandler.instance().getMinecraftServerInstance().getPlayerList().getPlayerByUsername(s.getObject()) != null);
-                }else
+                } else
                     return new TypeBoolean(false);
         }
         return null;
@@ -189,12 +188,12 @@ public class ExprPlayers extends ScriptExpression {
                     Item i = ForgeRegistries.ITEMS.getValue(((TypeResource) (param)).getObject());
                     if (i == null) {
                         i = Item.getItemFromBlock(Objects.requireNonNull(ForgeRegistries.BLOCKS.getValue(((TypeResource) (param)).getObject())));
-                        if (i == null){
+                        if (i == null) {
                             ScriptManager.log.error("No item found for identifier : " + param.getObject().toString());
                             return true;
                         }
                     }
-                    item = new ItemStack(i,1);
+                    item = new ItemStack(i, 1);
                 }
                 if (param instanceof TypeItemStack) {
                     item = ((TypeItemStack) (param)).getObject();
@@ -217,3 +216,8 @@ public class ExprPlayers extends ScriptExpression {
         return false;
     }
 }
+
+
+
+
+

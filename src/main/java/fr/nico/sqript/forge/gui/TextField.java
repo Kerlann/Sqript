@@ -348,22 +348,18 @@ public class TextField extends Widget implements IClickListener, IKeyListener {
         }
 
         if (!this.isFocused) {
-            return;
 
 
         } else if (GuiScreen.isKeyComboCtrlA(keyCode)) {
             this.setCursorPositionEnd();
             this.setSelectionPos(0);
-            return;
         } else if (GuiScreen.isKeyComboCtrlC(keyCode)) {
             GuiScreen.setClipboardString(this.getSelectedText());
-            return;
         } else if (GuiScreen.isKeyComboCtrlV(keyCode)) {
             if (this.isEnabled) {
                 this.writeText(GuiScreen.getClipboardString());
             }
 
-            return;
         } else if (GuiScreen.isKeyComboCtrlX(keyCode)) {
             GuiScreen.setClipboardString(this.getSelectedText());
 
@@ -371,7 +367,6 @@ public class TextField extends Widget implements IClickListener, IKeyListener {
                 this.writeText("");
             }
 
-            return;
         } else {
 
             switch (keyCode) {
@@ -452,9 +447,7 @@ public class TextField extends Widget implements IClickListener, IKeyListener {
                             this.writeText(Character.toString(typedChar));
                         }
 
-                        return;
                     } else {
-                        return;
                     }
             }
         }
@@ -483,9 +476,7 @@ public class TextField extends Widget implements IClickListener, IKeyListener {
 
             String s = this.fontRenderer.trimStringToWidth(this.text.substring(this.lineScrollOffset), this.style.getWidth());
             this.setCursorPosition(this.fontRenderer.trimStringToWidth(s, i).length() + this.lineScrollOffset);
-            return;
         } else {
-            return;
         }
     }
 
@@ -768,3 +759,8 @@ public class TextField extends Widget implements IClickListener, IKeyListener {
     }
 
 }
+
+
+
+
+

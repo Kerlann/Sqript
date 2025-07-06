@@ -1,7 +1,6 @@
 package fr.nico.sqript.forge.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 
 public final class FrameUtils {
 
@@ -18,7 +17,6 @@ public final class FrameUtils {
         }
         return s;
     }
-
 
 
     public static Container generateTextFieldWithLabel(TextField t, int maxWidth, String label, boolean borderTest) {
@@ -82,3 +80,8 @@ public final class FrameUtils {
     }
 
 }
+
+
+
+
+

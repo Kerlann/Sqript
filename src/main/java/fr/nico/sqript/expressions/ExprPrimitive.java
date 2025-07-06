@@ -6,7 +6,7 @@ import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.primitive.PrimitiveType;
 
 
-public class ExprPrimitive extends ScriptExpression{
+public class ExprPrimitive extends ScriptExpression {
 
     //Special one (not registered commonly)
     //Permet d'instancier des TypePrimitive
@@ -17,8 +17,8 @@ public class ExprPrimitive extends ScriptExpression{
     PrimitiveType primitive;
 
     public ExprPrimitive(PrimitiveType primitive) {
-       this.primitive=primitive;
-       this.type=primitive.getClass();
+        this.primitive = primitive;
+        this.type = primitive.getClass();
     }
 
     public Class<? extends ScriptElement> getReturnType() {
@@ -31,12 +31,17 @@ public class ExprPrimitive extends ScriptExpression{
     }
 
     @Override
-    public boolean set(ScriptContext context,ScriptType to, ScriptType[] parameters) { //set "test" to "a" doesn't have any sense
+    public boolean set(ScriptContext context, ScriptType to, ScriptType[] parameters) { //set "test" to "a" doesn't have any sense
         return false;
     }
 
     @Override
     public String toString() {
-        return "ExprPrimitive("+primitive.getType().getSimpleName()+")"+"="+primitive;
+        return "ExprPrimitive(" + primitive.getType().getSimpleName() + ")" + "=" + primitive;
     }
 }
+
+
+
+
+

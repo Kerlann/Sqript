@@ -3,21 +3,14 @@ package fr.nico.sqript.actions;
 
 import fr.nico.sqript.ScriptManager;
 import fr.nico.sqript.SqriptUtils;
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.forge.SqriptForge;
 import fr.nico.sqript.forge.common.item.ScriptItem;
 import fr.nico.sqript.forge.common.item.ScriptItemBase;
 import fr.nico.sqript.meta.Action;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
-import fr.nico.sqript.structures.Side;
-import fr.nico.sqript.types.TypeImage;
-import fr.nico.sqript.types.TypeItem;
-import fr.nico.sqript.types.primitive.TypeResource;
-import fr.nico.sqript.types.primitive.TypeString;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
@@ -28,7 +21,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.lang.reflect.Field;
-import java.util.stream.Collectors;
 
 @Action(name = "Registery Actions",
         features = {
@@ -61,31 +53,31 @@ public class ActRegistery extends ScriptAction {
         float hardness = getParameterOrDefault(getParameter(6), 0, context);
         int harvestLevel = getParameterOrDefault(getParameter(7), 0, context);
         String materialName = getParameterOrDefault(getParameter(8), "iron", context);
-        ResourceLocation drop =  getParameterOrDefault(getParameter(9), null, context);
+        ResourceLocation drop = getParameterOrDefault(getParameter(9), null, context);
         CreativeTabs creativeTab = loadTabFromName(getParameterOrDefault(getParameter(10), "misc", context));
 
         Material material = Material.ROCK;
-        fr.nico.sqript.forge.common.ScriptBlock.ScriptBlock block = new fr.nico.sqript.forge.common.ScriptBlock.ScriptBlock(material,drop,harvestLevel);
-        block.setRegistryName(getLine().getScriptInstance().getName(),registryName);
+        fr.nico.sqript.forge.common.ScriptBlock.ScriptBlock block = new fr.nico.sqript.forge.common.ScriptBlock.ScriptBlock(material, drop, harvestLevel);
+        block.setRegistryName(getLine().getScriptInstance().getName(), registryName);
         block.setHardness(hardness);
         block.setCreativeTab(creativeTab);
 
         //System.out.println("Max stack size of item is : "+maxStackSize);
         SqriptForge.blocks.add(block);
 
-        String blockModelName = blockTexture == null ? blockModel.toString() : blockTexture.toString().replaceAll("\\.png","");
-        String itemBlockModelName = blockTexture == null ? blockModel.getNamespace()+":block/"+blockModel.getPath() : blockTexture.toString().replaceAll("\\.png","");
+        String blockModelName = blockTexture == null ? blockModel.toString() : blockTexture.toString().replaceAll("\\.png", "");
+        String itemBlockModelName = blockTexture == null ? blockModel.getNamespace() + ":block/" + blockModel.getPath() : blockTexture.toString().replaceAll("\\.png", "");
 
         try {
-            if(blockTexture!=null)
+            if (blockTexture != null)
                 createBlockModel(registryName, blockModelName);
-            createBlockState(registryName,blockModelName);
-            createItemBlockModel(registryName,itemBlockModelName);
+            createBlockState(registryName, blockModelName);
+            createItemBlockModel(registryName, itemBlockModelName);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        Item itemBlock = new ItemBlock(block){
+        Item itemBlock = new ItemBlock(block) {
             @Override
             public String getItemStackDisplayName(ItemStack stack) {
                 return blockName == null ? identifier : blockName;
@@ -110,7 +102,7 @@ public class ActRegistery extends ScriptAction {
         item.setMaxStackSize(itemStackSize);
         item.setCreativeTab(creativeTab);
         String toolType = "item";
-        String itemTextureString =  itemTexture.toString().replaceAll("\\.png","");
+        String itemTextureString = itemTexture.toString().replaceAll("\\.png", "");
         if (itemTexture != null)
             try {
                 createItemModel(registryName, itemTextureString, toolType);
@@ -140,7 +132,7 @@ public class ActRegistery extends ScriptAction {
         //Creating the model/blockstate file if the model file was not specified
         //System.out.println("Creating model file for item : "+registryName);
         //File scriptFile
-        File mainFolder = new File(ScriptManager.scriptDir,getLine().getScriptInstance().getName());
+        File mainFolder = new File(ScriptManager.scriptDir, getLine().getScriptInstance().getName());
         if (!mainFolder.exists())
             mainFolder.mkdir();
 
@@ -162,73 +154,72 @@ public class ActRegistery extends ScriptAction {
     private void createBlockModel(String registryName, String texture) throws Exception {
         //Creating the model/blockstate file if the model file was not specified
         //System.out.println("Creating model file for item : "+registryName);
-            //File scriptFile
-            File mainFolder = new File(ScriptManager.scriptDir,getLine().getScriptInstance().getName());
-            if(!mainFolder.exists())
-                mainFolder.mkdir();
+        //File scriptFile
+        File mainFolder = new File(ScriptManager.scriptDir, getLine().getScriptInstance().getName());
+        if (!mainFolder.exists())
+            mainFolder.mkdir();
 
-            File itemModelsFolder = new File(mainFolder,"/models/block");
-            if(!itemModelsFolder.exists())
-                itemModelsFolder.mkdirs();
-            //Il faut créer le dossier et l'enregistrer à la main
-            String parent = "minecraft:block/cube_all";
-            File jsonFile = new File(itemModelsFolder,registryName+".json");
-            String content = ("{"+"\n"
-                    +"  'parent': '"+parent+"',"+"\n"
-                    +"  'textures': {"+"\n"
-                    +"      'all': '"+texture+"'"+"\n"
-                    +"  }"+"\n"
-                    +"}").replaceAll("'","\"");
-            createFileIfNotExist(jsonFile,content);
+        File itemModelsFolder = new File(mainFolder, "/models/block");
+        if (!itemModelsFolder.exists())
+            itemModelsFolder.mkdirs();
+        //Il faut créer le dossier et l'enregistrer à la main
+        String parent = "minecraft:block/cube_all";
+        File jsonFile = new File(itemModelsFolder, registryName + ".json");
+        String content = ("{" + "\n"
+                + "  'parent': '" + parent + "'," + "\n"
+                + "  'textures': {" + "\n"
+                + "      'all': '" + texture + "'" + "\n"
+                + "  }" + "\n"
+                + "}").replaceAll("'", "\"");
+        createFileIfNotExist(jsonFile, content);
     }
 
     private void createBlockState(String registryName, String modelName) throws Exception {
         //Creating the model/blockstate file if the model file was not specified
         //System.out.println("Creating model file for item : "+registryName);
 
-            //File scriptFile
-            File mainFolder = new File(ScriptManager.scriptDir,getLine().getScriptInstance().getName());
-            if(!mainFolder.exists())
-                mainFolder.mkdir();
+        //File scriptFile
+        File mainFolder = new File(ScriptManager.scriptDir, getLine().getScriptInstance().getName());
+        if (!mainFolder.exists())
+            mainFolder.mkdir();
 
-            File itemModelsFolder = new File(mainFolder,"/blockstates/");
-            if(!itemModelsFolder.exists())
-                itemModelsFolder.mkdirs();
-            //Il faut créer le dossier et l'enregistrer à la main
-            File jsonFile = new File(itemModelsFolder,registryName+".json");
-            String content = ("{"+"\n"
-                    +"    \"variants\": {\n"
-                    +"        \"facing=north\":   { \"model\": \""+modelName+"\", \"y\":90 },\n"
-                    +"        \"facing=east\":   { \"model\": \""+modelName+"\", \"y\":180 },\n"
-                    +"        \"facing=south\":   { \"model\": \""+modelName+"\", \"y\":270 },\n"
-                    +"        \"facing=west\":   { \"model\": \""+modelName+"\" }\n"
-                    +"    }\n"
-                    +"}"
-            ).replaceAll("'","\"");
-            createFileIfNotExist(jsonFile,content);
+        File itemModelsFolder = new File(mainFolder, "/blockstates/");
+        if (!itemModelsFolder.exists())
+            itemModelsFolder.mkdirs();
+        //Il faut créer le dossier et l'enregistrer à la main
+        File jsonFile = new File(itemModelsFolder, registryName + ".json");
+        String content = ("{" + "\n"
+                + "    \"variants\": {\n"
+                + "        \"facing=north\":   { \"model\": \"" + modelName + "\", \"y\":90 },\n"
+                + "        \"facing=east\":   { \"model\": \"" + modelName + "\", \"y\":180 },\n"
+                + "        \"facing=south\":   { \"model\": \"" + modelName + "\", \"y\":270 },\n"
+                + "        \"facing=west\":   { \"model\": \"" + modelName + "\" }\n"
+                + "    }\n"
+                + "}"
+        ).replaceAll("'", "\"");
+        createFileIfNotExist(jsonFile, content);
     }
 
 
     private void createItemBlockModel(String registryName, String modelName) throws Exception {
         //Creating the model/blockstate file if the model file was not specified
         //System.out.println("Creating model file for item : "+registryName);
-            //File scriptFile
-            File mainFolder = new File(ScriptManager.scriptDir, getLine().getScriptInstance().getName());
-            if(!mainFolder.exists())
-                mainFolder.mkdir();
+        //File scriptFile
+        File mainFolder = new File(ScriptManager.scriptDir, getLine().getScriptInstance().getName());
+        if (!mainFolder.exists())
+            mainFolder.mkdir();
 
-            File itemModelsFolder = new File(mainFolder,"/models/item");
-            if(!itemModelsFolder.exists())
-                itemModelsFolder.mkdirs();
-            //Il faut créer le dossier et l'enregistrer à la main
-            File jsonFile = new File(itemModelsFolder,registryName+".json");
-            String content = ("{"+"\n"
-                    +"  'parent': '"+modelName+"',\n"
-                    + "\"display\": {\r\n        \"gui\": {\r\n            \"rotation\": [ 30, 225, 0 ],\r\n            \"translation\": [ 0, 0, 0],\r\n            \"scale\":[ 0.625, 0.625, 0.625 ]\r\n        },\r\n        \"ground\": {\r\n            \"rotation\": [ 0, 0, 0 ],\r\n            \"translation\": [ 0, 3, 0],\r\n            \"scale\":[ 0.25, 0.25, 0.25 ]\r\n        },\r\n        \"fixed\": {\r\n            \"rotation\": [ 0, 0, 0 ],\r\n            \"translation\": [ 0, 0, 0],\r\n            \"scale\":[ 0.5, 0.5, 0.5 ]\r\n        },\r\n        \"thirdperson_righthand\": {\r\n            \"rotation\": [ 75, 45, 0 ],\r\n            \"translation\": [ 0, 2.5, 0],\r\n            \"scale\": [ 0.375, 0.375, 0.375 ]\r\n        },\r\n        \"firstperson_righthand\": {\r\n            \"rotation\": [ 0, 45, 0 ],\r\n            \"translation\": [ 0, 0, 0 ],\r\n            \"scale\": [ 0.40, 0.40, 0.40 ]\r\n        },\r\n        \"firstperson_lefthand\": {\r\n            \"rotation\": [ 0, 225, 0 ],\r\n            \"translation\": [ 0, 0, 0 ],\r\n            \"scale\": [ 0.40, 0.40, 0.40 ]\r\n        }\r\n    }"
-                    +"}").replaceAll("'","\"");
-            createFileIfNotExist(jsonFile,content);
+        File itemModelsFolder = new File(mainFolder, "/models/item");
+        if (!itemModelsFolder.exists())
+            itemModelsFolder.mkdirs();
+        //Il faut créer le dossier et l'enregistrer à la main
+        File jsonFile = new File(itemModelsFolder, registryName + ".json");
+        String content = ("{" + "\n"
+                + "  'parent': '" + modelName + "',\n"
+                + "\"display\": {\r\n        \"gui\": {\r\n            \"rotation\": [ 30, 225, 0 ],\r\n            \"translation\": [ 0, 0, 0],\r\n            \"scale\":[ 0.625, 0.625, 0.625 ]\r\n        },\r\n        \"ground\": {\r\n            \"rotation\": [ 0, 0, 0 ],\r\n            \"translation\": [ 0, 3, 0],\r\n            \"scale\":[ 0.25, 0.25, 0.25 ]\r\n        },\r\n        \"fixed\": {\r\n            \"rotation\": [ 0, 0, 0 ],\r\n            \"translation\": [ 0, 0, 0],\r\n            \"scale\":[ 0.5, 0.5, 0.5 ]\r\n        },\r\n        \"thirdperson_righthand\": {\r\n            \"rotation\": [ 75, 45, 0 ],\r\n            \"translation\": [ 0, 2.5, 0],\r\n            \"scale\": [ 0.375, 0.375, 0.375 ]\r\n        },\r\n        \"firstperson_righthand\": {\r\n            \"rotation\": [ 0, 45, 0 ],\r\n            \"translation\": [ 0, 0, 0 ],\r\n            \"scale\": [ 0.40, 0.40, 0.40 ]\r\n        },\r\n        \"firstperson_lefthand\": {\r\n            \"rotation\": [ 0, 225, 0 ],\r\n            \"translation\": [ 0, 0, 0 ],\r\n            \"scale\": [ 0.40, 0.40, 0.40 ]\r\n        }\r\n    }"
+                + "}").replaceAll("'", "\"");
+        createFileIfNotExist(jsonFile, content);
     }
-
 
 
     private void createFileIfNotExist(File file, String content) throws Exception {
@@ -243,5 +234,9 @@ public class ActRegistery extends ScriptAction {
     }
 
 
-
 }
+
+
+
+
+

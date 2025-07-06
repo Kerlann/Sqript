@@ -1,21 +1,13 @@
 package fr.nico.sqript.actions;
 
-import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.compiling.ScriptException;
-import fr.nico.sqript.expressions.ScriptExpression;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.meta.Action;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
 import fr.nico.sqript.structures.Side;
-import fr.nico.sqript.types.ScriptType;
-import fr.nico.sqript.types.TypePlayer;
 import fr.nico.sqript.types.interfaces.ILocatable;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.audio.ISound;
-import net.minecraft.client.audio.PositionedSound;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.audio.SoundHandler;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
@@ -35,13 +27,13 @@ import java.util.Locale;
 public class ActSounds extends ScriptAction {
     @Override
     public void execute(ScriptContext context) throws ScriptException {
-        switch (getMatchedIndex()){
+        switch (getMatchedIndex()) {
             case 0:
                 ILocatable locatable = (ILocatable) getParameter(2).get(context);
                 String category = getParameterOrDefault(getParameter(5), "player", context);
-                if(FMLCommonHandler.instance().getSide() != net.minecraftforge.fml.relauncher.Side.SERVER)
+                if (FMLCommonHandler.instance().getSide() != net.minecraftforge.fml.relauncher.Side.SERVER)
                     throw new ScriptException.ScriptBadSideException(this.getLine(), FMLCommonHandler.instance().getSide());
-                FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().playSound(null, locatable.getPos(), SoundEvent.REGISTRY.getObject((ResourceLocation) getParameter(1).get(context).getObject()), SoundCategory.getByName(category.toLowerCase(Locale.ROOT)),getParameterOrDefault(getParameter(4),100d, context).floatValue(),getParameterOrDefault(getParameter(3),1d, context).floatValue());
+                FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld().playSound(null, locatable.getPos(), SoundEvent.REGISTRY.getObject((ResourceLocation) getParameter(1).get(context).getObject()), SoundCategory.getByName(category.toLowerCase(Locale.ROOT)), getParameterOrDefault(getParameter(4), 100d, context).floatValue(), getParameterOrDefault(getParameter(3), 1d, context).floatValue());
                 break;
             case 1:
                 //System.out.println("Playing sound");
@@ -53,7 +45,7 @@ public class ActSounds extends ScriptAction {
             case 3:
                 String name = (String) getParameter(1).get(context).getObject();
                 category = getParameterOrDefault(getParameter(2), "player", context);
-                stopSound(name,category);
+                stopSound(name, category);
         }
     }
 
@@ -61,7 +53,7 @@ public class ActSounds extends ScriptAction {
     private void playClientSound(ScriptContext context) throws ScriptException {
         //System.out.println("Playing : "+(ResourceLocation) getParameter(1).get(context).getObject()+" with volume "+ getParameterOrDefault(getParameter(3),1d, context).floatValue()+ " with pitch "+getParameterOrDefault(getParameter(2),1d, context).floatValue());
         //System.out.println("A: "+(Minecraft.getMinecraft().getSoundHandler() == null));
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getRecord(SoundEvent.REGISTRY.getObject((ResourceLocation) getParameter(1).get(context).getObject()), getParameterOrDefault(getParameter(2),1d, context).floatValue(),getParameterOrDefault(getParameter(3),1d, context).floatValue()));
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.getRecord(SoundEvent.REGISTRY.getObject((ResourceLocation) getParameter(1).get(context).getObject()), getParameterOrDefault(getParameter(2), 1d, context).floatValue(), getParameterOrDefault(getParameter(3), 1d, context).floatValue()));
     }
 
     @SideOnly(net.minecraftforge.fml.relauncher.Side.CLIENT)
@@ -74,3 +66,8 @@ public class ActSounds extends ScriptAction {
         Minecraft.getMinecraft().getSoundHandler().stopSounds();
     }
 }
+
+
+
+
+

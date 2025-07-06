@@ -1,6 +1,6 @@
 package fr.nico.sqript.expressions;
 
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.meta.Expression;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
@@ -38,3 +38,8 @@ public class ExprFormat extends ScriptExpression {
         return false;
     }
 }
+
+
+
+
+

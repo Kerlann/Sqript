@@ -1,7 +1,10 @@
 package fr.nico.sqript.actions;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.compiling.*;
+import fr.nico.sqript.core.compilation.CompilationResult;
+import fr.nico.sqript.core.compilation.ScriptCompilationContext;
+import fr.nico.sqript.core.compilation.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptToken;
 import fr.nico.sqript.expressions.ScriptExpression;
 import fr.nico.sqript.meta.Action;
 import fr.nico.sqript.meta.ActionDefinition;
@@ -10,32 +13,41 @@ import fr.nico.sqript.structures.ScriptContext;
 import fr.nico.sqript.structures.ScriptElement;
 import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.TypeNull;
-import fr.nico.sqript.types.primitive.TypeNumber;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class ScriptAction extends IScript {
+
+    private List<ScriptExpression> parameters;
+    private int matchedIndex;
+    private int marks;
+
+    public ScriptAction() {
+    }
 
     public List<ScriptExpression> getParameters() {
         return parameters;
     }
 
-    public ScriptExpression getParameter(int index){
-        return getParameters().get(index-1);
+    public void setParameters(List<ScriptExpression> parameters) {
+        this.parameters = parameters;
+    }
+
+    public ScriptExpression getParameter(int index) {
+        return getParameters().get(index - 1);
     }
 
     public Object getParameter(int index, ScriptContext context) throws ScriptException {
-        return getParameters().get(index-1).get(context).getObject();
+        return getParameters().get(index - 1).get(context).getObject();
     }
 
-    public  <U,T extends ScriptElement<U>> U getParsed(int index, ScriptContext context, Class<T> to) throws ScriptException {
-        return ScriptManager.parse(getParameters().get(index-1).get(context), to).getObject();
+    public <U, T extends ScriptElement<U>> U getParsed(int index, ScriptContext context, Class<T> to) throws ScriptException {
+        return ScriptManager.parse(getParameters().get(index - 1).get(context), to).getObject();
     }
 
-    public  <U,T extends ScriptElement<U>> U getParsed(int index, ScriptContext context, Class<T> to, U defaultValue) throws ScriptException {
-        ScriptType<?> type=getParameters().get(index-1).get(context);
+    public <U, T extends ScriptElement<U>> U getParsed(int index, ScriptContext context, Class<T> to, U defaultValue) throws ScriptException {
+        ScriptType<?> type = getParameters().get(index - 1).get(context);
         return (type == null || (type instanceof TypeNull)) ? defaultValue : ScriptManager.parse(type, to).getObject();
     }
 
@@ -44,46 +56,37 @@ public abstract class ScriptAction extends IScript {
         return (parameter == null || ((result = parameter.get(context)) instanceof TypeNull)) ? defaultValue : (T) result.getObject();
     }
 
-    public <V,T extends ScriptElement<?>,U extends ScriptElement<V>> V getParameterOrDefault(int index, V defaultValue, ScriptContext context, Class<U> typeClass) throws ScriptException {
+    public <V, T extends ScriptElement<?>, U extends ScriptElement<V>> V getParameterOrDefault(int index, V defaultValue, ScriptContext context, Class<U> typeClass) throws ScriptException {
         ScriptType result;
         ScriptExpression parameter = getParameter(index);
         T value = (parameter == null || ((result = parameter.get(context)) instanceof TypeNull)) ? null : (T) result;
-        if(value == null)
+        if (value == null)
             return defaultValue;
         else
-            return ScriptManager.parse(value,typeClass).getObject();
-    }
-
-
-
-    public void setParameters(List<ScriptExpression> parameters) {
-        this.parameters = parameters;
+            return ScriptManager.parse(value, typeClass).getObject();
     }
 
     public int getParametersSize() {
         return parameters.size();
     }
 
-    private List<ScriptExpression> parameters;
-
     public int getMatchedIndex() {
         return matchedIndex;
     }
 
-    private int matchedIndex;
-
-    private int marks;
-
-
-    public void setMarks(int marks) {
-        this.marks = marks;
+    public void setMatchedIndex(int matchedIndex) {
+        this.matchedIndex = matchedIndex;
     }
 
     public int getMarks() {
         return marks;
     }
 
-    public boolean getMarkValue(int mark){
+    public void setMarks(int marks) {
+        this.marks = marks;
+    }
+
+    public boolean getMarkValue(int mark) {
         return marks >> mark == 1;
     }
 
@@ -91,23 +94,18 @@ public abstract class ScriptAction extends IScript {
         return this.getClass().getAnnotation(Action.class).features()[getMatchedIndex()].name();
     }
 
-    public void setMatchedIndex(int matchedIndex) {
-        this.matchedIndex = matchedIndex;
-    }
-
-    public ScriptAction(){}
-
     @Override
     public void execute(ScriptContext context) throws ScriptException {
 
     }
 
-    public void execute(ScriptContext context, ScriptType[] parameters) throws ScriptException {}
+    public void execute(ScriptContext context, ScriptType[] parameters) throws ScriptException {
+    }
 
     public ScriptType[] evaluate(ScriptContext context) throws ScriptException {
         ScriptType[] result = new ScriptType[getParameters().size()];
         int parameterIndex = 0;
-        for(ScriptExpression expression : getParameters()){
+        for (ScriptExpression expression : getParameters()) {
             parameterIndex++;
             result[parameterIndex] = (expression.get(context));
         }
@@ -118,24 +116,37 @@ public abstract class ScriptAction extends IScript {
         List<ScriptExpression> expressions = new ArrayList<>(parameters.size());
         //System.out.println("Building action for line : "+line+", parameters are :"+ Arrays.toString(parameters.toArray(new String[0])));
         //System.out.println("Marks are : "+Integer.toBinaryString(marks));
-        String[] strings = ScriptDecoder.extractStrings(line.getText());
+        String[] strings = fr.nico.sqript.core.compilation.MigrationAdapter.extractStrings(line.getText());
         //System.out.println("for line : "+line+" marks are : "+Integer.toBinaryString(marks));
         ActionDefinition actionDefinition = ScriptManager.getDefinitionFromAction(this.getClass());
 
-        for (int i = 0; i < parameters.size() ; i++) {
-            //System.out.println("Processing parameter : "+parameters.get(i));
+        for (int i = 0; i < parameters.size(); i++) {
+            ScriptManager.log.debug("Processing parameter {}: '{}'", i, parameters.get(i));
             String parameter = parameters.get(i);
-            if(parameter==null) {
+            if (parameter == null) {
                 expressions.add(null);
                 continue;
             }
-            //System.out.println(matchedIndex+" "+ i+" "+Arrays.toString(actionDefinition.transformedPatterns));
-            //
-            //System.out.println("Compile group : "+compileGroup.declaredVariables);
-            ScriptExpression e = ScriptDecoder.parse(line.with(parameter),compileGroup, actionDefinition.transformedPatterns[matchedIndex].getValidTypes(i));
-            if (e != null)
+
+            // Utiliser uniquement le nouveau système moderne (HybridEngine)
+            ScriptExpression e = null;
+            try {
+                CompilationResult<fr.nico.sqript.expressions.ScriptExpression> result = fr.nico.sqript.forge.SqriptForge.getHybridEngine().compileExpression(line.with(parameter), compileGroup, ScriptElement.class);
+                if (result != null && result.isSuccess()) {
+                    e = result.getResult();
+                    ScriptManager.log.debug("Successfully parsed parameter {} as: {}", i, e.getClass().getSimpleName());
+                } else {
+                    String errorMsg = result != null && result.getError() != null ? result.getError().getMessage() : "Unknown compilation error";
+                    throw new fr.nico.sqript.core.compilation.ScriptException(line.with(parameter), "Erreur de compilation d'expression dans ScriptAction: " + errorMsg);
+                }
+            } catch (Exception ex2) {
+                throw new fr.nico.sqript.core.compilation.ScriptException(line.with(parameter), "Erreur de compilation d'expression dans ScriptAction : " + ex2.getMessage());
+            }
+
+            if (e != null) {
                 expressions.add(e);
-            else {
+            } else {
+                ScriptManager.log.error("Failed to parse parameter {}: '{}'", i, parameter);
                 throw new ScriptException.ScriptUnknownExpressionException(line.with(parameter).withString(strings));
             }
         }
@@ -152,3 +163,8 @@ public abstract class ScriptAction extends IScript {
         return "";
     }
 }
+
+
+
+
+

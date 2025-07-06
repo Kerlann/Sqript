@@ -3,7 +3,6 @@ package fr.nico.sqript.events;
 import fr.nico.sqript.meta.Event;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptTypeAccessor;
-import fr.nico.sqript.types.TypePlayer;
 import fr.nico.sqript.types.TypeWorld;
 import net.minecraft.world.World;
 
@@ -19,7 +18,12 @@ import net.minecraft.world.World;
 public class EvtOnWorldTick extends ScriptEvent {
 
     public EvtOnWorldTick(World world) {
-        super(new ScriptTypeAccessor(new TypeWorld(world),"world"));
+        super(new ScriptTypeAccessor(new TypeWorld(world), "world"));
     }
 
 }
+
+
+
+
+

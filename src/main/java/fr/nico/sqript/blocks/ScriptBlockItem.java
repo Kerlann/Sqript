@@ -1,8 +1,8 @@
 package fr.nico.sqript.blocks;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.compiling.ScriptException;
-import fr.nico.sqript.compiling.ScriptToken;
+import fr.nico.sqript.core.compilation.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptToken;
 import fr.nico.sqript.forge.SqriptForge;
 import fr.nico.sqript.forge.common.item.*;
 import fr.nico.sqript.meta.Block;
@@ -275,3 +275,8 @@ public class ScriptBlockItem extends ScriptBlock {
     }
 
 }
+
+
+
+
+

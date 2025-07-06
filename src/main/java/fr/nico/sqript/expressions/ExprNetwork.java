@@ -1,8 +1,8 @@
 package fr.nico.sqript.expressions;
 
+import fr.nico.sqript.meta.Expression;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.network.ScriptNetworkManager;
-import fr.nico.sqript.meta.Expression;
 import fr.nico.sqript.structures.ScriptContext;
 import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.TypeNull;
@@ -40,3 +40,8 @@ public class ExprNetwork extends ScriptExpression {
         return false;
     }
 }
+
+
+
+
+

@@ -30,23 +30,23 @@ public class ExprKeyInput extends ScriptExpression {
 
     @Override
     public ScriptType<?> get(ScriptContext context, ScriptType<?>[] parameters) {
-        switch(getMatchedIndex()){
+        switch (getMatchedIndex()) {
             case 0:
                 KeyBinding keyBinding = new KeyBinding((String) parameters[1].getObject(), Keyboard.getKeyIndex((String) parameters[0].getObject()), (String) parameters[2].getObject());
                 ClientRegistry.registerKeyBinding(keyBinding);
                 return new TypeKeyBind(keyBinding);
             case 1:
-                return new TypeBoolean(((KeyBinding)parameters[0].getObject()).isPressed());
+                return new TypeBoolean(((KeyBinding) parameters[0].getObject()).isPressed());
             case 2:
-                return new TypeBoolean(((KeyBinding)parameters[0].getObject()).isKeyDown());
+                return new TypeBoolean(((KeyBinding) parameters[0].getObject()).isKeyDown());
             case 3:
                 String keyName = (String) parameters[0].getObject();
-                List<KeyBinding> l = Arrays.stream(Minecraft.getMinecraft().gameSettings.keyBindings).filter(a->a.getKeyDescription().equalsIgnoreCase(keyName)).collect(Collectors.toList());
-                if(!l.isEmpty() && l.get(0) != null)
+                List<KeyBinding> l = Arrays.stream(Minecraft.getMinecraft().gameSettings.keyBindings).filter(a -> a.getKeyDescription().equalsIgnoreCase(keyName)).collect(Collectors.toList());
+                if (!l.isEmpty() && l.get(0) != null)
                     return new TypeKeyBind(l.get(0));
                 else return new TypeNull();
             case 4:
-                return new TypeBoolean(Keyboard.isKeyDown((Integer)parameters[0].getObject()));
+                return new TypeBoolean(Keyboard.isKeyDown((Integer) parameters[0].getObject()));
         }
         return null;
     }
@@ -56,3 +56,8 @@ public class ExprKeyInput extends ScriptExpression {
         return false;
     }
 }
+
+
+
+
+

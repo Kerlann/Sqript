@@ -7,7 +7,6 @@ import fr.nico.sqript.structures.Side;
 import fr.nico.sqript.types.primitive.TypeNumber;
 import fr.nico.sqript.types.primitive.TypeString;
 import net.minecraft.client.gui.GuiScreen;
-import org.apache.logging.log4j.core.script.Script;
 
 
 public class EvtGUI {
@@ -19,13 +18,13 @@ public class EvtGUI {
                     pattern = "(GUI|gui) open[ed]",
                     side = Side.CLIENT),
             accessors = {
-                    @Feature(name="GUI class name", description = "The JAVA class name of the GUI being opened", pattern = "(GUI|gui) [class] name", type="string")
+                    @Feature(name = "GUI class name", description = "The JAVA class name of the GUI being opened", pattern = "(GUI|gui) [class] name", type = "string")
             }
     )
     public static class EvtGUIOpen extends ScriptEvent {
 
         public EvtGUIOpen(GuiScreen guiScreen) {
-            super(new ScriptTypeAccessor(new TypeString(guiScreen == null ? "undefined" : guiScreen.getClass().getSimpleName()),"(GUI|gui) [class] name"));
+            super(new ScriptTypeAccessor(new TypeString(guiScreen == null ? "undefined" : guiScreen.getClass().getSimpleName()), "(GUI|gui) [class] name"));
         }
     }
 
@@ -36,14 +35,19 @@ public class EvtGUI {
                     pattern = "(button click|click on [a] button)",
                     side = Side.CLIENT),
             accessors = {
-                    @Feature(name="Clicked button id", description = "The clicked button's id.", pattern = "button id", type = "number")
+                    @Feature(name = "Clicked button id", description = "The clicked button's id.", pattern = "button id", type = "number")
             }
     )
     public static class EvtButtonClicked extends ScriptEvent {
 
         public EvtButtonClicked(int buttonId) {
-            super(new ScriptTypeAccessor(new TypeNumber(buttonId),"button id"));
+            super(new ScriptTypeAccessor(new TypeNumber(buttonId), "button id"));
         }
     }
 
 }
+
+
+
+
+

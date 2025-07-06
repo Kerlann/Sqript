@@ -1,0 +1,3456 @@
+{
+  "events": {
+    "Item pickup": {
+      "name": "Item pickup",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that picked up the items.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Picked up item": {
+          "name": "Picked up item",
+          "description": "The picked up item.",
+          "pattern": "[picked [up]] item",
+          "type": "item",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player pickups an item",
+      "examples": [
+        "on item pickup:\n    if item is minecraft:bedrock:\n        cancel event #Prevents bedrock pickup."
+      ],
+      "pattern": "(player pickup[s] item|item pickup)"
+    },
+    "Player respawn": {
+      "name": "Player respawn",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that respawned.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "End conquered": {
+          "name": "End conquered",
+          "description": "Whether the respawn is due to the end conquest.",
+          "pattern": "end conquered",
+          "type": "boolean",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": false,
+      "side": "BOTH",
+      "description": "This event is triggered when a player reappears in the world after dying or passing through the end portal to the overworld.",
+      "examples": [
+        "on respawn:"
+      ],
+      "pattern": "[player] [re]spawn[ing]"
+    },
+    "Render of food bar": {
+      "name": "Render of food bar",
+      "accessors": {},
+      "cancelable": true,
+      "side": "CLIENT",
+      "description": "Called when food bar is rendered",
+      "examples": [
+        "on render food bar:"
+      ],
+      "pattern": "render [of] food [bar]"
+    },
+    "Render of world": {
+      "name": "Render of world",
+      "accessors": {
+        "Partial ticks": {
+          "name": "Partial ticks",
+          "description": "The partial ticks since last frame.",
+          "pattern": "partial ticks",
+          "type": "number",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": false,
+      "side": "CLIENT",
+      "description": "Called when world is rendered",
+      "examples": [
+        "on render of world:"
+      ],
+      "pattern": "(render [of] world|world render)"
+    },
+    "Entity interact": {
+      "name": "Entity interact",
+      "accessors": {
+        "Interaction entity": {
+          "name": "Interaction entity",
+          "description": "The entity that has been interacted with.",
+          "pattern": "(target|entity)",
+          "type": "entity",
+          "side": "BOTH"
+        },
+        "Interaction hand": {
+          "name": "Interaction hand",
+          "description": "The hand that has been used to interact.",
+          "pattern": "hand",
+          "type": "hand",
+          "side": "BOTH"
+        },
+        "Player": {
+          "name": "Player",
+          "description": "The player that interacted with the entity.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "This event is triggered when a player interacts with an entity (right-click).",
+      "examples": [
+        "on right click on villager:"
+      ],
+      "pattern": "[right] click on ((1;(living|entity))|(2;{entity|resource})) [entity]"
+    },
+    "Player movement": {
+      "name": "Player movement",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that moved.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player moves.",
+      "examples": [
+        "on player movement:\n    cancel event #Freezes the player"
+      ],
+      "pattern": "player move[ment]"
+    },
+    "Render of health bar": {
+      "name": "Render of health bar",
+      "accessors": {},
+      "cancelable": true,
+      "side": "CLIENT",
+      "description": "Called when health bar is rendered",
+      "examples": [
+        "on render of health bar:\n    cancel event #Hides the player\u0027s health bar"
+      ],
+      "pattern": "render [of] health [bar]"
+    },
+    "Living fall": {
+      "name": "Living fall",
+      "accessors": {
+        "Victim": {
+          "name": "Victim",
+          "description": "The victim of the damage event.",
+          "pattern": "victim",
+          "type": "entity",
+          "side": "BOTH"
+        },
+        "Distance": {
+          "name": "Distance",
+          "description": "The distance fallen.",
+          "pattern": "damage distance",
+          "type": "number",
+          "side": "BOTH"
+        },
+        "Damage multiplier": {
+          "name": "Damage multiplier",
+          "description": "The damage multiplier of the fall event.",
+          "pattern": "damage multiplier",
+          "type": "number",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "This event is triggered as soon as an EntityLivingBase falls.",
+      "examples": [
+        "on living fall:"
+      ],
+      "pattern": "((1;(living|entity))|(2;{entity|resource}))[\u0027s] fall"
+    },
+    "Item use": {
+      "name": "Item use",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that used the item.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Used item": {
+          "name": "Used item",
+          "description": "The used item.",
+          "pattern": "[used] item",
+          "type": "item",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player uses an item",
+      "examples": [
+        "on item use:\n    if item is minecraft:potion:\n    cancel event"
+      ],
+      "pattern": "(player use[s] item|item use)"
+    },
+    "Player drop": {
+      "name": "Player drop",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that dropped the item.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Item": {
+          "name": "Item",
+          "description": "The item that has been tossed.",
+          "pattern": "item",
+          "type": "item",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Event that is fired whenever a player tosses (Q) an item or drag-n-drops a stack of items outside the inventory GUI screens.",
+      "examples": [
+        "on player drop:"
+      ],
+      "pattern": "[player] drop[ing]"
+    },
+    "Render of chat": {
+      "name": "Render of chat",
+      "accessors": {},
+      "cancelable": true,
+      "side": "CLIENT",
+      "description": "Called when chat is rendered",
+      "examples": [
+        "on render chat:"
+      ],
+      "pattern": "render [of] chat"
+    },
+    "Key input": {
+      "name": "Key input",
+      "accessors": {},
+      "cancelable": true,
+      "side": "CLIENT",
+      "description": "Event that is fired whenever a registered key input is triggered.",
+      "examples": [
+        "on key input:"
+      ],
+      "pattern": "key input"
+    },
+    "Player tick": {
+      "name": "Player tick",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The entity player.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": false,
+      "side": "BOTH",
+      "description": "Called when the player ticks.",
+      "examples": [
+        "on player tick:"
+      ],
+      "pattern": "player tick"
+    },
+    "Script load": {
+      "name": "Script load",
+      "accessors": {
+        "Script file": {
+          "name": "Script file",
+          "description": "The file of this script.",
+          "pattern": "[script] file",
+          "type": "file",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": false,
+      "side": "BOTH",
+      "description": "Called when script is loaded.",
+      "examples": [
+        "on script load:"
+      ],
+      "pattern": "[script] load[ed]"
+    },
+    "Mouse input": {
+      "name": "Mouse input",
+      "accessors": {},
+      "cancelable": true,
+      "side": "CLIENT",
+      "description": "Event that is fired whenever a mouse input is triggered.",
+      "examples": [
+        "on mouse input:"
+      ],
+      "pattern": "mouse input"
+    },
+    "Window setup": {
+      "name": "Window setup",
+      "accessors": {},
+      "cancelable": false,
+      "side": "BOTH",
+      "description": "Called once when the game window is being set up.",
+      "examples": [
+        "on window setup:\n    set window title to \"Sqript !\""
+      ],
+      "pattern": "window setup"
+    },
+    "World tick": {
+      "name": "World tick",
+      "accessors": {
+        "World": {
+          "name": "World",
+          "description": "The world.",
+          "pattern": "world",
+          "type": "world",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": false,
+      "side": "BOTH",
+      "description": "Called when the world ticks.",
+      "examples": [
+        "on world tick:"
+      ],
+      "pattern": "world tick"
+    },
+    "Item left clicked": {
+      "name": "Item left clicked",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that clicked on the item.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Clicked item": {
+          "name": "Clicked item",
+          "description": "The clicked item.",
+          "pattern": "[click[ed]] item",
+          "type": "item",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player left clicks an item. This event only fires on client side",
+      "examples": [
+        "on item left click with minecraft:emerald:"
+      ],
+      "pattern": "[item] left click [with {itemtype}] [with ((1;left)|(2;right)) hand]"
+    },
+    "Button click": {
+      "name": "Button click",
+      "accessors": {
+        "Clicked button id": {
+          "name": "Clicked button id",
+          "description": "The clicked button\u0027s id.",
+          "pattern": "button id",
+          "type": "number",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": false,
+      "side": "CLIENT",
+      "description": "Called when a button is clicked.",
+      "examples": [
+        "on button click:"
+      ],
+      "pattern": "(button click|click on [a] button)"
+    },
+    "Initialization": {
+      "name": "Initialization",
+      "accessors": {},
+      "cancelable": false,
+      "side": "BOTH",
+      "description": "Called after \u0027on pre init:\u0027 and before \u0027on post init:\u0027 during mod startup.",
+      "examples": [
+        "on init:"
+      ],
+      "pattern": "init"
+    },
+    "Message sent": {
+      "name": "Message sent",
+      "accessors": {
+        "Sender": {
+          "name": "Sender",
+          "description": "The sender of this message.",
+          "pattern": "(player|sender)",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Message": {
+          "name": "Message",
+          "description": "The content of the message.",
+          "pattern": "message",
+          "type": "string",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player sends a message.",
+      "examples": [
+        "on message sent:\n    set message to \"My message\" #Edit message content"
+      ],
+      "pattern": "([player] sen(d[ing]|t) [a] message|message sent)"
+    },
+    "Render of crosshair": {
+      "name": "Render of crosshair",
+      "accessors": {},
+      "cancelable": false,
+      "side": "CLIENT",
+      "description": "Called when crosshair is rendered",
+      "examples": [
+        "on render of crosshair:"
+      ],
+      "pattern": "render [of] crosshair"
+    },
+    "GUI opened": {
+      "name": "GUI opened",
+      "accessors": {
+        "GUI class name": {
+          "name": "GUI class name",
+          "description": "The JAVA class name of the GUI being opened",
+          "pattern": "(GUI|gui) [class] name",
+          "type": "string",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": false,
+      "side": "CLIENT",
+      "description": "Called when a GUI is being opened.",
+      "examples": [
+        "on gui open:"
+      ],
+      "pattern": "(GUI|gui) open[ed]"
+    },
+    "Block right clicked": {
+      "name": "Block right clicked",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that clicked the block.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Clicked block": {
+          "name": "Clicked block",
+          "description": "The clicked block.",
+          "pattern": "(clicked block|click-block|block)",
+          "type": "block",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player clicks on a block",
+      "examples": [
+        "on right click on minecraft:diamond_block:\n"
+      ],
+      "pattern": "[((1;left)|(2;right))] click on [[a] block of] {block} [with ((3;left)|(4;right)) hand]"
+    },
+    "Entity join World": {
+      "name": "Entity join World",
+      "accessors": {
+        "Entity": {
+          "name": "Entity",
+          "description": "The spawned entity.",
+          "pattern": "entity",
+          "type": "entity",
+          "side": "BOTH"
+        },
+        "World": {
+          "name": "World",
+          "description": "The instance of the world the entity has spawn.",
+          "pattern": "world",
+          "type": "world",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "This event is triggered when an entity is added to the world.",
+      "examples": [
+        "on entity join world:"
+      ],
+      "pattern": "((1;(living|entity))|(2;{entity|resource})) join world"
+    },
+    "Death drops": {
+      "name": "Death drops",
+      "accessors": {
+        "Victim": {
+          "name": "Victim",
+          "description": "The victim of the death event.",
+          "pattern": "victim",
+          "type": "entity",
+          "side": "BOTH"
+        },
+        "Damage type": {
+          "name": "Damage type",
+          "description": "The damage type of dealt damage.",
+          "pattern": "damage type",
+          "type": "damage_source",
+          "side": "BOTH"
+        },
+        "Attacker": {
+          "name": "Attacker",
+          "description": "The damage dealer of the death event.",
+          "pattern": "attacker",
+          "type": "entity",
+          "side": "BOTH"
+        },
+        "Drops": {
+          "name": "Drops",
+          "description": "An array of the items that are going to be dropped.",
+          "pattern": "drops",
+          "type": "array",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "This event is triggered when the death of an entity causes the appearance of objects.",
+      "examples": [
+        "on living drop of death:"
+      ],
+      "pattern": "((1;(living|entity))|(2;{entity|resource}))[\u0027s] drop[s] of death"
+    },
+    "Player attack": {
+      "name": "Player attack",
+      "accessors": {
+        "Attacker": {
+          "name": "Attacker",
+          "description": "The player that attacked.",
+          "pattern": "attacker",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Victim": {
+          "name": "Victim",
+          "description": "The entity that was attacked.",
+          "pattern": "victim",
+          "type": "entity",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player attacks another entity.",
+      "examples": [
+        "on player attacking minecraft:pig :\n    cancel event #Removes pvp"
+      ],
+      "pattern": "player attack[ing] [{entity|resource}]"
+    },
+    "Player login": {
+      "name": "Player login",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that logged in.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player logs in.",
+      "examples": [
+        "on player login:"
+      ],
+      "pattern": "[player] (login|connection)"
+    },
+    "Server starting": {
+      "name": "Server starting",
+      "accessors": {
+        "Server": {
+          "name": "Server",
+          "description": "The instance of the server",
+          "pattern": "server",
+          "type": "console",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": false,
+      "side": "BOTH",
+      "description": "This event allows for customizations of the server, such as loading custom commands, perhaps customizing recipes or other activities.",
+      "examples": [
+        "on server start:"
+      ],
+      "pattern": "server start"
+    },
+    "Pre initialization": {
+      "name": "Pre initialization",
+      "accessors": {},
+      "cancelable": false,
+      "side": "BOTH",
+      "description": "This is the first of three commonly called events during mod initialization.",
+      "examples": [
+        "on pre init:"
+      ],
+      "pattern": "pre init"
+    },
+    "Living damage": {
+      "name": "Living damage",
+      "accessors": {
+        "Victim": {
+          "name": "Victim",
+          "description": "The victim of the damage event.",
+          "pattern": "(victim|entity)",
+          "type": "entity",
+          "side": "BOTH"
+        },
+        "Damage type": {
+          "name": "Damage type",
+          "description": "The damage type of dealt damage.",
+          "pattern": "damage type",
+          "type": "damage_source",
+          "side": "BOTH"
+        },
+        "Damage amount": {
+          "name": "Damage amount",
+          "description": "The amount of dealt damage.",
+          "pattern": "[damage] amount",
+          "type": "number",
+          "side": "BOTH"
+        },
+        "Attacker": {
+          "name": "Attacker",
+          "description": "The damage dealer of the damage event.",
+          "pattern": "attacker",
+          "type": "entity",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "This event is triggered on server side just before damage is applied to an entity.",
+      "examples": [
+        "on pig damage:"
+      ],
+      "pattern": "((1;(living|entity))|(2;{entity|resource})) damage[d] [by {entity|resource}]"
+    },
+    "Command sent": {
+      "name": "Command sent",
+      "accessors": {
+        "Sender": {
+          "name": "Sender",
+          "description": "The sender of this command.",
+          "pattern": "(player|sender)",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Command parameters": {
+          "name": "Command parameters",
+          "description": "The sent parameters as a string array.",
+          "pattern": "(arguments|parameters)",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Command name": {
+          "name": "Command name",
+          "description": "The command name.",
+          "pattern": "command name",
+          "type": "string",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player sends a command.",
+      "examples": [
+        "on command sent:\n    set command to \"/help\" #Edit command content"
+      ],
+      "pattern": "([player] sen(d[ing]|(t|s)) [a] command|command sent)"
+    },
+    "Player jump": {
+      "name": "Player jump",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that jumped.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "CLIENT",
+      "description": "Called when a player jumps.",
+      "examples": [
+        "on player jump:\n    cancel event #Forbid jumping"
+      ],
+      "pattern": "[player] (jump|jumped)"
+    },
+    "Player hit": {
+      "name": "Player hit",
+      "accessors": {
+        "Attacker": {
+          "name": "Attacker",
+          "description": "The player that attacked.",
+          "pattern": "attacker",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Victim": {
+          "name": "Victim",
+          "description": "The player that was attacked.",
+          "pattern": "victim",
+          "type": "player",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player is hit by another player.",
+      "examples": [
+        "on player attacked:\n    cancel event #Removes pvp"
+      ],
+      "pattern": "player (hit|attacked)"
+    },
+    "Block placed": {
+      "name": "Block placed",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that placed the block.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Placed block": {
+          "name": "Placed block",
+          "description": "The placed block.",
+          "pattern": "(placed block|event-block)",
+          "type": "block",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player places a block",
+      "examples": [
+        "on place of minecraft:stone:\n    cancel event #Prevents stone placing"
+      ],
+      "pattern": "[block] place [of {block}]"
+    },
+    "Post initialization": {
+      "name": "Post initialization",
+      "accessors": {},
+      "cancelable": false,
+      "side": "BOTH",
+      "description": "Called after that \u0027on init:\u0027 has been dispatched on every mod. This is the third and last commonly called event during mod initialization.",
+      "examples": [
+        "on post init:"
+      ],
+      "pattern": "post init"
+    },
+    "Item used": {
+      "name": "Item used",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that used the item.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Used item": {
+          "name": "Used item",
+          "description": "The used item.",
+          "pattern": "[used] item",
+          "type": "item",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": false,
+      "side": "BOTH",
+      "description": "Called when a player has finished using an item",
+      "examples": [
+        "on item used:\n    if item is minecraft:potion:\n"
+      ],
+      "pattern": "(player used item|item used)"
+    },
+    "Living death": {
+      "name": "Living death",
+      "accessors": {
+        "Victim": {
+          "name": "Victim",
+          "description": "The victim of the death event.",
+          "pattern": "victim",
+          "type": "entity",
+          "side": "BOTH"
+        },
+        "Damage type": {
+          "name": "Damage type",
+          "description": "The damage type of dealt damage.",
+          "pattern": "damage type",
+          "type": "damage_source",
+          "side": "BOTH"
+        },
+        "Attacker": {
+          "name": "Attacker",
+          "description": "The damage dealer of the death event.",
+          "pattern": "attacker",
+          "type": "entity",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "This event is triggered just before an entity dies of damage.",
+      "examples": [
+        "on player death:",
+        "on zombie death:"
+      ],
+      "pattern": "((1;(living|entity))|(2;player)|(3;{entity|resource}))[\u0027s] death"
+    },
+    "Item right clicked": {
+      "name": "Item right clicked",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that clicked on the item.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Clicked item": {
+          "name": "Clicked item",
+          "description": "The clicked item.",
+          "pattern": "[click[ed]] item",
+          "type": "item",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player right clicks an item.",
+      "examples": [
+        "on item click with minecraft:emerald:"
+      ],
+      "pattern": "[((1;client)|(2;server))] [(item|right)] click [with {itemtype}] [with ((3;left)|(4;right)) hand]"
+    },
+    "Render of overlay": {
+      "name": "Render of overlay",
+      "accessors": {},
+      "cancelable": false,
+      "side": "CLIENT",
+      "description": "Called when overlay is rendered",
+      "examples": [
+        "on render overlay:\n    draw textured rectangle at [-15,-7.5] with size [30,15] using texture sample:logo.png"
+      ],
+      "pattern": "render [of] overlay"
+    },
+    "Render of player": {
+      "name": "Render of player",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player being rendered",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Limb swing": {
+          "name": "Limb swing",
+          "description": "The model\u0027s limb swing",
+          "pattern": "limb swing",
+          "type": "number",
+          "side": "BOTH"
+        },
+        "Limb swing amount": {
+          "name": "Limb swing amount",
+          "description": "The model\u0027s limb swing amount",
+          "pattern": "limb swing amount",
+          "type": "number",
+          "side": "BOTH"
+        },
+        "Head yaw": {
+          "name": "Head yaw",
+          "description": "The model\u0027s head yaw",
+          "pattern": "head yaw",
+          "type": "number",
+          "side": "BOTH"
+        },
+        "Head Pitch": {
+          "name": "Head Pitch",
+          "description": "The model\u0027s head pitch",
+          "pattern": "head pitch",
+          "type": "number",
+          "side": "BOTH"
+        },
+        "Partial ticks": {
+          "name": "Partial ticks",
+          "description": "The current partial ticks",
+          "pattern": "partial ticks",
+          "type": "number",
+          "side": "BOTH"
+        },
+        "Left arm rotation": {
+          "name": "Left arm rotation",
+          "description": "The player\u0027s left arm rotation",
+          "pattern": "left arm rotation",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Left arm position": {
+          "name": "Left arm position",
+          "description": "The player\u0027s left arm position",
+          "pattern": "left arm position",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Left arm anchor": {
+          "name": "Left arm anchor",
+          "description": "The player\u0027s left arm rotation anchor (or rotation origin, i.e the point that the part will be rotated around)",
+          "pattern": "left arm anchor",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Right arm rotation": {
+          "name": "Right arm rotation",
+          "description": "The player\u0027s right arm rotation",
+          "pattern": "right arm rotation",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Right arm position": {
+          "name": "Right arm position",
+          "description": "The player\u0027s right arm position",
+          "pattern": "right arm position",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Right arm anchor": {
+          "name": "Right arm anchor",
+          "description": "The player\u0027s right arm rotation anchor (or rotation origin, i.e the point that the part will be rotated around)",
+          "pattern": "right arm anchor",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Left leg rotation": {
+          "name": "Left leg rotation",
+          "description": "The player\u0027s left leg rotation",
+          "pattern": "left leg rotation",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Left leg position": {
+          "name": "Left leg position",
+          "description": "The player\u0027s left leg position",
+          "pattern": "left leg position",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Left leg anchor": {
+          "name": "Left leg anchor",
+          "description": "The player\u0027s left leg rotation anchor (or rotation origin, i.e the point that the part will be rotated around)",
+          "pattern": "left leg anchor",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Right leg rotation": {
+          "name": "Right leg rotation",
+          "description": "The player\u0027s right leg rotation",
+          "pattern": "right leg rotation",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Right leg position": {
+          "name": "Right leg position",
+          "description": "The player\u0027s right leg position",
+          "pattern": "right leg position",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Right leg anchor": {
+          "name": "Right leg anchor",
+          "description": "The player\u0027s right leg rotation anchor (or rotation origin, i.e the point that the part will be rotated around)",
+          "pattern": "right leg anchor",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Head position": {
+          "name": "Head position",
+          "description": "The player\u0027s head position",
+          "pattern": "head position",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Head rotation": {
+          "name": "Head rotation",
+          "description": "The player\u0027s head rotation",
+          "pattern": "head rotation",
+          "type": "array",
+          "side": "BOTH"
+        },
+        "Head anchor": {
+          "name": "Head anchor",
+          "description": "The player\u0027s head rotation anchor (or rotation origin, i.e the point that the part will be rotated around)",
+          "pattern": "head anchor",
+          "type": "array",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": false,
+      "side": "CLIENT",
+      "description": "Called when player is rendered",
+      "examples": [
+        "on player render:\n    set left arm rotation to [90,0,0]"
+      ],
+      "pattern": "(render[ing] [of] player|player[\u0027s] render[ing])"
+    },
+    "Block broken": {
+      "name": "Block broken",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The player that broke the block.",
+          "pattern": "player",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Broken block": {
+          "name": "Broken block",
+          "description": "The broken block.",
+          "pattern": "(broken block|break-block|event-block)",
+          "type": "block",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "Called when a player breaks a block",
+      "examples": [
+        "on break:\n    cancel event #Prevents players from breaking blocks"
+      ],
+      "pattern": "[block] break [of {block}]"
+    },
+    "Render of nameplates": {
+      "name": "Render of nameplates",
+      "accessors": {},
+      "cancelable": true,
+      "side": "CLIENT",
+      "description": "Called when a nameplate is rendered",
+      "examples": [
+        "on render of [player\u0027s] nameplate:"
+      ],
+      "pattern": "render [of] [player[\u0027s]] nameplate"
+    },
+    "Player death drops": {
+      "name": "Player death drops",
+      "accessors": {
+        "Player": {
+          "name": "Player",
+          "description": "The victim of the death event.",
+          "pattern": "victim",
+          "type": "player",
+          "side": "BOTH"
+        },
+        "Damage type": {
+          "name": "Damage type",
+          "description": "The damage type of dealt damage.",
+          "pattern": "damage type",
+          "type": "damage_source",
+          "side": "BOTH"
+        },
+        "Attacker": {
+          "name": "Attacker",
+          "description": "The damage dealer of the death event.",
+          "pattern": "attacker",
+          "type": "entity",
+          "side": "BOTH"
+        },
+        "Drops": {
+          "name": "Drops",
+          "description": "An array of the items that are going to be dropped.",
+          "pattern": "drops",
+          "type": "array",
+          "side": "BOTH"
+        }
+      },
+      "cancelable": true,
+      "side": "BOTH",
+      "description": "This event is triggered when the death of an player causes the appearance of objects.",
+      "examples": [
+        "on drop of player death:"
+      ],
+      "pattern": "drop[s] of player death"
+    },
+    "Render of experience bar": {
+      "name": "Render of experience bar",
+      "accessors": {},
+      "cancelable": false,
+      "side": "CLIENT",
+      "description": "Called when experience bar is rendered",
+      "examples": [
+        "on render xp bar:"
+      ],
+      "pattern": "render [of] (xp|experience) bar"
+    }
+  },
+  "actions": {
+    "Shuffle array": {
+      "group": "Arrays Actions",
+      "name": "Shuffle array",
+      "description": "Randomly shuffles the elements of an array.",
+      "pattern": "shuffle {array}",
+      "side": "BOTH",
+      "examples": [
+        "shuffle [1,2,3,4,5,6]"
+      ]
+    },
+    "Add an array to another array": {
+      "group": "Arrays Actions",
+      "name": "Add an array to another array",
+      "description": "Adds the elements of an array to another array.",
+      "pattern": "add elements of {array} to {array}",
+      "side": "BOTH",
+      "examples": [
+        "add [1,2,3] to [4,5,6]"
+      ]
+    },
+    "Remove an array from an array": {
+      "group": "Arrays Actions",
+      "name": "Remove an array from an array",
+      "description": "Removes the elements of an array from another array.",
+      "pattern": "remove elements of {array} from {array}",
+      "side": "BOTH",
+      "examples": [
+        "remove [\"a\",\"b\"] from [\"a\",\"b\",\"c\"]\n"
+      ]
+    },
+    "Sort elements of an array": {
+      "group": "Arrays Actions",
+      "name": "Sort elements of an array",
+      "description": "Sort an array in ascending or descending order if their elements are comparable. Dictionaries can also be sorted, in this case by default they are sorted by keys but you can also sort them by values.",
+      "pattern": "sort ((2;elements)|(3;keys)) of {array} [by] [((0;ascending)|(1;descending))] [order]",
+      "side": "BOTH",
+      "examples": [
+        "sort elements of [1,5,7,4,2,3]\n"
+      ]
+    },
+    "Remove tag in NBTTagCompound": {
+      "group": "NBTTagCompound Actions",
+      "name": "Remove tag in NBTTagCompound",
+      "description": "remove the tag from an nbttagcompound.",
+      "pattern": "delete tag {string} of {nbttagcompound}",
+      "side": "BOTH",
+      "examples": [
+        "delete tag \"Tag\" of {nbttagcompound}"
+      ]
+    },
+    "Open frame": {
+      "group": "Frame Actions",
+      "name": "Open frame",
+      "description": "Opens a defined frame.",
+      "pattern": "open frame {frame}",
+      "side": "BOTH",
+      "examples": [
+        "open frame {my_frame}"
+      ]
+    },
+    "Play a sound at a specific location": {
+      "group": "Sound actions",
+      "name": "Play a sound at a specific location",
+      "description": "Plays a sound at a specific location.",
+      "pattern": "play {+resource} at {location} [with pitch {number}] [[and] with volume {number}] [in category {string}]",
+      "side": "BOTH",
+      "examples": [
+        "play minecraft:block.anvil.fall at player\u0027s location"
+      ]
+    },
+    "Play a sound": {
+      "group": "Sound actions",
+      "name": "Play a sound",
+      "description": "Plays a sound.",
+      "pattern": "play {resource} [with pitch {number}] [[and] with volume {number}]",
+      "side": "CLIENT",
+      "examples": [
+        "play minecraft:block.anvil.fall to player"
+      ]
+    },
+    "Stop all sounds": {
+      "group": "Sound actions",
+      "name": "Stop all sounds",
+      "description": "Stop all playing sounds.",
+      "pattern": "stop [all] sounds",
+      "side": "CLIENT",
+      "examples": [
+        "stop sounds"
+      ]
+    },
+    "Stop a specific sound": {
+      "group": "Sound actions",
+      "name": "Stop a specific sound",
+      "description": "Stop a specific sound for a player.",
+      "pattern": "stop sound {string} [in category {string}]",
+      "side": "CLIENT",
+      "examples": [
+        "stop sound \"my_sound\""
+      ]
+    },
+    "Spawn entity": {
+      "group": "Entity Actions",
+      "name": "Spawn entity",
+      "description": "Spawns an entity at the given location.",
+      "pattern": "spawn (a|{number}) {entity|resource} at {location}",
+      "side": "BOTH",
+      "examples": [
+        "spawn a zombie at player\u0027s location"
+      ]
+    },
+    "Kill entity": {
+      "group": "Entity Actions",
+      "name": "Kill entity",
+      "description": "Kills the given entity.",
+      "pattern": "kill {entity}",
+      "side": "BOTH",
+      "examples": [
+        "kill player"
+      ]
+    },
+    "Print": {
+      "group": "Print Actions",
+      "name": "Print",
+      "description": "Prints something in the console.",
+      "pattern": "print {element}",
+      "side": "BOTH",
+      "examples": [
+        "print \"Hello world !\""
+      ]
+    },
+    "Sync an element to all players": {
+      "group": "Network Actions",
+      "name": "Sync an element to all players",
+      "description": "Synchronise an element under the given key to all connected players, which can be used by client-side scripts.",
+      "pattern": "sync {element} as {string} to all players",
+      "side": "BOTH",
+      "examples": [
+        "sync true as \"game_started\" to all players #The synchronized variable \"game_started\" is now set to true for every players"
+      ]
+    },
+    "Sync an element to a players": {
+      "group": "Network Actions",
+      "name": "Sync an element to a players",
+      "description": "Synchronise an element under the given key to the given player, which can be used by client-side scripts.",
+      "pattern": "sync {element} as {string} to {player}",
+      "side": "BOTH",
+      "examples": [
+        "sync $money[player] as \"my_money\" to player #The synchronized variable \"my_money\" now stores the content of the variable $money[player], stored on the server side."
+      ]
+    },
+    "Run a command": {
+      "group": "Run a command",
+      "name": "Run a command",
+      "description": "Runs a command as the server or as a player",
+      "pattern": "make {player} execute command {string}",
+      "side": "BOTH",
+      "examples": [
+        "make console execute command \"time set day\""
+      ]
+    },
+    "Draw text": {
+      "group": "Draw Actions",
+      "name": "Draw text",
+      "description": "Draws a string at a specific position on the screen.",
+      "pattern": "draw [(1;shadowed)] [(3;centered)] text {string} at {array} [with scale {number}] [[and] with color {number} [(2;without alpha)]]",
+      "side": "CLIENT",
+      "examples": [
+        "draw text \"Health : %player\u0027s health%\" at [10,10]"
+      ]
+    },
+    "Draw rectangle": {
+      "group": "Draw Actions",
+      "name": "Draw rectangle",
+      "description": "Draws a coloured filled custom sized rectangle at a specific position on the screen.",
+      "pattern": "draw [colored] rect[angle] at {array} with size {array} [and] with color {number} [(1;without alpha)]",
+      "side": "CLIENT",
+      "examples": [
+        "draw rectangle at [10,10] with size [20,5] with color 0xFFFF0000"
+      ]
+    },
+    "Draw textured rectangle": {
+      "group": "Draw Actions",
+      "name": "Draw textured rectangle",
+      "description": "Draws a textured custom sized rectangle at a specific position on the screen.",
+      "pattern": "draw textured rect[angle] at {array} with size {array} (with|using) texture {resource} [with uv {array}]",
+      "side": "CLIENT",
+      "examples": [
+        "draw textured rectangle at [-15,-7.5] with size [30,15] using texture sample:logo.png"
+      ]
+    },
+    "Draw line": {
+      "group": "Draw Actions",
+      "name": "Draw line",
+      "description": "Draws a line between given positions on the screen.",
+      "pattern": "draw line from {location} to {location} with stroke {number} [and] with color {number} [(1;without alpha)]",
+      "side": "CLIENT",
+      "examples": [
+        "draw line from [10,10] to [100,100] with stroke 6 and with color 0"
+      ]
+    },
+    "Rotate canvas": {
+      "group": "Draw Actions",
+      "name": "Rotate canvas",
+      "description": "Rotate the draw canvas, around a vector if the given vector is not null, else around the Z axis.",
+      "pattern": "rotate canvas by {number} [around {array}] [in ((1;degrees)|(2;radians))]",
+      "side": "CLIENT",
+      "examples": [
+        "draw text \"Text 1\" at [10,10] #Won\u0027t be rotated\npush canvas matrix #Pushes a new matrix onto the matrix pile\nrotate canvas by 90\ndraw text \"Text 2\" at [20,20] #Will be displayed rotated by 90 degrees\npop canvas matrix\ndraw text \"Text 3\" at [20,20] #Won\u0027t be rotated because the matrix has been popped."
+      ]
+    },
+    "Translate canvas": {
+      "group": "Draw Actions",
+      "name": "Translate canvas",
+      "description": "Translate the draw canvas.",
+      "pattern": "translate canvas (by|at) {array}",
+      "side": "CLIENT",
+      "examples": [
+        "draw text \"Text 1\" at [10,10] #Won\u0027t be translated\npush canvas matrix #Pushes a new matrix onto the matrix pile\ntranslate canvas by [10,0,0]\ndraw text \"Text 2\" at [20,20] #Will be displayed translated by 10 units to the right\npop canvas matrix\ndraw text \"Text 3\" at [20,20] #Won\u0027t be translated because the matrix has been popped."
+      ]
+    },
+    "Scale canvas": {
+      "group": "Draw Actions",
+      "name": "Scale canvas",
+      "description": "Scale the draw canvas.",
+      "pattern": "scale canvas by {array}",
+      "side": "CLIENT",
+      "examples": [
+        "draw text \"Text 1\" at [10,10] #Won\u0027t be scaled\npush canvas matrix #Pushes a new matrix onto the matrix pile\nscale canvas by [2,2,2]\ndraw text \"Text 2\" at [20,20] #Will be displayed scaled by 2\npop canvas matrix\ndraw text \"Text 3\" at [20,20] #Won\u0027t be scaled because the matrix has been popped."
+      ]
+    },
+    "Push canvas matrix": {
+      "group": "Draw Actions",
+      "name": "Push canvas matrix",
+      "description": "Pushes a new matrix onto the matrix pile. Allows to \"save the current\" matrix configuration.",
+      "pattern": "push canvas matrix",
+      "side": "CLIENT",
+      "examples": [
+        "push canvas matrix"
+      ]
+    },
+    "Pop canvas matrix": {
+      "group": "Draw Actions",
+      "name": "Pop canvas matrix",
+      "description": "Pops the top matrix from the matrix pile. Allows to \"come back to the previous\" matrix configuration.",
+      "pattern": "pop canvas matrix",
+      "side": "CLIENT",
+      "examples": [
+        "pop canvas matrix"
+      ]
+    },
+    "Draw circle": {
+      "group": "Draw Actions",
+      "name": "Draw circle",
+      "description": "Draws a circle of given radius at given position on the screen.",
+      "pattern": "draw circle at {location} with radius {number} [and] with color {number} [(1;without alpha)]",
+      "side": "CLIENT",
+      "examples": [
+        "draw circle at [10,10] with radius 6 and with color 0"
+      ]
+    },
+    "Render model": {
+      "group": "Draw Actions",
+      "name": "Render model",
+      "description": "Renders a .json model in the world.",
+      "pattern": "render model {resource} at {array}",
+      "side": "CLIENT",
+      "examples": [
+        "render model test:my_model at [50,15,20]"
+      ]
+    },
+    "Return": {
+      "group": "Return/break Actions",
+      "name": "Return",
+      "description": "In a function, returns a value to be used as a result of the function",
+      "pattern": "return {element}",
+      "side": "BOTH",
+      "examples": [
+        "function plusOne(n):\n    return n + 1"
+      ]
+    },
+    "Cancel event": {
+      "group": "Return/break Actions",
+      "name": "Cancel event",
+      "description": "In an event, cancels it.",
+      "pattern": "cancel event",
+      "side": "BOTH",
+      "examples": [
+        "on player movement:\n    cancel event"
+      ]
+    },
+    "Break loop": {
+      "group": "Return/break Actions",
+      "name": "Break loop",
+      "description": "In a loop, interrupts it and exit it.",
+      "pattern": "break loop",
+      "side": "BOTH",
+      "examples": [
+        "for {i} in numbers in range of 10:\n   if {i} \u003d 9:\n      break loop"
+      ]
+    },
+    "Break multiple loops": {
+      "group": "Return/break Actions",
+      "name": "Break multiple loops",
+      "description": "In multiple loop, interrupts a specific number of loops and exit them.",
+      "pattern": "break loops",
+      "side": "BOTH",
+      "examples": [
+        "for {i} in numbers in range of 10:\n   for {j} in numbers in range of 10:\n      if {j} \u003d 9:\n         break 2 loops"
+      ]
+    },
+    "Drop an item": {
+      "group": "Drop",
+      "name": "Drop an item",
+      "description": "Drops an item somewhere.",
+      "pattern": "drop [{+number}] {item} at {array}",
+      "side": "BOTH",
+      "examples": [
+        "drop 1 minecraft:diamond_sword at player\u0027s location"
+      ]
+    },
+    "Close GUI": {
+      "group": "GUI Actions",
+      "name": "Close GUI",
+      "description": "Close the current GUI.",
+      "pattern": "close [the] [current] (GUI|gui)",
+      "side": "CLIENT",
+      "examples": [
+        "close current gui"
+      ]
+    },
+    "Open settings GUI": {
+      "group": "GUI Actions",
+      "name": "Open settings GUI",
+      "description": "Opens the settings GUI.",
+      "pattern": "open [the] settings [(GUI|gui)]",
+      "side": "CLIENT",
+      "examples": [
+        "open settings"
+      ]
+    },
+    "Open single-player GUI": {
+      "group": "GUI Actions",
+      "name": "Open single-player GUI",
+      "description": "Opens the world selection GUI.",
+      "pattern": "open [the] (single-player|world selection) [(GUI|gui)]",
+      "side": "CLIENT",
+      "examples": [
+        "open single-player gui"
+      ]
+    },
+    "Open multi-player GUI": {
+      "group": "GUI Actions",
+      "name": "Open multi-player GUI",
+      "description": "Opens the server selection GUI.",
+      "pattern": "open [the] (multi-player|server selection) [(GUI|gui)]",
+      "side": "CLIENT",
+      "examples": [
+        "open multi-player gui"
+      ]
+    },
+    "Teleport player": {
+      "group": "Player Actions",
+      "name": "Teleport player",
+      "description": "Teleports a player to a given location.",
+      "pattern": "teleport {player} (to|at) {array}",
+      "side": "BOTH",
+      "examples": [
+        "teleport player at [10,25,20]"
+      ]
+    },
+    "Give item to player": {
+      "group": "Player Actions",
+      "name": "Give item to player",
+      "description": "Gives an item to a player.",
+      "pattern": "give {item} to {player}",
+      "side": "BOTH",
+      "examples": [
+        "give a[n] minecraft:diamond_sword to player\n"
+      ]
+    },
+    "Kick player": {
+      "group": "Player Actions",
+      "name": "Kick player",
+      "description": "Kicks a player from the server.",
+      "pattern": "kick {player} [with message {string}]",
+      "side": "BOTH",
+      "examples": [
+        "kick player with message \"You\u0027ve been kicked for cheating\""
+      ]
+    },
+    "Remove item from player\u0027s inventory": {
+      "group": "Player Actions",
+      "name": "Remove item from player\u0027s inventory",
+      "description": "Attempts to remove the given item from player\u0027s inventory.",
+      "pattern": "remove [{number} of] {itemtype} from {player}[\u0027s] inventory",
+      "side": "BOTH",
+      "examples": [
+        "remove 1 of diamond from player\u0027s inventory"
+      ]
+    },
+    "Exit/Quit": {
+      "group": "Stystem actions",
+      "name": "Exit/Quit",
+      "description": "Quit the game.",
+      "pattern": "quit [the] [game]",
+      "side": "BOTH",
+      "examples": [
+        "quit the game"
+      ]
+    },
+    "Register a new item": {
+      "group": "Registery Actions",
+      "name": "Register a new item",
+      "description": "Creates and registers a new item in the game.",
+      "pattern": "register [a] [new] item [with identifier] {string} [named {string}] [[and] with (texture {resource}|model {resource})] [with [max] stack size {number}] [in tab {string}]",
+      "side": "BOTH",
+      "examples": [
+        "register a new item with identifier \"copper\" named \"Copper\" with texture \"test:copper_item\""
+      ]
+    },
+    "Register a new block": {
+      "group": "Registery Actions",
+      "name": "Register a new block",
+      "description": "Creates and registers a new block in the game.",
+      "pattern": "register [a] [new] block [with identifier] {string} [named {string}] [[and] with (texture {resource}|model {resource})] [with [max] stack size {number}] [with hardness {number}] [with harvest level {number}] [with material {string}] [dropping {resource}] [in tab {string}]",
+      "side": "BOTH",
+      "examples": [
+        "register a new block with identifier \"copper_ore\" named \"Copper Ore\" with texture \"test:copper_ore\""
+      ]
+    },
+    "Wait/delay": {
+      "group": "Wait Actions",
+      "name": "Wait/delay",
+      "description": "Delays the execution of the script of a specific amount of time.",
+      "pattern": "(wait|delay) {date}",
+      "side": "BOTH",
+      "examples": [
+        "wait 10 seconds"
+      ]
+    },
+    "Replace substrings of a string": {
+      "group": "Print Actions",
+      "name": "Replace substrings of a string",
+      "description": "Replace each given substring replaced by another string in a string.",
+      "pattern": "replace each {string} (by|with) {string} in {string}",
+      "side": "BOTH",
+      "examples": [
+        "replace each \"_\" with \" \" in \"Hello_world\""
+      ]
+    },
+    "Send element to console/server": {
+      "group": "Send Actions",
+      "name": "Send element to console/server",
+      "description": "Sends an element to the console or the server, like a packet.",
+      "pattern": "send {element} to (console|server)",
+      "side": "BOTH",
+      "examples": [
+        "packet test_packet(message):\n\tclient:\n\t\tprint message\n\tserver:\n\t\tprint message\n\ncommand /sendPacket {string}:\n\tsend test_packet(arg-1) to server"
+      ]
+    },
+    "Send element to a player/an element": {
+      "group": "Send Actions",
+      "name": "Send element to a player/an element",
+      "description": "Sends an element to a player or another element, like a packet or a message.",
+      "pattern": "send {element} to {element}",
+      "side": "BOTH",
+      "examples": [
+        "packet test_packet(message):\n\tclient:\n\t\tprint message\n\tserver:\n\t\tprint message\n\ncommand /sendPacket {string}:\n\tsend test_packet(arg-1) to player"
+      ]
+    },
+    "Add an element to another": {
+      "group": "Simple Operation Actions",
+      "name": "Add an element to another",
+      "description": "Adds an element to another elements if the + operation can be applied on it.",
+      "pattern": "add {element} to {element}",
+      "side": "BOTH",
+      "examples": [
+        "add \"d\" to [\"a\",\"b\",\"c\"]",
+        "add 1 to {counter}"
+      ]
+    },
+    "Remove an element from another": {
+      "group": "Simple Operation Actions",
+      "name": "Remove an element from another",
+      "description": "Removes an element from another element if the - operation can be applied on it.",
+      "pattern": "remove {element} from {element}",
+      "side": "BOTH",
+      "examples": [
+        "remove \"c\" from [\"a\",\"b\",\"c\"]",
+        "remove 1 from player\u0027s health"
+      ]
+    },
+    "Set an element to another": {
+      "group": "Simple Operation Actions",
+      "name": "Set an element to another",
+      "description": "Defines the value of an element.",
+      "pattern": "set {element} to {element}",
+      "side": "BOTH",
+      "examples": [
+        "set player\u0027s health to 20",
+        "set {variable} to 8"
+      ]
+    }
+  },
+  "expressions": {
+    "Random number": {
+      "group": "Randomness Expressions",
+      "name": "Random number",
+      "description": "Returns a random number between two numbers",
+      "pattern": "random (number|([float] number)|float) [between {number} and {number}]",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "random number between 1 and 50"
+      ]
+    },
+    "Random integer": {
+      "group": "Randomness Expressions",
+      "name": "Random integer",
+      "description": "Returns a random integer between two numbers",
+      "pattern": "random (integer|(integer number)|int) between {number} and {number}",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "random integer between 1 and 50"
+      ]
+    },
+    "Type of element": {
+      "group": "Types Expressions",
+      "name": "Type of element",
+      "description": "Returns the type of an element.",
+      "pattern": "type of {element}",
+      "type": "string",
+      "side": "BOTH",
+      "examples": [
+        "type of {my_variable}"
+      ]
+    },
+    "Element parsed as another type": {
+      "group": "Types Expressions",
+      "name": "Element parsed as another type",
+      "description": "Returns the element parsed as another given type.",
+      "pattern": "{element} parsed as {string}",
+      "type": "element",
+      "side": "BOTH",
+      "examples": [
+        "\"5\" parsed as \"number\" #Returns 5"
+      ]
+    },
+    "Element is set": {
+      "group": "Types Expressions",
+      "name": "Element is set",
+      "description": "Returns whether a given element is defined (not null).",
+      "pattern": "{element} is (set|defined)",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "{my_variable} is defined"
+      ]
+    },
+    "Element is not set": {
+      "group": "Types Expressions",
+      "name": "Element is not set",
+      "description": "Returns whether a given element is not defined (null).",
+      "pattern": "{element} is not (set|defined)",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "{my_variable} is not defined"
+      ]
+    },
+    "Element is not element (is not equal to)": {
+      "group": "Types Expressions",
+      "name": "Element is not element (is not equal to)",
+      "description": "Returns whether a given element is not equal to another one.",
+      "pattern": "{element} is not {element}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "{my_variable} is not \"Test\""
+      ]
+    },
+    "Element is element (is equal to)": {
+      "group": "Types Expressions",
+      "name": "Element is element (is equal to)",
+      "description": "Returns whether a given element is equal to another one.",
+      "pattern": "{element} is {element}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "{my_variable} is \"Test\""
+      ]
+    },
+    "Element is more than element": {
+      "group": "Types Expressions",
+      "name": "Element is more than element",
+      "description": "Returns whether a given element is more than another one.",
+      "pattern": "{element} is more than {element}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "{my_variable} is more than 8"
+      ]
+    },
+    "Element is more than or equal to element": {
+      "group": "Types Expressions",
+      "name": "Element is more than or equal to element",
+      "description": "Returns whether a given element is more than another one.",
+      "pattern": "{element} is more than or equal to {element}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "{my_variable} is more than or equal to 8"
+      ]
+    },
+    "Element is less than element": {
+      "group": "Types Expressions",
+      "name": "Element is less than element",
+      "description": "Returns whether a given element is less than another one.",
+      "pattern": "{element} is less than {element}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "{my_variable} is less than 8"
+      ]
+    },
+    "Element is less than or equal to element": {
+      "group": "Types Expressions",
+      "name": "Element is less than or equal to element",
+      "description": "Returns whether a given element is less than or equal to another one.",
+      "pattern": "{element} is less than or equal to {element}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "{my_variable} is less than or equal to 8"
+      ]
+    },
+    "Year": {
+      "group": "Date Expressions",
+      "name": "Year",
+      "description": "Returns the given amount of years.",
+      "pattern": "{number} year[s] [[and] {date}]",
+      "type": "date",
+      "side": "BOTH",
+      "examples": [
+        "1 year and 5 months"
+      ]
+    },
+    "Month": {
+      "group": "Date Expressions",
+      "name": "Month",
+      "description": "Returns the given amount of months.",
+      "pattern": "{number} month[s] [[and] {date}]",
+      "type": "date",
+      "side": "BOTH",
+      "examples": [
+        "1 month and 5 weeks"
+      ]
+    },
+    "Day": {
+      "group": "Date Expressions",
+      "name": "Day",
+      "description": "Returns the given amount of days.",
+      "pattern": "{number} day[s] [[and] {date}]",
+      "type": "date",
+      "side": "BOTH",
+      "examples": [
+        "1 day and 5 hours"
+      ]
+    },
+    "Hour": {
+      "group": "Date Expressions",
+      "name": "Hour",
+      "description": "Returns the given amount of hours.",
+      "pattern": "{number} hour[s] [[and] {date}]",
+      "type": "date",
+      "side": "BOTH",
+      "examples": [
+        "1 hour and 5 minutes"
+      ]
+    },
+    "Minute": {
+      "group": "Date Expressions",
+      "name": "Minute",
+      "description": "Returns the given amount of minutes.",
+      "pattern": "{number} minute[s] [[and] {date}]",
+      "type": "date",
+      "side": "BOTH",
+      "examples": [
+        "1 minute and 5 seconds"
+      ]
+    },
+    "Second": {
+      "group": "Date Expressions",
+      "name": "Second",
+      "description": "Returns the given amount of seconds.",
+      "pattern": "{number} second[s] [[and] {date}]",
+      "type": "date",
+      "side": "BOTH",
+      "examples": [
+        "1 second and 5 ticks"
+      ]
+    },
+    "Tick": {
+      "group": "Date Expressions",
+      "name": "Tick",
+      "description": "Returns the given amount of ticks.",
+      "pattern": "{number} tick[s] [[and] {date}]",
+      "type": "date",
+      "side": "BOTH",
+      "examples": [
+        "1 tick"
+      ]
+    },
+    "Now": {
+      "group": "Date Expressions",
+      "name": "Now",
+      "description": "Returns the current date.",
+      "pattern": "now",
+      "type": "date",
+      "side": "BOTH",
+      "examples": [
+        "now"
+      ]
+    },
+    "Content of text file": {
+      "group": "File Expressions",
+      "name": "Content of text file",
+      "description": "Returns an array containing the lines of the given file. The root folder is /.minecraft/. Will create the file it it does not exist when setting the content.",
+      "pattern": "content of [text] file {string}",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "content of file \"/scripts/my_script_config.txt\""
+      ]
+    },
+    "Content of image file": {
+      "group": "File Expressions",
+      "name": "Content of image file",
+      "description": "Returns the given file read as an image. The root folder is /.minecraft/. Will create the image if it does not exist when setting the content.",
+      "pattern": "content of image [file] {string}",
+      "type": "image",
+      "side": "BOTH",
+      "examples": [
+        "content of image \"/scripts/my_image.png\""
+      ]
+    },
+    "New image": {
+      "group": "File Expressions",
+      "name": "New image",
+      "description": "Returns a new image sized with the given width and height.",
+      "pattern": "[a] [new] image with width {number} and height {number}",
+      "type": "image",
+      "side": "BOTH",
+      "examples": [
+        "new image with width 100 and height 450"
+      ]
+    },
+    "Image pixel": {
+      "group": "File Expressions",
+      "name": "Image pixel",
+      "description": "Returns the color of an image\u0027s pixel. Setting a pixel will only apply the changes in the memory, not on any file. Use the expression \"content of image file\" to save the content on a file.",
+      "pattern": "{image}[\u0027s] pixel at {array}",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "set {my_image}\u0027s pixel at [10,20] to 0xFFFF0000 #Sets the pixel to a full red pixel"
+      ]
+    },
+    "All entities": {
+      "group": "Entities Expressions",
+      "name": "All entities",
+      "description": "Returns an array of all entities.",
+      "pattern": "all entities",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "all entities"
+      ]
+    },
+    "Entity Name": {
+      "group": "Entities Expressions",
+      "name": "Entity Name",
+      "description": "Returns the name of entity",
+      "pattern": "{entity}[\u0027s] name",
+      "type": "string",
+      "side": "BOTH",
+      "examples": [
+        "entity\u0027s name"
+      ]
+    },
+    "Entity ID": {
+      "group": "Entities Expressions",
+      "name": "Entity ID",
+      "description": "Returns the id of entity.",
+      "pattern": "id of {entity}",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "id of entity"
+      ]
+    },
+    "Entity NBT": {
+      "group": "Entities Expressions",
+      "name": "Entity NBT",
+      "description": "Returns the nbt tag compound of entity",
+      "pattern": "{entity}[\u0027s] nbt",
+      "type": "nbttagcompound",
+      "side": "BOTH",
+      "examples": [
+        "entity\u0027s nbt"
+      ]
+    },
+    "Array": {
+      "group": "Arrays",
+      "name": "Array",
+      "description": "Instantiates a new array.",
+      "pattern": "~[{+element*}~]",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "[3.141,2.718,\"Hello !\"]"
+      ]
+    },
+    "Size of an array": {
+      "group": "Arrays",
+      "name": "Size of an array",
+      "description": "Returns the size of an array.",
+      "pattern": "size of {array|dictionary}",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "size of [1,4,7] #Returns 3"
+      ]
+    },
+    "Random element of an array": {
+      "group": "Arrays",
+      "name": "Random element of an array",
+      "description": "Returns a random element of an array.",
+      "pattern": "[a] random element of {array|dictionary}",
+      "type": "element",
+      "side": "BOTH",
+      "examples": [
+        "random element of [1,4,7]"
+      ]
+    },
+    "First element of an array": {
+      "group": "Arrays",
+      "name": "First element of an array",
+      "description": "Returns the first element of an array.",
+      "pattern": "[the] first element of {array|dictionary}",
+      "type": "element",
+      "side": "BOTH",
+      "examples": [
+        "first element of [1,4,7]"
+      ]
+    },
+    "Last element of an array": {
+      "group": "Arrays",
+      "name": "Last element of an array",
+      "description": "Returns the last element of an array.",
+      "pattern": "[the] last element of {array|dictionary}",
+      "type": "element",
+      "side": "BOTH",
+      "examples": [
+        "last element of [1,4,7]"
+      ]
+    },
+    "Element of an array": {
+      "group": "Arrays",
+      "name": "Element of an array",
+      "description": "Returns the element at the given index of an array. Be careful, indices start at 0.",
+      "pattern": "{array|dictionary}~[{+element}~]",
+      "type": "element",
+      "side": "BOTH",
+      "examples": [
+        "[7,1,0,2,6][0] #Returns 7"
+      ]
+    },
+    "Range of two number": {
+      "group": "Arrays",
+      "name": "Range of two number",
+      "description": "Returns an array of numbers between two boundaries.",
+      "pattern": "numbers from {number} to {number}",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "numbers from 1 to 5 #Returns [1,2,3,4,5]"
+      ]
+    },
+    "Range of numbers": {
+      "group": "Arrays",
+      "name": "Range of numbers",
+      "description": "Returns an array of numbers between 0 and a boundary.",
+      "pattern": "[numbers in] range of {number}",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "numbers in range of 5 #Returns [0,1,2,3,4,5]"
+      ]
+    },
+    "Range of random numbers": {
+      "group": "Arrays",
+      "name": "Range of random numbers",
+      "description": "Returns an array of a random subset of numbers between 0 and a boundary.",
+      "pattern": "random numbers in range of {number}",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "random numbers in range of 10\n"
+      ]
+    },
+    "Element is in an array": {
+      "group": "Arrays",
+      "name": "Element is in an array",
+      "description": "Returns whether an element is in an array.",
+      "pattern": "{element} is in {array|dictionary}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "7 is in [1,5,9,12] #Returns false"
+      ]
+    },
+    "Element is not in an array": {
+      "group": "Arrays",
+      "name": "Element is not in an array",
+      "description": "Returns whether an element is not in an array.",
+      "pattern": "{element} is not in {array|dictionary}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "7 is not in [1,5,9,12] #Returns true"
+      ]
+    },
+    "Array contains an array": {
+      "group": "Arrays",
+      "name": "Array contains an array",
+      "description": "Returns whether an array contains another array.",
+      "pattern": "{array|dictionary} contains {array|dictionary}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "[1.5,4,5,8] contains [4,8] #Returns true"
+      ]
+    },
+    "Sorted array": {
+      "group": "Arrays",
+      "name": "Sorted array",
+      "description": "Returns a sorted copy of an array. Elements will be sorted only if they are comparable.",
+      "pattern": "sorted [((0;ascending)|(1;descending))] ((2;elements)|(3;keys)) of {array|dictionary}",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "sorted elements of [1,8,5] #Returns [1,5,8]"
+      ]
+    },
+    "Copy of an array": {
+      "group": "Arrays",
+      "name": "Copy of an array",
+      "description": "Returns a copy of an array.",
+      "pattern": "copy of {array}",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "copy of [1,8,5]"
+      ]
+    },
+    "Player\u0027s skin": {
+      "group": "Render Expressions",
+      "name": "Player\u0027s skin",
+      "description": "Returns the player\u0027s skin as an image.",
+      "pattern": "{player}[\u0027s] skin",
+      "type": "image",
+      "side": "BOTH",
+      "examples": [
+        "player\u0027s skin"
+      ]
+    },
+    "Image width": {
+      "group": "Render Expressions",
+      "name": "Image width",
+      "description": "Returns the given image\u0027s width.",
+      "pattern": "{image}[\u0027s] width",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "player\u0027s skin width"
+      ]
+    },
+    "Image height": {
+      "group": "Render Expressions",
+      "name": "Image height",
+      "description": "Returns the given image\u0027s height.",
+      "pattern": "{image}[\u0027s] height",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "player\u0027s skin height"
+      ]
+    },
+    "Red color": {
+      "group": "Render Expressions",
+      "name": "Red color",
+      "description": "Returns the full red opaque color.",
+      "pattern": "red",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "red"
+      ]
+    },
+    "Green color": {
+      "group": "Render Expressions",
+      "name": "Green color",
+      "description": "Returns the full green opaque color.",
+      "pattern": "green",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "green"
+      ]
+    },
+    "Blue color": {
+      "group": "Render Expressions",
+      "name": "Blue color",
+      "description": "Returns the full blue opaque color.",
+      "pattern": "blue",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "blue"
+      ]
+    },
+    "White color": {
+      "group": "Render Expressions",
+      "name": "White color",
+      "description": "Returns the full white opaque color.",
+      "pattern": "white",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "white"
+      ]
+    },
+    "Black color": {
+      "group": "Render Expressions",
+      "name": "Black color",
+      "description": "Returns the full black opaque color.",
+      "pattern": "black",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "black"
+      ]
+    },
+    "Gray color": {
+      "group": "Render Expressions",
+      "name": "Gray color",
+      "description": "Returns the full gray opaque color.",
+      "pattern": "gray",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "gray"
+      ]
+    },
+    "Lighter color": {
+      "group": "Render Expressions",
+      "name": "Lighter color",
+      "description": "Returns the given color lightened by 20%.",
+      "pattern": "light[er] {color}",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "light red"
+      ]
+    },
+    "Darker color": {
+      "group": "Render Expressions",
+      "name": "Darker color",
+      "description": "Returns the given color darkened by 20%.",
+      "pattern": "dark[er] {color}",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "dark red"
+      ]
+    },
+    "Red component of color": {
+      "group": "Render Expressions",
+      "name": "Red component of color",
+      "description": "Returns the given color\u0027s red component.",
+      "pattern": "{color}[\u0027s] red component",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "dark red\u0027s red component"
+      ]
+    },
+    "Green component of color": {
+      "group": "Render Expressions",
+      "name": "Green component of color",
+      "description": "Returns the given color\u0027s green component.",
+      "pattern": "{color}[\u0027s] green component",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "dark red\u0027s green component"
+      ]
+    },
+    "Blue component of color": {
+      "group": "Render Expressions",
+      "name": "Blue component of color",
+      "description": "Returns the given color\u0027s blue component.",
+      "pattern": "{color}[\u0027s] blue component",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "dark red\u0027s blue component"
+      ]
+    },
+    "Alpha component of color": {
+      "group": "Render Expressions",
+      "name": "Alpha component of color",
+      "description": "Returns the given color\u0027s alpha component.",
+      "pattern": "{color}[\u0027s] alpha component",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "dark red\u0027s alpha component"
+      ]
+    },
+    "Brightness of color": {
+      "group": "Render Expressions",
+      "name": "Brightness of color",
+      "description": "Returns the given color\u0027s brightness as a number between 0 and 1.",
+      "pattern": "{color}[\u0027s] brightness",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "dark red\u0027s brightness"
+      ]
+    },
+    "Color with components": {
+      "group": "Render Expressions",
+      "name": "Color with components",
+      "description": "Returns the color having the given [r,g,b,a] components. If the array has only 3 elements, then the color will be opaque.",
+      "pattern": "color with components {array}",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "color with components [255,0,0]"
+      ]
+    },
+    "Length of a string": {
+      "group": "Strings Expressions",
+      "name": "Length of a string",
+      "description": "Returns the number of characters in a string.",
+      "pattern": "length of {string}",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "length of \"Test\""
+      ]
+    },
+    "String is a substring of a string": {
+      "group": "Strings Expressions",
+      "name": "String is a substring of a string",
+      "description": "Returns whether a string is a substring from another string.",
+      "pattern": "{string} is a substring of {string}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "\"hey\" is a substring of \"hey my friend\" #Returns true"
+      ]
+    },
+    "Substring of a string": {
+      "group": "Strings Expressions",
+      "name": "Substring of a string",
+      "description": "Returns a substring from a string.",
+      "pattern": "substring of {string} from {number} to {number}",
+      "type": "string",
+      "side": "BOTH",
+      "examples": [
+        "substring of \"Test string\" from 1 to 4 #Returns \"est\""
+      ]
+    },
+    "Split of a string": {
+      "group": "Strings Expressions",
+      "name": "Split of a string",
+      "description": "Returns an array of a split string.",
+      "pattern": "{string} split at each {string}",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "\"Hello world\" split at each \" \" #Returns [\"Hello\",\"world\"]"
+      ]
+    },
+    "Character of a string": {
+      "group": "Strings Expressions",
+      "name": "Character of a string",
+      "description": "Returns the character at a specific position of a string.",
+      "pattern": "character at [position] {number} of {string}",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "character at position 2 of \"Hello world\" #Returns \"l\""
+      ]
+    },
+    "World": {
+      "group": "Entities Expressions",
+      "name": "World",
+      "description": "Returns world.",
+      "pattern": "world",
+      "type": "world",
+      "side": "BOTH",
+      "examples": [
+        "world"
+      ]
+    },
+    "World time": {
+      "group": "Entities Expressions",
+      "name": "World time",
+      "description": "Returns the world time.",
+      "pattern": "{world} time",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "world time"
+      ]
+    },
+    "World Entities BoundingBox": {
+      "group": "Entities Expressions",
+      "name": "World Entities BoundingBox",
+      "description": "Return list of entity entities in the boudingbox.",
+      "pattern": "{string} with in {axisalignedbb}",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "world"
+      ]
+    },
+    "Block at location": {
+      "group": "Block Expressions",
+      "name": "Block at location",
+      "description": "Returns the block at the given location",
+      "pattern": "block at {array} [in world {number}]",
+      "type": "block",
+      "side": "BOTH",
+      "examples": [
+        "block at player\u0027s location"
+      ]
+    },
+    "Blocks in radius of location": {
+      "group": "Block Expressions",
+      "name": "Blocks in radius of location",
+      "description": "Returns blocks in a radius of the given location",
+      "pattern": "blocks in [a] radius [of] {number} [blocks] around {element} [in world {number}]",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "block in a radius of 5 around player\u0027s location"
+      ]
+    },
+    "Block color": {
+      "group": "Block Expressions",
+      "name": "Block color",
+      "description": "Returns the color associated to the given block in a minecraft map.",
+      "pattern": "{block} color [in world {number}]",
+      "type": "color",
+      "side": "BOTH",
+      "examples": [
+        "color of minecraft:stone"
+      ]
+    },
+    "Terrain height": {
+      "group": "Block Expressions",
+      "name": "Terrain height",
+      "description": "Efficiently returns the terrain height at the given location.",
+      "pattern": "terrain height at {array} [in world {number}]",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "terrain height at player\u0027s location"
+      ]
+    },
+    "Player\u0027s current world id": {
+      "group": "Block Expressions",
+      "name": "Player\u0027s current world id",
+      "description": "Returns the id of the world the given player is. Setting a nbt tag must be done on server side or the effects won\u0027t persist.",
+      "pattern": "{player}[\u0027s] world id",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "send player\u0027s world id to player"
+      ]
+    },
+    "Screen width": {
+      "group": "Gui Expressions",
+      "name": "Screen width",
+      "description": "Returns the screen width.",
+      "pattern": "screen width",
+      "type": "number",
+      "side": "CLIENT",
+      "examples": [
+        "screen width"
+      ]
+    },
+    "Screen height": {
+      "group": "Gui Expressions",
+      "name": "Screen height",
+      "description": "Returns the screen height.",
+      "pattern": "screen height",
+      "type": "number",
+      "side": "CLIENT",
+      "examples": [
+        "screen height"
+      ]
+    },
+    "Display width of a string": {
+      "group": "Gui Expressions",
+      "name": "Display width of a string",
+      "description": "Returns the display width of a string.",
+      "pattern": "display width of {string}",
+      "type": "number",
+      "side": "CLIENT",
+      "examples": [
+        "display width of \"Hello !\""
+      ]
+    },
+    "Display height of a string": {
+      "group": "Gui Expressions",
+      "name": "Display height of a string",
+      "description": "Returns the display height of a string.",
+      "pattern": "display height of {string}",
+      "type": "number",
+      "side": "CLIENT",
+      "examples": [
+        "display height of \"Hello !\""
+      ]
+    },
+    "NBTTagCompound": {
+      "group": "NBTTagCompound",
+      "name": "NBTTagCompound",
+      "description": "Returns a new NBTTagCompound.",
+      "pattern": "[a] [new] nbt compound",
+      "type": "nbttagcompound",
+      "side": "BOTH",
+      "examples": [
+        "set {my_nbtcompound} to a new nbt compound"
+      ]
+    },
+    "NBTTagCompound from a json string": {
+      "group": "NBTTagCompound",
+      "name": "NBTTagCompound from a json string",
+      "description": "Returns a new NBTTagCompound based on elements of a json string.",
+      "pattern": "[a] [new] nbt [tag] [compound] (with|from|of) json [string] {string}",
+      "type": "nbttagcompound",
+      "side": "BOTH",
+      "examples": [
+        "set {my_nbtcompound} to a new nbt compound with json \"{\"name\":\"test\"}\""
+      ]
+    },
+    "NBTTagCompound from a dictionary": {
+      "group": "NBTTagCompound",
+      "name": "NBTTagCompound from a dictionary",
+      "description": "Returns a new NBTTagCompound based on elements of a dictionary.",
+      "pattern": "[a] [new] nbt [tag] [compound] from [dictionary] {dictionary}",
+      "type": "nbttagcompound",
+      "side": "BOTH",
+      "examples": [
+        "set {my_nbtcompound} to nbt from {dict}"
+      ]
+    },
+    "NBTTagCompound value": {
+      "group": "NBTTagCompound",
+      "name": "NBTTagCompound value",
+      "description": "Returns value of key NBTTagCompound. A type can be specified, valid specific types are int, byte, float, short, long.",
+      "pattern": "tag {string} of {nbttagcompound} [as {string}]",
+      "type": "element",
+      "side": "BOTH",
+      "examples": [
+        "tag {string} of {nbt} as \"byte\""
+      ]
+    },
+    "NBTTagCompound copy": {
+      "group": "NBTTagCompound",
+      "name": "NBTTagCompound copy",
+      "description": "Returns a copy of a NBTTagCompound.",
+      "pattern": "[a] copy [of] {nbttagcompound}",
+      "type": "nbttagcompound",
+      "side": "BOTH",
+      "examples": [
+        "a copy of {nbt}"
+      ]
+    },
+    "Item or block nbt tag": {
+      "group": "NBTTagCompound",
+      "name": "Item or block nbt tag",
+      "description": "Returns a copy of the NBTTagCompound of a block or an item.",
+      "pattern": "{item|block}[\u0027s] nbt [tag] [in world {number}]",
+      "type": "nbttagcompound",
+      "side": "BOTH",
+      "examples": [
+        "block at [4,54,-52] nbt tag"
+      ]
+    },
+    "NBTTagCompound keys": {
+      "group": "NBTTagCompound",
+      "name": "NBTTagCompound keys",
+      "description": "Returns a list containing all the given NBTTagCompound keys.",
+      "pattern": "{nbttagcompound}[\u0027s] keys",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "block at [4,54,-52] nbt tag keys"
+      ]
+    },
+    "NBTTagCompound to a dictionary": {
+      "group": "NBTTagCompound",
+      "name": "NBTTagCompound to a dictionary",
+      "description": "Returns a dictionary containing all the given NBTTagCompound keys and NBT values.",
+      "pattern": "{nbttagcompound}[\u0027s] dictionary",
+      "type": "dictionary",
+      "side": "BOTH",
+      "examples": [
+        "block at [4,54,-52] nbt tag dictionary"
+      ]
+    },
+    "Format": {
+      "group": "Format Expressions",
+      "name": "Format",
+      "description": "Format things.",
+      "pattern": "{element} formatted as {string}",
+      "type": "string",
+      "side": "BOTH",
+      "examples": [
+        "5.643 formatted as \"--,--\""
+      ]
+    },
+    "Console/server": {
+      "group": "Console Expressions",
+      "name": "Console/server",
+      "description": "Returns the instance of the console/server.",
+      "pattern": "(console|server)",
+      "type": "sender",
+      "side": "BOTH",
+      "examples": [
+        "server"
+      ]
+    },
+    "Number of connected players": {
+      "group": "Server Expressions",
+      "name": "Number of connected players",
+      "description": "Returns the number of current connected players.",
+      "pattern": "number of [connected] players",
+      "type": "number",
+      "side": "SERVER",
+      "examples": [
+        "number of connected players"
+      ]
+    },
+    "Maximum number of connected players": {
+      "group": "Server Expressions",
+      "name": "Maximum number of connected players",
+      "description": "Returns the number of current connected players.",
+      "pattern": "max[imum] number of [connected] players",
+      "type": "number",
+      "side": "SERVER",
+      "examples": [
+        "max number of players"
+      ]
+    },
+    "Motd of server": {
+      "group": "Server Expressions",
+      "name": "Motd of server",
+      "description": "Returns the motd of the server.",
+      "pattern": "motd [of server]",
+      "type": "string",
+      "side": "SERVER",
+      "examples": [
+        "set motd of server to \"My server\""
+      ]
+    },
+    "Element is synchronized": {
+      "group": "Network Expressions",
+      "name": "Element is synchronized",
+      "description": "Returns whether an element has been synchronized from the server.",
+      "pattern": "[value] [of] {string} is (synced|synchronized)",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "\"my_key\" is synced\n"
+      ]
+    },
+    "Synchronized element": {
+      "group": "Network Expressions",
+      "name": "Synchronized element",
+      "description": "Returns whether an element has been synchronized from the server.",
+      "pattern": "(synced|synchronized) value [of] {string}",
+      "type": "element",
+      "side": "BOTH",
+      "examples": [
+        "synced value of \"my_key\""
+      ]
+    },
+    "Number is between": {
+      "group": "Number Expressions",
+      "name": "Number is between",
+      "description": "Returns true if the given number is between the given bounds (inclusively).",
+      "pattern": "{number} is between {number} and {number}",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "{number} is between 5 and 15"
+      ]
+    },
+    "Execution side": {
+      "group": "System Expressions",
+      "name": "Execution side",
+      "description": "Returns the current execution side.",
+      "pattern": "[execution] side",
+      "type": "string",
+      "side": "BOTH",
+      "examples": [
+        "execution side"
+      ]
+    },
+    "Window title": {
+      "group": "System Expressions",
+      "name": "Window title",
+      "description": "Returns the current window title.",
+      "pattern": "window (name|title)",
+      "type": "string",
+      "side": "BOTH",
+      "examples": [
+        "set the window title to \"Sqript\""
+      ]
+    },
+    "Window icons": {
+      "group": "System Expressions",
+      "name": "Window icons",
+      "description": "Returns the current window icons.",
+      "pattern": "window icons",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "set window icons to [sample:favicon_wb_16.png,sample:favicon_wb_32.png]"
+      ]
+    },
+    "Frame": {
+      "group": "Frame Expressions",
+      "name": "Frame",
+      "description": "Returns a new empty frame.",
+      "pattern": "a [new] frame",
+      "type": "frame",
+      "side": "CLIENT",
+      "examples": [
+        "a new frame"
+      ]
+    },
+    "Image widget": {
+      "group": "Frame Expressions",
+      "name": "Image widget",
+      "description": "Returns a new image widget.",
+      "pattern": "[a[n]] [new] image [of] {resource}",
+      "type": "image widget",
+      "side": "CLIENT",
+      "examples": [
+        "image test:gui/my_image.png"
+      ]
+    },
+    "Button": {
+      "group": "Frame Expressions",
+      "name": "Button",
+      "description": "Returns a new button.",
+      "pattern": "button [with texture {resource}] [displaying {string}] [at {array}] [sized {array}] [[and] with [button] id {number}]",
+      "type": "button",
+      "side": "CLIENT",
+      "examples": [
+        "button with texture test:gui/button_texture.png displaying \"Hi !\" at [10,20] sized [20,40] and with id 0"
+      ]
+    },
+    "Label": {
+      "group": "Frame Expressions",
+      "name": "Label",
+      "description": "Returns a new label.",
+      "pattern": "[(1;centered)] label displaying [text] {string} at {array} [with scale {number}] [[and] with color {number}]",
+      "type": "label",
+      "side": "CLIENT",
+      "examples": [
+        "label displaying \"hello !\" at [15,15] with scale 5 and with color 0xFF0000"
+      ]
+    },
+    "Label display text": {
+      "group": "Frame Expressions",
+      "name": "Label display text",
+      "description": "Returns the display text of a label.",
+      "pattern": "{label}[\u0027s] [display] text",
+      "type": "string",
+      "side": "CLIENT",
+      "examples": [
+        "set {label} display test to \"Hi !\""
+      ]
+    },
+    "X coordinate of location": {
+      "group": "Locations expressions",
+      "name": "X coordinate of location",
+      "description": "Returns the x coordinate of an element that can be associated to a location.",
+      "pattern": "x coord[inate] of {array}",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "x coord of [1,52,47] #Returns 1"
+      ]
+    },
+    "Y coordinate of location": {
+      "group": "Locations expressions",
+      "name": "Y coordinate of location",
+      "description": "Returns the y coordinate of an element that can be associated to a location.",
+      "pattern": "y coord[inate] of {array}",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "y coord of [1,52,47] #Returns 52"
+      ]
+    },
+    "Z coordinate of location": {
+      "group": "Locations expressions",
+      "name": "Z coordinate of location",
+      "description": "Returns the z coordinate of an element that can be associated to a location.",
+      "pattern": "z coord[inate] of {array}",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "z coord of [1,52,47] #Returns 47"
+      ]
+    },
+    "Location of element": {
+      "group": "Locations expressions",
+      "name": "Location of element",
+      "description": "Returns the location of an element that has a location.",
+      "pattern": "(location of {element}|{+element}\u0027s location)",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "player\u0027s location"
+      ]
+    },
+    "Distance between two locations": {
+      "group": "Locations expressions",
+      "name": "Distance between two locations",
+      "description": "Returns the distance between two locations.",
+      "pattern": "distance between {element} and {element}",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "distance between [1,42,56] and player\u0027s location"
+      ]
+    },
+    "Vector of location": {
+      "group": "Locations expressions",
+      "name": "Vector of location",
+      "description": "Returns the vector from a location. Vectors handle addition (+), subtraction (-) and multiplication by a number (*).",
+      "pattern": "(vector of {array}|{array} vector)",
+      "type": "vector",
+      "side": "BOTH",
+      "examples": [
+        "vector of player\u0027s location"
+      ]
+    },
+    "Item stack": {
+      "group": "Items Expressions",
+      "name": "Item stack",
+      "description": "Returns a stack of the given amount of the given item.",
+      "pattern": "(a[n]|{+number} of) {resource} [with nbt {string|nbttagcompound}] [[and] with metadata {number}]",
+      "type": "item",
+      "side": "BOTH",
+      "examples": [
+        "5 of minecraft:stick"
+      ]
+    },
+    "Player has item": {
+      "group": "Items Expressions",
+      "name": "Player has item",
+      "description": "Returns whether the player has the given item in his inventory.",
+      "pattern": "({item} is in {player}[\u0027s] inventory|{player} has {item})",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "5 of minecraft:stick is in player\u0027s inventory"
+      ]
+    },
+    "All players": {
+      "group": "Player Expressions",
+      "name": "All players",
+      "description": "Returns an array of all connected players.",
+      "pattern": "all players",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "all players"
+      ]
+    },
+    "Player with username": {
+      "group": "Player Expressions",
+      "name": "Player with username",
+      "description": "Returns the player with the given username.",
+      "pattern": "player (named|with username) {string}",
+      "type": "player",
+      "side": "BOTH",
+      "examples": [
+        "player with username \"Player001\""
+      ]
+    },
+    "Player\u0027s name": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s name",
+      "description": "Returns the given player\u0027s name.",
+      "pattern": "{+player}[\u0027s] name",
+      "type": "string",
+      "side": "BOTH",
+      "examples": [
+        "player\u0027s username"
+      ]
+    },
+    "Player\u0027s health": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s health",
+      "description": "Returns the given player\u0027s health.",
+      "pattern": "{+player}[\u0027s] health",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "player\u0027s health"
+      ]
+    },
+    "Player\u0027s hunger level": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s hunger level",
+      "description": "Returns the given player\u0027s hunger level.",
+      "pattern": "{+player}[\u0027s] (hunger|food [level])",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "player\u0027s hunger"
+      ]
+    },
+    "Player\u0027s look vector": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s look vector",
+      "description": "Returns the given player\u0027s look vector.",
+      "pattern": "{+player}[\u0027s] look vector [smoothed with {number}]",
+      "type": "vector",
+      "side": "BOTH",
+      "examples": [
+        "player\u0027s look vector smoothed with partial ticks"
+      ]
+    },
+    "Player\u0027s tool": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s tool",
+      "description": "Returns the given player\u0027s tool.",
+      "pattern": "{+player}[\u0027s] tool",
+      "type": "item",
+      "side": "BOTH",
+      "examples": [
+        "{player}\u0027s tool"
+      ]
+    },
+    "Block player is looking at": {
+      "group": "Player Expressions",
+      "name": "Block player is looking at",
+      "description": "Returns the block the given player is looking at",
+      "pattern": "block {player} is looking at",
+      "type": "block",
+      "side": "BOTH",
+      "examples": [
+        "block player\u0027s looking at"
+      ]
+    },
+    "Player check": {
+      "group": "Player Expressions",
+      "name": "Player check",
+      "description": "Check if the object is a player.",
+      "pattern": "{player} is a player",
+      "type": "player",
+      "side": "BOTH",
+      "examples": [
+        "{player} is a player"
+      ]
+    },
+    "Player": {
+      "group": "Player Expressions",
+      "name": "Player",
+      "description": "Returns the player playing on the client side",
+      "pattern": "player",
+      "type": "player",
+      "side": "CLIENT",
+      "examples": [
+        "player"
+      ]
+    },
+    "Slot of player\u0027s inventory": {
+      "group": "Player Expressions",
+      "name": "Slot of player\u0027s inventory",
+      "description": "Returns the item in the given slot of a player\u0027s inventory",
+      "pattern": "slot {number} of {player}[\u0027s] inventory",
+      "type": "item",
+      "side": "BOTH",
+      "examples": [
+        "slot 4 of player\u0027s inventory"
+      ]
+    },
+    "Player\u0027s gamemode": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s gamemode",
+      "description": "Returns the current gamemode of a player",
+      "pattern": "{player}[\u0027s] gamemode",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "if gamemode of player is 0: #Checks if player is in survival mode"
+      ]
+    },
+    "Player\u0027s sneak": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s sneak",
+      "description": "Returns if the player is sneak.",
+      "pattern": "{player}[\u0027s] is sneak[ing]",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "if player is sneaking:"
+      ]
+    },
+    "Player\u0027s armor level": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s armor level",
+      "description": "Returns the given player\u0027s armor level.",
+      "pattern": "{+player}[\u0027s] (armor [level])",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "player\u0027s armor"
+      ]
+    },
+    "Player\u0027s bounding box": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s bounding box",
+      "description": "Returns the bounding box of the player.",
+      "pattern": "{player}[\u0027s] bounding box",
+      "type": "axisalignedbb",
+      "side": "BOTH",
+      "examples": [
+        "player bounding box"
+      ]
+    },
+    "Player\u0027s rotation yaw": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s rotation yaw",
+      "description": "Returns the rotation taw of the player.",
+      "pattern": "{player}[\u0027s] [head][\u0027s] [rotation] yaw [smoothed with {number}]",
+      "type": "number",
+      "side": "BOTH",
+      "examples": [
+        "player rotation yaw"
+      ]
+    },
+    "Player\u0027s inventory": {
+      "group": "Player Expressions",
+      "name": "Player\u0027s inventory",
+      "description": "Returns the player\u0027s inventory as an array of items.",
+      "pattern": "{player}[\u0027s] inventory",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "player\u0027s inventory"
+      ]
+    },
+    "Player is connected": {
+      "group": "Player Expressions",
+      "name": "Player is connected",
+      "description": "Returns the whether the given player is connected.",
+      "pattern": "player (named|with username) {string} is connected",
+      "type": "boolean",
+      "side": "BOTH",
+      "examples": [
+        "player with username \"Player001\" is connected"
+      ]
+    },
+    "Key binding register": {
+      "group": "KeyInput Expressions",
+      "name": "Key binding register",
+      "description": "Register Custom KeyBinding",
+      "pattern": "register key {string} [with displayName {string}] and [with categoryName {string}]",
+      "type": "key",
+      "side": "CLIENT",
+      "examples": [
+        "register key \"R\" with displayName \"test\" and with categoryName \"default\""
+      ]
+    },
+    "Key binding pressed": {
+      "group": "KeyInput Expressions",
+      "name": "Key binding pressed",
+      "description": "Triggered when the key is pressed",
+      "pattern": "{key} is pressed",
+      "type": "boolean",
+      "side": "CLIENT",
+      "examples": [
+        "{key} is pressed"
+      ]
+    },
+    "Key binding down": {
+      "group": "KeyInput Expressions",
+      "name": "Key binding down",
+      "description": "Triggered when the key is down",
+      "pattern": "{key} is keydown",
+      "type": "boolean",
+      "side": "CLIENT",
+      "examples": [
+        "{key} is down"
+      ]
+    },
+    "Key binding from description": {
+      "group": "KeyInput Expressions",
+      "name": "Key binding from description",
+      "description": "Returns a key binding from a string.",
+      "pattern": "key [binding] {string}",
+      "type": "key",
+      "side": "CLIENT",
+      "examples": [
+        "key binding \"key.forward\""
+      ]
+    },
+    "Key code pressed": {
+      "group": "KeyInput Expressions",
+      "name": "Key code pressed",
+      "description": "Triggered when the given key code is pressed",
+      "pattern": "{number} code is pressed",
+      "type": "boolean",
+      "side": "CLIENT",
+      "examples": [
+        "42 code is pressed"
+      ]
+    },
+    "Dictionary": {
+      "group": "Dictionaries",
+      "name": "Dictionary",
+      "description": "Returns a new dictionary.",
+      "pattern": "[a] [new] dictionary",
+      "type": "dictionary",
+      "side": "BOTH",
+      "examples": [
+        "set {my_dictionary} to a new dictionary"
+      ]
+    },
+    "Dictionary from an array of key-value couples": {
+      "group": "Dictionaries",
+      "name": "Dictionary from an array of key-value couples",
+      "description": "Returns a new dictionary based on elements of an array that represent key-value couples.",
+      "pattern": "[a] [new] dictionary with {array*}",
+      "type": "dictionary",
+      "side": "BOTH",
+      "examples": [
+        "set {my_dictionary} to a new dictionary with [[\"Key 1\",\"Value 1\"]]"
+      ]
+    },
+    "Keys of dictionary/nbt": {
+      "group": "Dictionaries",
+      "name": "Keys of dictionary/nbt",
+      "description": "Returns an array containing the keys of the given dictionary or nbt.",
+      "pattern": "keys of {dictionary|nbttagcompound}",
+      "type": "array",
+      "side": "BOTH",
+      "examples": [
+        "keys of dictionary with [[\"Key 1\",\"Value 1\"]] #[\"Key 1\"]"
+      ]
+    }
+  },
+  "blocks": {
+    "Block": {
+      "name": "Block",
+      "description": "DEPRECATED : Use the register action instead. Define a Minecraft block that will be added to the game.",
+      "side": "BOTH",
+      "reloadable": false,
+      "regex": "^block .*",
+      "examples": [
+        "block my_block:"
+      ],
+      "fields": {
+        "name": {
+          "name": "name",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "texture": {
+          "name": "texture",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "creative tab": {
+          "name": "creative tab",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "harvest level": {
+          "name": "harvest level",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "drop": {
+          "name": "drop",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "hardness": {
+          "name": "hardness",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        }
+      }
+    },
+    "Armor material": {
+      "name": "Armor material",
+      "description": "Define an armor material that you will be able to apply on your armor pieces in order to give them a durability and a protection coefficient.",
+      "side": "BOTH",
+      "reloadable": false,
+      "regex": "^armor material .*",
+      "examples": [
+        "armor material ruby:"
+      ],
+      "fields": {
+        "name": {
+          "name": "name",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "durability": {
+          "name": "durability",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "protection array": {
+          "name": "protection array",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "enchantability": {
+          "name": "enchantability",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        }
+      }
+    },
+    "Function": {
+      "name": "Function",
+      "description": "Define a piece of code that can be called in order to do some action or compute a result to return.",
+      "side": "BOTH",
+      "reloadable": true,
+      "regex": "^function .*",
+      "examples": [
+        "function broadcast({message}): #Sends a message to all players\n    for {p} in all players:\n        send {message} to {p}"
+      ],
+      "fields": {
+        "side": {
+          "name": "side",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        }
+      }
+    },
+    "Options": {
+      "name": "Options",
+      "description": "Define options in your script to give it more flexibility and configuration.",
+      "side": "BOTH",
+      "reloadable": true,
+      "regex": "^options:\\s*",
+      "examples": [
+        "options:\n    my_value: 5"
+      ],
+      "fields": {}
+    },
+    "Time loop": {
+      "name": "Time loop",
+      "description": "Define a piece of code that will be run periodically every time a specific amount of time is reached.",
+      "side": "BOTH",
+      "reloadable": true,
+      "regex": "every .*",
+      "examples": [
+        "every 1 minute:\n    ..."
+      ],
+      "fields": {}
+    },
+    "Command": {
+      "name": "Command",
+      "description": "Define a new command that can be executed and have some action.",
+      "side": "BOTH",
+      "reloadable": true,
+      "regex": "^command /.*",
+      "examples": [
+        "command /randomplayer:\n    usage: /randomplayer\n    description: returns a random player\n    send a random element of all players to sender"
+      ],
+      "fields": {
+        "side": {
+          "name": "side",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "description": {
+          "name": "description",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "usage": {
+          "name": "usage",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "aliases": {
+          "name": "aliases",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "permission": {
+          "name": "permission",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        }
+      }
+    },
+    "Packet": {
+      "name": "Packet",
+      "description": "Define a packet of data that can be sent to a player or to the server. Packets will transmit data only if the data\u0027s type is serialisable. Packets are used to transmit information between players (clients) and the server, they are useful in GUIs for example, to tell the server whenever the client clicks on a button (otherwise, as this happens on the player\u0027s computer, the server can\u0027t know it). Be careful when using packets, and always try to check if the information is verified, because anyone can send a packet with false information in order to cheat or to mess with the server. For example, checking distances can be good when a player asks the server to open an inventory.",
+      "side": "BOTH",
+      "reloadable": true,
+      "regex": "^packet .*",
+      "examples": [
+        "packet test_packet({message}):\n\tclient:\n\t\tprint \"client side print:\" + {message}\n\tserver:\n\t\tprint \"server side print:\" + {message} + \"sent by\" + player\n\ncommand /sendPacket \u003cstring\u003e:\n\tsend test_packet(arg-1) to player"
+      ],
+      "fields": {
+        "client": {
+          "name": "client",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "server": {
+          "name": "server",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        }
+      }
+    },
+    "Event": {
+      "name": "Event",
+      "description": "Run code when a specific event is triggered.",
+      "side": "BOTH",
+      "reloadable": true,
+      "regex": "^(on|when) .*",
+      "examples": [
+        "on script load:\n    print \"Hello world !\""
+      ],
+      "fields": {
+        "side": {
+          "name": "side",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        }
+      }
+    },
+    "Tool material": {
+      "name": "Tool material",
+      "description": "Define a tool material that you will be able to apply on your items in order to give them a durability and an efficiency.",
+      "side": "BOTH",
+      "reloadable": false,
+      "regex": "^tool material .*",
+      "examples": [
+        "tool material ruby:"
+      ],
+      "fields": {
+        "name": {
+          "name": "name",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "harvest level": {
+          "name": "harvest level",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "durability": {
+          "name": "durability",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "efficiency": {
+          "name": "efficiency",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "damage": {
+          "name": "damage",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "enchantability": {
+          "name": "enchantability",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        }
+      }
+    },
+    "Import": {
+      "name": "Import",
+      "description": "Import a bunch of functions from another script file.",
+      "side": "BOTH",
+      "reloadable": true,
+      "regex": "^import(?:s)?:\\s*",
+      "examples": [
+        "import:\n    * from my_script"
+      ],
+      "fields": {}
+    },
+    "Item": {
+      "name": "Item",
+      "description": "DEPRECATED : Use the register action instead. Define an item that will be added to the game, that you can give a certain behavior to.",
+      "side": "BOTH",
+      "reloadable": false,
+      "regex": "^item .*",
+      "examples": [
+        "item test_item:\n    name: My Test Item\n    texture: sample:yellow_diamond.png\n    creative tab: miscellaneous\n    max stack size: 8\n    type: item"
+      ],
+      "fields": {
+        "name": {
+          "name": "name",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "texture": {
+          "name": "texture",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "max stack size": {
+          "name": "max stack size",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "creative tab": {
+          "name": "creative tab",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "item type": {
+          "name": "item type",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "material": {
+          "name": "material",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "protection type": {
+          "name": "protection type",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        },
+        "armor texture": {
+          "name": "armor texture",
+          "description": "",
+          "pattern": "",
+          "type": "element",
+          "side": "BOTH"
+        }
+      }
+    }
+  }
+}

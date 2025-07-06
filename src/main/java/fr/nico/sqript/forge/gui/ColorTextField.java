@@ -38,3 +38,8 @@ public class ColorTextField extends TextField {
         return getText().isEmpty() ? 0xFF000000 : (int) Long.parseLong("FF" + this.getText().substring(5), 16);
     }
 }
+
+
+
+
+

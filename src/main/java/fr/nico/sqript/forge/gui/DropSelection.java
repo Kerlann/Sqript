@@ -5,18 +5,17 @@ import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 public class DropSelection extends Button {
 
+    private final int extendedHeight;
     public List<String> choices;
     public String selected;
     int selectorId;
     private String displayText;
     private boolean extended = false;
-    private final int extendedHeight;
     private CuboidInfos buttonDimensions;
     private boolean hover;
     private boolean hold;
@@ -123,7 +122,7 @@ public class DropSelection extends Button {
 
     @Override
     public void checkClick(int mouseX, int mouseY) {
-        if (getFrame().hold == true) return;
+        if (getFrame().hold) return;
 
         if (getFrame().isInteracting)
             if (getFrame().interactCode != selectorId) return;
@@ -144,5 +143,10 @@ public class DropSelection extends Button {
     }
 
 }
+
+
+
+
+
 
 

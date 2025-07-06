@@ -1,0 +1,613 @@
+[12:00:59] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: === Test Réaliste du Système Sqript ===
+[12:00:59] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 🚀 Initialisation du système Sqript...
+[12:00:59] [main/INFO] [Sqript]: Sqript version 1.0 is running, by Nico-
+[12:00:59] [main/INFO] [Sqript]: Loading scripts.
+[12:00:59] [main/ERROR] [Sqript]: null
+[12:00:59] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: ✅ Legacy ScriptManager initialisé
+[12:00:59] [main/INFO] [fr.nico.sqript.core.registry.ScriptRegistry]: Initializing ScriptRegistry...
+[12:00:59] [main/INFO] [fr.nico.sqript.core.registry.ScriptRegistry]: ScriptRegistry initialized successfully
+[12:00:59] [main/INFO] [fr.nico.sqript.core.registry.ScriptRegistry]: ScriptRegistry started
+[12:00:59] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Starting automatic component registration...
+[12:00:59] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Scanning primitives in package: fr.nico.sqript.types.primitive
+[12:00:59] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Registered 7 primitives from package fr.nico.sqript.types.primitive
+[12:00:59] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Scanning expressions in package: fr.nico.sqript.expressions
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : File Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: File Expressions (ExprFiles)
+java.lang.Exception: string type is either not registered or not recognized in content of [text] file {string}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Locations expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Locations expressions (ExprLocation)
+java.lang.Exception: array type is either not registered or not recognized in x coord[inate] of {array}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Entities Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Entities Expressions (ExprWorld)
+java.lang.Exception: world type is either not registered or not recognized in {world} time
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Network Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Network Expressions (ExprNetwork)
+java.lang.Exception: string type is either not registered or not recognized in [value] [of] {string} is (synced|synchronized)
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : KeyInput Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: KeyInput Expressions (ExprKeyInput)
+java.lang.Exception: string type is either not registered or not recognized in register key {string} [with displayName {string}] and [with categoryName {string}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Render Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Render Expressions (ExprRender)
+java.lang.Exception: player type is either not registered or not recognized in {player}['s] skin
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Types Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Types Expressions (ExprTypes)
+java.lang.Exception: element type is either not registered or not recognized in type of {element}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Items Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Items Expressions (ExprItems)
+java.lang.Exception: number type is either not registered or not recognized in (a[n]|{+number} of) {resource} [with nbt {string|nbttagcompound}] [[and] with metadata {number}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Strings Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Strings Expressions (ExprStrings)
+java.lang.Exception: string type is either not registered or not recognized in length of {string}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Frame Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Frame Expressions (ExprFrame)
+java.lang.Exception: resource type is either not registered or not recognized in [a[n]] [new] image [of] {resource}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Date Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Date Expressions (ExprDate)
+java.lang.Exception: number type is either not registered or not recognized in {number} year[s] [[and] {date}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Gui Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Gui Expressions (ExprGui)
+java.lang.Exception: string type is either not registered or not recognized in display width of {string}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Format Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Format Expressions (ExprFormat)
+java.lang.Exception: element type is either not registered or not recognized in {element} formatted as {string}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Arrays
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Arrays (ExprArrays)
+java.lang.Exception: element type is either not registered or not recognized in ~[{+element*}~]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : NBTTagCompound
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: NBTTagCompound (ExprNBTTagCompound)
+java.lang.Exception: string type is either not registered or not recognized in [a] [new] nbt [tag] [compound] (with|from|of) json [string] {string}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Block Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Block Expressions (ExprBlock)
+java.lang.Exception: array type is either not registered or not recognized in block at {array} [in world {number}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Randomness Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Randomness Expressions (ExprRandom)
+java.lang.Exception: number type is either not registered or not recognized in random (number|([float] number)|float) [between {number} and {number}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Player Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Player Expressions (ExprPlayers)
+java.lang.Exception: string type is either not registered or not recognized in player (named|with username) {string}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Dictionaries
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Dictionaries (ExprDictionaries)
+java.lang.Exception: array type is either not registered or not recognized in [a] [new] dictionary with {array*}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Entities Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Entities Expressions (ExprEntities)
+java.lang.Exception: entity type is either not registered or not recognized in {entity}['s] name
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [Sqript]: Error trying to build expression : Number Expressions
+[12:00:59] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register expression: Number Expressions (ExprNumbers)
+java.lang.Exception: number type is either not registered or not recognized in {number} is between {number} and {number}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ExpressionDefinition.<init>(ExpressionDefinition.java:33) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerExpression(ScriptRegistry.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterExpressions(AnnotationScanner.java:75) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:48) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:00:59] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Registered 24 expressions from package fr.nico.sqript.expressions
+[12:00:59] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Scanning actions in package: fr.nico.sqript.actions
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Draw Actions (ActDraw)
+java.lang.Exception: string type is either not registered or not recognized in draw [(1;shadowed)] [(3;centered)] text {string} at {array} [with scale {number}] [[and] with color {number} [(2;without alpha)]]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Player Actions (ActPlayer)
+java.lang.Exception: player type is either not registered or not recognized in teleport {player} (to|at) {array}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Simple Operation Actions (ActDefinition)
+java.lang.Exception: element type is either not registered or not recognized in add {element} to {element}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Return/break Actions (ActReturn)
+java.lang.Exception: element type is either not registered or not recognized in return {element}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Frame Actions (ActFrame)
+java.lang.Exception: frame type is either not registered or not recognized in open frame {frame}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Print Actions (ActStrings)
+java.lang.Exception: string type is either not registered or not recognized in replace each {string} (by|with) {string} in {string}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Wait Actions (ActWait)
+java.lang.Exception: date type is either not registered or not recognized in (wait|delay) {date}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Print Actions (ActPrint)
+java.lang.Exception: element type is either not registered or not recognized in print {element}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Entity Actions (ActEntity)
+java.lang.Exception: number type is either not registered or not recognized in spawn (a|{number}) {entity|resource} at {location}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Registery Actions (ActRegistery)
+java.lang.Exception: string type is either not registered or not recognized in register [a] [new] item [with identifier] {string} [named {string}] [[and] with (texture {resource}|model {resource})] [with [max] stack size {number}] [in tab {string}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: NBTTagCompound Actions (ActNBTTagCompound)
+java.lang.Exception: string type is either not registered or not recognized in delete tag {string} of {nbttagcompound}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Network Actions (ActNetwork)
+java.lang.Exception: element type is either not registered or not recognized in sync {element} as {string} to all players
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Drop (ActDrop)
+java.lang.Exception: number type is either not registered or not recognized in drop [{+number}] {item} at {array}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Arrays Actions (ActArrays)
+java.lang.Exception: array type is either not registered or not recognized in shuffle {array}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Run a command (ActRunCommand)
+java.lang.Exception: player type is either not registered or not recognized in make {player} execute command {string}
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Sound actions (ActSounds)
+java.lang.Exception: resource type is either not registered or not recognized in play {+resource} at {location} [with pitch {number}] [[and] with volume {number}] [in category {string}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register action: Send Actions (ActSend)
+java.lang.Exception: element type is either not registered or not recognized in send {element} to (console|server)
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.ActionDefinition.<init>(ActionDefinition.java:32) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerAction(ScriptRegistry.java:124) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterActions(AnnotationScanner.java:109) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:49) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Registered 19 actions from package fr.nico.sqript.actions
+[12:01:00] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Scanning blocks in package: fr.nico.sqript.blocks
+[12:01:00] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Registered 11 blocks from package fr.nico.sqript.blocks
+[12:01:00] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Scanning events in package: fr.nico.sqript.events
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Entity interact (EvtOnEntityInteract)
+java.lang.Exception: entity|resource type is either not registered or not recognized in [right] click on ((1;(living|entity))|(2;{entity|resource})) [entity]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Item right clicked (EvtOnItemRightClick)
+java.lang.Exception: itemtype type is either not registered or not recognized in [((1;client)|(2;server))] [(item|right)] click [with {itemtype}] [with ((3;left)|(4;right)) hand]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Living fall (EvtOnLivingFall)
+java.lang.Exception: entity|resource type is either not registered or not recognized in ((1;(living|entity))|(2;{entity|resource}))['s] fall
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Living death (EvtOnLivingDeath)
+java.lang.Exception: entity|resource type is either not registered or not recognized in ((1;(living|entity))|(2;player)|(3;{entity|resource}))['s] death
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Death drops (EvtOnLivingDrops)
+java.lang.Exception: entity|resource type is either not registered or not recognized in ((1;(living|entity))|(2;{entity|resource}))['s] drop[s] of death
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Block broken (EvtOnBlockBreak)
+java.lang.Exception: block type is either not registered or not recognized in [block] break [of {block}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Entity join World (EvtOnEntityJoinWorld)
+java.lang.Exception: entity|resource type is either not registered or not recognized in ((1;(living|entity))|(2;{entity|resource})) join world
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Item left clicked (EvtOnItemLeftClick)
+java.lang.Exception: itemtype type is either not registered or not recognized in [item] left click [with {itemtype}] [with ((1;left)|(2;right)) hand]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Block right clicked (EvtOnBlockClick)
+java.lang.Exception: block type is either not registered or not recognized in [((1;left)|(2;right))] click on [[a] block of] {block} [with ((3;left)|(4;right)) hand]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Living damage (EvtOnLivingDamage)
+java.lang.Exception: entity|resource type is either not registered or not recognized in ((1;(living|entity))|(2;{entity|resource})) damage[d] [by {entity|resource}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Player attack (EvtOnPlayerAttack)
+java.lang.Exception: entity|resource type is either not registered or not recognized in player attack[ing] [{entity|resource}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/ERROR] [fr.nico.sqript.core.registry.ScriptRegistry]: Failed to register event: Block placed (EvtOnBlockPlace)
+java.lang.Exception: block type is either not registered or not recognized in [block] place [of {block}]
+	at fr.nico.sqript.compiling.ScriptDecoder.transformPattern(ScriptDecoder.java:893) ~[main/:?]
+	at fr.nico.sqript.meta.EventDefinition.<init>(EventDefinition.java:23) ~[main/:?]
+	at fr.nico.sqript.core.registry.ScriptRegistry.registerEvent(ScriptRegistry.java:151) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterEvents(AnnotationScanner.java:177) [main/:?]
+	at fr.nico.sqript.core.bootstrap.AnnotationScanner.scanAndRegisterAll(AnnotationScanner.java:51) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.initializeSystem(RealisticSqriptTest.java:91) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.runRealisticTests(RealisticSqriptTest.java:47) [main/:?]
+	at fr.nico.sqript.core.examples.RealisticSqriptTest.main(RealisticSqriptTest.java:390) [main/:?]
+[12:01:00] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Registered 45 events from package fr.nico.sqript.events
+[12:01:00] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Scanning loops in package: fr.nico.sqript.structures
+[12:01:00] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Registered 5 loops from package fr.nico.sqript.structures
+[12:01:00] [main/INFO] [fr.nico.sqript.core.bootstrap.AnnotationScanner]: Automatic component registration completed
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Initializing LegacyAdapter...
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: LegacyAdapter initialized successfully
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Starting LegacyAdapter - migrating legacy data...
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating 0 events from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating 0 actions from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating 0 expressions from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating 0 loops from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating 0 blocks from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating 0 types from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating 0 primitives from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating 0 native functions from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating 19 operators from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating binary operations from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating unary operations from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating type parsers from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Migrating 0 custom parsers from legacy system
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: Legacy system migration completed successfully
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: LegacyAdapter started - migration complete
+[12:01:00] [main/INFO] [fr.nico.sqript.core.compilation.ScriptCompiler]: Initializing ScriptCompiler...
+[12:01:00] [main/INFO] [fr.nico.sqript.core.compilation.CompilationCache]: Initializing CompilationCache with sizes: expressions=1000, patterns=500, constructors=200
+[12:01:00] [main/INFO] [fr.nico.sqript.core.compilation.CompilationCache]: CompilationCache initialized successfully
+[12:01:00] [main/INFO] [fr.nico.sqript.core.compilation.TokenProcessor]: TokenProcessor initialized successfully
+[12:01:00] [main/INFO] [fr.nico.sqript.core.compilation.ExpressionBuilder]: ExpressionBuilder initialized successfully
+[12:01:00] [main/INFO] [fr.nico.sqript.core.compilation.PatternMatcher]: PatternMatcher initialized successfully
+[12:01:00] [main/INFO] [fr.nico.sqript.core.compilation.SyntaxValidator]: SyntaxValidator initialized successfully
+[12:01:00] [main/INFO] [fr.nico.sqript.core.compilation.ScriptCompiler]: ScriptCompiler initialized successfully
+[12:01:00] [main/INFO] [fr.nico.sqript.core.compilation.ScriptCompiler]: ScriptCompiler started with 12 threads
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: ✅ Système initialisé - 3 expressions trouvées
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: === Test des Variables et Expressions de Base ===
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 📝 Test: Variables de base
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 📈 Variables de base - Résultats: 0/17 réussies ({:.1f}%), 0.0 cache hits ({:.1f}%)
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: === Test des Opérations Arithmétiques et Chaînes ===
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 📝 Test: Opérations
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 📈 Opérations - Résultats: 0/16 réussies ({:.1f}%), 0.0 cache hits ({:.1f}%)
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: === Test des Boucles et Conditions ===
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 📝 Test: Contrôle de flux
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 📈 Contrôle de flux - Résultats: 0/6 réussies ({:.1f}%), 0.0 cache hits ({:.1f}%)
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: === Test des Actions Sqript ===
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 📝 Test: Actions
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 📈 Actions - Résultats: 0/15 réussies ({:.1f}%), 0.0 cache hits ({:.1f}%)
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: === Test de Performance (simulation de performance_test.sq) ===
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 🏃 Lancement du test avec 1000 itérations...
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: ✅ Test de performance terminé
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 📊 Résultats:
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Itérations: 1000
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Compilations réussies: 0
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Temps total: 235ms
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Temps par itération: 235μs
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Throughput: {:.0f} compilations/seconde
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 🔄 Test des variables persistantes...
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: ✅ Test des variables persistantes terminé en 3ms
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: === Résultats Finaux ===
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 📚 Composants enregistrés:
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Expressions: 3
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Actions: 2
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Événements: 33
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Boucles: 5
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Opérateurs: 19
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: ⚙️ Performance du compilateur:
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Expressions compilées: 4154
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    • Cache hit rate: {:.1f}% (0.0/0)
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 🎯 Évaluation:
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    ⚠️ Peu d'expressions trouvées
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]:    📈 Cache performance à améliorer
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: ✨ Test réaliste terminé avec succès !
+[12:01:00] [main/INFO] [fr.nico.sqript.core.examples.RealisticSqriptTest]: 🧹 Nettoyage...
+[12:01:00] [main/INFO] [fr.nico.sqript.core.compilation.ScriptCompiler]: ScriptCompiler stopped
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.LegacyAdapter]: LegacyAdapter stopped
+[12:01:00] [main/INFO] [fr.nico.sqript.core.registry.ScriptRegistry]: ScriptRegistry stopped

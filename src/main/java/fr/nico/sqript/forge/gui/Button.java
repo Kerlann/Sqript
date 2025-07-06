@@ -1,13 +1,8 @@
 package fr.nico.sqript.forge.gui;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
@@ -16,27 +11,25 @@ import org.lwjgl.opengl.GL11;
 public class Button extends Widget {
 
 
+    public static final int DRAW_TEXT = 0;
+    public static final int DRAW_TEXT_AND_TEXTURE = 5;
+    public static final int DRAW_ICON = 1;
+    public static final int DRAW_TEXT_AND_ICON = 4;
+    public static final int DRAW_ITEM = 2;
     public float textScale = 1F;
     protected ResourceLocation resourceLocation;
     protected boolean hold = false;
     protected boolean hover = false;
     protected String displayText = "";
     protected int displayTextColor = 0xFFFFFFFF;
-
     //See constants to choose
     protected int drawType = 0;
-    public static final int DRAW_TEXT = 0;
-    public static final int DRAW_TEXT_AND_TEXTURE = 5;
-    public static final int DRAW_ICON = 1;
-    public static final int DRAW_TEXT_AND_ICON = 4;
-    public static final int DRAW_ITEM = 2;
-
-    private int buttonId;
     protected String command = "";
     protected boolean canHold = false;
     protected DisplayInfos itemDisplayInfos = new DisplayInfos(0, 0, 1, 512, 512);
     protected DisplayInfos iconDisplayInfos = new DisplayInfos(0, 0, 1, 512, 512);
     protected ItemStack itemstack;
+    private int buttonId;
 
     public Button(int width, int height, String text) {
         style.setWidth(width);
@@ -63,7 +56,6 @@ public class Button extends Widget {
         style.setHeight(height);
         style.drawborders = false;
     }
-
 
 
     public void checkClick(int mouseX, int mouseY) {
@@ -124,7 +116,6 @@ public class Button extends Widget {
                             + 2 * (int) style.bordersize * scaledResolution.getScaleFactor());
 
 
-
         }
         GL11.glEnable(GL11.GL_SCISSOR_TEST);
 
@@ -181,11 +172,11 @@ public class Button extends Widget {
                     GlStateManager.pushMatrix();
                     GlStateManager.disableLighting();
                     //System.out.println(hold+" "+hover);
-                    if(hold){
+                    if (hold) {
                         GlStateManager.color(0.8f, 0.8f, 0.8f);
-                    }else if(hover){
+                    } else if (hover) {
                         GlStateManager.color(0.9f, 0.9f, 0.9f);
-                    }else
+                    } else
                         GlStateManager.color(1, 1, 1);
                     Minecraft.getMinecraft().getTextureManager().bindTexture(resourceLocation);
                     drawTexturedRect(x, y, this.style.width, this.style.height);
@@ -239,7 +230,7 @@ public class Button extends Widget {
     }
 
     public void onClick(EnumAction action) {
-        ((Frame) Minecraft.getMinecraft().currentScreen).buttonClicked(action,getButtonId());
+        ((Frame) Minecraft.getMinecraft().currentScreen).buttonClicked(action, getButtonId());
     }
 
     public int getHoverColor() {
@@ -330,3 +321,8 @@ public class Button extends Widget {
         this.command = command;
     }
 }
+
+
+
+
+

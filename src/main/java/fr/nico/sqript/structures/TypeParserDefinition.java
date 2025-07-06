@@ -1,15 +1,13 @@
 package fr.nico.sqript.structures;
 
-import fr.nico.sqript.types.ScriptType;
-
-public class TypeParserDefinition<T extends ScriptElement<?>,U extends ScriptElement<?>> {
+public class TypeParserDefinition<T extends ScriptElement<?>, U extends ScriptElement<?>> {
 
     private final int priority;
-    private ITypeParser<T,U> parser;
     private final Class from;
     private final Class to;
+    private ITypeParser<T, U> parser;
 
-    public TypeParserDefinition(int priority, ITypeParser<T,U> parser, Class from, Class to) {
+    public TypeParserDefinition(int priority, ITypeParser<T, U> parser, Class from, Class to) {
         this.priority = priority;
         this.parser = parser;
         this.from = from;
@@ -20,7 +18,7 @@ public class TypeParserDefinition<T extends ScriptElement<?>,U extends ScriptEle
         return priority;
     }
 
-    public ITypeParser<T,U> getParser() {
+    public ITypeParser<T, U> getParser() {
         return parser;
     }
 
@@ -36,3 +34,8 @@ public class TypeParserDefinition<T extends ScriptElement<?>,U extends ScriptEle
         return to;
     }
 }
+
+
+
+
+

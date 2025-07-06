@@ -1,13 +1,9 @@
 package fr.nico.sqript.actions;
 
-import com.google.common.collect.Lists;
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.expressions.ScriptExpression;
 import fr.nico.sqript.structures.ScriptContext;
-import scala.actors.threadpool.Arrays;
-
-import java.util.ArrayList;
-import java.util.List;
+import fr.nico.sqript.types.ScriptType;
 
 public class ActSimpleExpression extends ScriptAction {
 
@@ -19,11 +15,32 @@ public class ActSimpleExpression extends ScriptAction {
 
     @Override
     public void execute(ScriptContext context) throws ScriptException {
-        exp.get(context);
+        try {
+            if (exp == null) {
+                fr.nico.sqript.ScriptManager.log.error("ActSimpleExpression.execute() called with null expression");
+                return;
+            }
+            
+            fr.nico.sqript.ScriptManager.log.debug("ActSimpleExpression executing: {}", exp.getClass().getSimpleName());
+            ScriptType result = exp.get(context);
+            fr.nico.sqript.ScriptManager.log.debug("ActSimpleExpression result: {}", result != null ? result.toString() : "null");
+        } catch (Exception e) {
+            fr.nico.sqript.ScriptManager.log.error("Error in ActSimpleExpression.execute(): {}", e.getMessage());
+            if (e instanceof ScriptException) {
+                throw (ScriptException) e;
+            } else {
+                throw new ScriptException(getLine(), "Error executing simple expression: " + e.getMessage());
+            }
+        }
     }
 
     @Override
     public String toString() {
-        return "("+exp+")";
+        return "(" + exp + ")";
     }
 }
+
+
+
+
+

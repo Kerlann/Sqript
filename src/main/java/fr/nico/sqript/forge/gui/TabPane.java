@@ -12,8 +12,8 @@ public class TabPane extends Container {
 
     public static final int DISPLAY_LEFT = 0;
     public static final int DISPLAY_UP = 1;
-    public List<Container> tabs = new ArrayList<Container>();
     private final List<Button> tabsButton = new ArrayList<Button>();
+    public List<Container> tabs = new ArrayList<Container>();
     private int selectedTab = 0;
     private int tabDisplayMode = 0;
     private int tabsBackgroundColor = 0xFF787878;
@@ -297,3 +297,8 @@ public class TabPane extends Container {
     }
 
 }
+
+
+
+
+

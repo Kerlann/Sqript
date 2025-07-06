@@ -1,7 +1,7 @@
 package fr.nico.sqript.types.primitive;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.meta.Primitive;
 import fr.nico.sqript.types.TypeImage;
 import fr.nico.sqript.types.TypeItem;
@@ -22,9 +22,9 @@ import java.io.InputStream;
 public class TypeResource extends PrimitiveType<ResourceLocation> implements ISerialisable {
 
     static {
-        ScriptManager.registerTypeParser(TypeString.class, TypeResource.class, a->new TypeResource(new ResourceLocation(a.getObject())), 0);
-        ScriptManager.registerTypeParser(TypeItem.class, TypeResource.class, a->new TypeResource((a.getObject().getRegistryName())), 0);
-        ScriptManager.registerTypeParser(TypeResource.class, TypeImage.class, a->{
+        ScriptManager.registerTypeParser(TypeString.class, TypeResource.class, a -> new TypeResource(new ResourceLocation(a.getObject())), 0);
+        ScriptManager.registerTypeParser(TypeItem.class, TypeResource.class, a -> new TypeResource((a.getObject().getRegistryName())), 0);
+        ScriptManager.registerTypeParser(TypeResource.class, TypeImage.class, a -> {
             try {
                 InputStream inputStream = Minecraft.getMinecraft().getResourceManager().getResource(a.getObject()).getInputStream();
                 BufferedImage bufferedImage = ImageIO.read(inputStream);
@@ -33,23 +33,21 @@ public class TypeResource extends PrimitiveType<ResourceLocation> implements ISe
                 e.printStackTrace();
             }
             return null;
-        },0);
+        }, 0);
 
     }
 
 
-
-
-    public TypeResource(ResourceLocation parameter){
+    public TypeResource(ResourceLocation parameter) {
         super(parameter);
     }
 
-    public TypeResource(String parameter){
+    public TypeResource(String parameter) {
         super(new ResourceLocation(arrange(parameter)));
     }
 
-    public static String arrange(String parameter){
-        return parameter.split(":")[0]+":"+((parameter.split(":")[1].endsWith(" png ") && !parameter.split(":")[1].startsWith("textures/"))?"textures/"+parameter.split(":")[1]:parameter.split(":")[1]);
+    public static String arrange(String parameter) {
+        return parameter.split(":")[0] + ":" + ((parameter.split(":")[1].endsWith(" png ") && !parameter.split(":")[1].startsWith("textures/")) ? "textures/" + parameter.split(":")[1] : parameter.split(":")[1]);
     }
 
     @Override
@@ -63,3 +61,8 @@ public class TypeResource extends PrimitiveType<ResourceLocation> implements ISe
         this.setObject(new ResourceLocation(compound.getString("resource")));
     }
 }
+
+
+
+
+

@@ -1,20 +1,24 @@
 package fr.nico.sqript.types;
 
 import fr.nico.sqript.meta.Type;
-import fr.nico.sqript.structures.ScriptElement;
 
 @Type(name = "null",
         parsableAs = {})
 public class TypeNull extends ScriptType<Object> {
+
+    public TypeNull() {
+        super(null);
+    }
 
     @Override
     public String toString() {
         return "undefined";
     }
 
-    public TypeNull() {
-        super(null);
-    }
-
 
 }
+
+
+
+
+

@@ -5,37 +5,36 @@ import fr.nico.sqript.structures.TransformedPattern;
 
 public class NativeDefinition {
 
+    private final Class<? extends ScriptNativeFunction> cls;
+    public TransformedPattern[] transformedPatterns;
     String name;
     String[] description;
     String[] patterns;
     String[] example;
-    public TransformedPattern[] transformedPatterns;
 
-    public NativeDefinition setTransformedPatterns(TransformedPattern... data){
-        this.transformedPatterns=data;
-        return this;
-    }
-
-
-    public int getMatchedPatternIndex(String line){
-        for (int i = 0; i < transformedPatterns.length ; i++) {
-            //System.out.println("Checking if "+line+" matches "+transformedPatterns[i].regex);
-            if(transformedPatterns[i].getPattern().matcher(line).matches())return i;
-        }
-        return -1;
-    }
-
-    private final Class<? extends ScriptNativeFunction> cls;
-
-    public Class<? extends ScriptNativeFunction> getNativeClass() {
-        return cls;
-    }
 
     public NativeDefinition(String name, String[] description, String[] example, Class<? extends ScriptNativeFunction> cls) {
         this.name = name;
         this.example = example;
         this.description = description;
-        this.cls=cls;
+        this.cls = cls;
+    }
+
+    public NativeDefinition setTransformedPatterns(TransformedPattern... data) {
+        this.transformedPatterns = data;
+        return this;
+    }
+
+    public int getMatchedPatternIndex(String line) {
+        for (int i = 0; i < transformedPatterns.length; i++) {
+            //System.out.println("Checking if "+line+" matches "+transformedPatterns[i].regex);
+            if (transformedPatterns[i].getPattern().matcher(line).matches()) return i;
+        }
+        return -1;
+    }
+
+    public Class<? extends ScriptNativeFunction> getNativeClass() {
+        return cls;
     }
 
     public String getName() {
@@ -54,6 +53,10 @@ public class NativeDefinition {
         this.example = example;
     }
 
+    public String[] getExamples() {
+        return example;
+    }
+
     public String[] getDescription() {
         return description;
     }
@@ -70,3 +73,8 @@ public class NativeDefinition {
         this.patterns = patterns;
     }
 }
+
+
+
+
+
