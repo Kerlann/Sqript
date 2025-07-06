@@ -1,6 +1,6 @@
 package fr.nico.sqript.actions;
 
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.meta.Action;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
@@ -16,8 +16,8 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 @Action(name = "Entity Actions",
         features = {
-            @Feature(name = "Spawn entity", description = "Spawns an entity at the given location.", examples = "spawn a zombie at player's location", pattern = "spawn (a|{number}) {entity|resource} at {location}"),
-            @Feature(name = "Kill entity", description = "Kills the given entity.", examples = "kill player", pattern = "kill {entity}"),
+                @Feature(name = "Spawn entity", description = "Spawns an entity at the given location.", examples = "spawn a zombie at player's location", pattern = "spawn (a|{number}) {entity|resource} at {location}"),
+                @Feature(name = "Kill entity", description = "Kills the given entity.", examples = "kill player", pattern = "kill {entity}"),
         }
 )
 public class ActEntity extends ScriptAction {
@@ -32,10 +32,10 @@ public class ActEntity extends ScriptAction {
                 Entity entity = null;
                 World world = FMLCommonHandler.instance().getSidedDelegate().getServer().getEntityWorld();
                 for (int i = 0; i < number; i++) {
-                    if(entityType instanceof TypeEntity)
-                        entity = ((TypeEntity)entityType).getObject();
-                    else if(entityType instanceof TypeResource){
-                        entity = ForgeRegistries.ENTITIES.getValue(((TypeResource)entityType).getObject()).newInstance(world);
+                    if (entityType instanceof TypeEntity)
+                        entity = ((TypeEntity) entityType).getObject();
+                    else if (entityType instanceof TypeResource) {
+                        entity = ForgeRegistries.ENTITIES.getValue(((TypeResource) entityType).getObject()).newInstance(world);
                     }
                     if (entity != null) {
                         entity.setLocationAndAngles(pos.getVector().x, pos.getVector().y, pos.getVector().z, 0, 0);
@@ -46,7 +46,10 @@ public class ActEntity extends ScriptAction {
             case 1:
                 entity = (Entity) getParameters().get(0).get(context).getObject();
                 entity.attackEntityFrom(DamageSource.OUT_OF_WORLD, Float.MAX_VALUE);
-                return;
         }
     }
 }
+
+
+
+

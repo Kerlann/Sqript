@@ -45,3 +45,8 @@ public class CapabilityHandler {
         CapabilityManager.INSTANCE.register(Capability.class, new CapabilityStorage(), Capability::new);
     }
 }
+
+
+
+
+

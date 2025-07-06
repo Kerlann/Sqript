@@ -9,7 +9,9 @@ import java.lang.annotation.RetentionPolicy;
 public @interface Loop {
 
     String name();
+
     String pattern();
+
     Side side() default Side.BOTH;
 
 
@@ -17,3 +19,8 @@ public @interface Loop {
     int priority() default 0;
 
 }
+
+
+
+
+

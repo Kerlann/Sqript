@@ -8,10 +8,10 @@ import org.lwjgl.opengl.GL11;
 
 public class Renderer extends Widget {
 
-    public boolean fullRenderItem = false;
     private final EnumRenderType renderType;
     private final float scale;
     private final ItemStack renderItem;
+    public boolean fullRenderItem = false;
 
     public Renderer(int width, int height, EnumRenderType renderType, ItemStack itemStack, float scale) {
         this.renderType = renderType;
@@ -60,4 +60,9 @@ public class Renderer extends Widget {
     }
 
 }
+
+
+
+
+
 

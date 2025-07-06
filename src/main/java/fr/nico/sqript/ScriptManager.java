@@ -3,19 +3,20 @@ package fr.nico.sqript;
 import com.google.gson.*;
 import fr.nico.sqript.actions.ScriptAction;
 import fr.nico.sqript.blocks.*;
-import fr.nico.sqript.compiling.*;
+import fr.nico.sqript.core.compilation.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptToken;
+import fr.nico.sqript.core.registry.ScriptRegistry;
 import fr.nico.sqript.events.EvtOnScriptLoad;
 import fr.nico.sqript.events.ScriptEvent;
 import fr.nico.sqript.expressions.ScriptExpression;
-import fr.nico.sqript.forge.common.ScriptResourceLoader;
 import fr.nico.sqript.forge.SqriptForge;
+import fr.nico.sqript.forge.common.ScriptResourceLoader;
 import fr.nico.sqript.function.ScriptNativeFunction;
+import fr.nico.sqript.meta.*;
 import fr.nico.sqript.network.ScriptNetworkManager;
 import fr.nico.sqript.structures.*;
-import fr.nico.sqript.structures.IOperation;
 import fr.nico.sqript.types.primitive.PrimitiveType;
 import fr.nico.sqript.types.primitive.TypeBoolean;
-import fr.nico.sqript.meta.*;
 import fr.nico.sqript.types.primitive.TypeString;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
@@ -27,157 +28,281 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.util.*;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-
+/**
+ * Gestionnaire principal des scripts Sqript.
+ * Migré vers le nouveau système ScriptRegistry pour une meilleure performance et maintenabilité.
+ */
 public class ScriptManager {
 
-    public static File scriptDir;
-
-    public static Logger log;
-
     public static final String version = "1.0";
-
-    //Global context, the variables it contains are saved on shutdown and loaded on start
+    // Contexte global, les variables qu'il contient sont sauvegardées à l'arrêt et chargées au démarrage
     public static final ScriptContext GLOBAL_CONTEXT = new ScriptContext();
-
-    //Stores all the scripts
+    public static final boolean FULL_DEBUG = true;
+    public static File scriptDir;
+    public static Logger log;
+    // Stocke tous les scripts
     public static List<ScriptInstance> scripts = new ArrayList<>();
-
-    //Definitions
-    public static List<EventDefinition> events = new ArrayList<>();
-    public static List<ActionDefinition> actions = new ArrayList<>();
-    public static List<BlockDefinition> blocks = new ArrayList<>();
-    public static Map<ExpressionIdentifier, ExpressionDefinition> expressions = new LinkedHashMap<>();
-    public static List<LoopDefinition> loops = new ArrayList<>();
-
-    public static Map<Class<? extends ScriptElement<?>>, TypeDefinition> types = new HashMap<>();
-    public static Map<Class<? extends PrimitiveType<?>>, TypeDefinition> primitives = new HashMap<>();
-    public static Map<Class<? extends ScriptNativeFunction>, NativeDefinition> nativeFunctions = new HashMap<>();
-
-    public static List<IScriptParser> parsers = new ArrayList<>();
-
-    //Commands
+    // Commandes
     public static List<ScriptBlockCommand> commands = new ArrayList<>();
 
-    //Operations between types
-    public static HashMap<ScriptOperator, HashMap<Class, HashMap<Class, OperatorDefinition>>> binaryOperations = new HashMap<>();
-    public static HashMap<ScriptOperator, HashMap<Class, OperatorDefinition>> unaryOperations = new HashMap<>();
-    public static List<ScriptOperator> operators = new ArrayList<>();
-
-    //Type parsers
-    public static HashMap<Class, HashMap<Class, TypeParserDefinition<?, ?>>> typeParsers = new HashMap<>();
-
+    // === ACCÈS AU REGISTRE MODERNE ===
+    // Flag de rechargement
     public static boolean RELOADING = false;
 
+    // === MÉTHODES D'ACCÈS AUX DÉFINITIONS (via ScriptRegistry) ===
+
+    /**
+     * Retourne le registre des scripts moderne.
+     */
+    public static ScriptRegistry getRegistry() {
+        return SqriptForge.getCoreRegistry();
+    }
+
+    public static List<EventDefinition> getEvents() {
+        return getRegistry() != null ? getRegistry().getEvents() : new ArrayList<>();
+    }
+
+    public static List<ActionDefinition> getActions() {
+        return getRegistry() != null ? getRegistry().getActions() : new ArrayList<>();
+    }
+
+    public static List<BlockDefinition> getBlocks() {
+        return getRegistry() != null ? getRegistry().getBlocks() : new ArrayList<>();
+    }
+
+    public static Map<ExpressionIdentifier, ExpressionDefinition> getExpressions() {
+        return getRegistry() != null ? getRegistry().getExpressions() : new HashMap<>();
+    }
+
+    public static List<LoopDefinition> getLoops() {
+        return getRegistry() != null ? getRegistry().getLoops() : new ArrayList<>();
+    }
+
+    public static Map<Class<? extends ScriptElement<?>>, TypeDefinition> getTypes() {
+        return getRegistry() != null ? getRegistry().getTypes() : new HashMap<>();
+    }
+
+    public static Map<Class<? extends PrimitiveType<?>>, TypeDefinition> getPrimitives() {
+        return getRegistry() != null ? getRegistry().getPrimitives() : new HashMap<>();
+    }
+
+    public static Map<Class<? extends ScriptNativeFunction>, NativeDefinition> getNativeFunctions() {
+        return getRegistry() != null ? getRegistry().getNativeFunctions() : new HashMap<>();
+    }
+
+    // === MÉTHODES D'ENREGISTREMENT (déléguées au ScriptRegistry) ===
+
+    public static List<ScriptOperator> getOperators() {
+        return getRegistry() != null ? getRegistry().getOperators() : new ArrayList<>();
+    }
+
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerBinaryOperation()
+     */
+    @Deprecated
     public static void registerBinaryOperation(ScriptOperator o, Class a, Class b, Class<? extends ScriptElement<?>> returnType, IOperation operation) {
         registerBinaryOperation(o, a, b, returnType, operation, 0);
     }
 
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerBinaryOperation()
+     */
+    @Deprecated
     public static void registerBinaryOperation(ScriptOperator o, Class a, Class b, Class<? extends ScriptElement<?>> returnType, IOperation operation, int priority) {
-        binaryOperations.computeIfAbsent(o, k -> new HashMap<>());
-        binaryOperations.get(o).computeIfAbsent(a, k -> new HashMap<>());
-        binaryOperations.get(o).get(a).put(b, new OperatorDefinition(operation, returnType, priority));
+        if (getRegistry() != null) {
+            getRegistry().registerBinaryOperation(o, a, b, returnType, operation, priority);
+        }
     }
 
-    public static <T extends ScriptElement<?>,U extends ScriptElement<?>> void registerTypeParser(Class<T> from, Class<U> to, ITypeParser<T,U> parser) {
-        registerTypeParser(from,to,parser,0);
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerTypeParser()
+     */
+    @Deprecated
+    public static <T extends ScriptElement<?>, U extends ScriptElement<?>> void registerTypeParser(Class<T> from, Class<U> to, ITypeParser<T, U> parser) {
+        registerTypeParser(from, to, parser, 0);
     }
 
-    public static <T extends ScriptElement<?>,U extends ScriptElement<?>> void registerTypeParser(Class<T> from, Class<U> to, ITypeParser<T,U> parser, int priority) {
-        typeParsers.computeIfAbsent(from, k -> new HashMap<>());
-        typeParsers.get(from).put(to, new TypeParserDefinition<T,U>(priority, parser, from, to));
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerTypeParser()
+     */
+    @Deprecated
+    public static <T extends ScriptElement<?>, U extends ScriptElement<?>> void registerTypeParser(Class<T> from, Class<U> to, ITypeParser<T, U> parser, int priority) {
+        if (getRegistry() != null) {
+            getRegistry().registerTypeParser(from, to, parser, priority);
+        }
     }
 
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerUnaryOperation()
+     */
+    @Deprecated
     public static void registerUnaryOperation(ScriptOperator o, Class<? extends ScriptElement<?>> a, Class<? extends ScriptElement<?>> returnType, IOperation operation) {
-        unaryOperations.computeIfAbsent(o, k -> new HashMap<>());
-        unaryOperations.get(o).put(a, new OperatorDefinition(operation, returnType, 0));
+        if (getRegistry() != null) {
+            getRegistry().registerUnaryOperation(o, a, returnType, operation);
+        }
+    }
+
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerExpression()
+     */
+    @Deprecated
+    public static void registerExpression(Class<? extends ScriptExpression> expressionClass, String name, int priority, Feature... features) throws Exception {
+        if (getRegistry() != null) {
+            getRegistry().registerExpression(expressionClass, name, priority, features);
+        }
+    }
+
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerNativeFunction()
+     */
+    @Deprecated
+    public static void registerNativeFunction(Class<? extends ScriptNativeFunction> func, String name, String[] definitions, String[] description, String[] example) {
+        if (getRegistry() != null) {
+            getRegistry().registerNativeFunction(func, name, definitions, description, example);
+        }
+    }
+
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerType()
+     */
+    @Deprecated
+    public static void registerType(Class<? extends ScriptElement<?>> type, String name) throws Exception {
+        if (getRegistry() != null) {
+            getRegistry().registerType(type, name);
+        }
+    }
+
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerPrimitive()
+     */
+    @Deprecated
+    public static void registerPrimitive(Class<? extends PrimitiveType<?>> type, String name, String... patterns) {
+        if (getRegistry() != null) {
+            getRegistry().registerPrimitive(type, name, patterns);
+        }
+    }
+
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerLoop()
+     */
+    @Deprecated
+    public static void registerLoop(Class<? extends ScriptEvent> cls, String name, String pattern, Side side, int priority) {
+        if (getRegistry() != null) {
+            // Vérification que la classe hérite bien de ScriptLoop
+            if (ScriptLoop.class.isAssignableFrom(cls)) {
+                // Cast sécurisé avec vérification de type
+                Class<? extends ScriptLoop> loopClass = cls.asSubclass(ScriptLoop.class);
+                getRegistry().registerLoop(loopClass, name, pattern, side, priority);
+            } else {
+                log.warn("Cannot register loop: {} does not extend ScriptLoop", cls.getSimpleName());
+            }
+        }
+    }
+
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerEvent()
+     */
+    @Deprecated
+    public static void registerEvent(Class<? extends ScriptEvent> cls, Feature feature, Feature[] accesors) throws Exception {
+        if (getRegistry() != null) {
+            getRegistry().registerEvent(cls, feature, accesors);
+        }
+    }
+
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerAction()
+     */
+    @Deprecated
+    public static void registerAction(Class<? extends ScriptAction> cls, String name, int priority, Feature... features) throws Exception {
+        if (getRegistry() != null) {
+            getRegistry().registerAction(cls, name, priority, features);
+        }
+    }
+
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerBlock()
+     */
+    @Deprecated
+    public static void registerBlock(Class<? extends ScriptBlock> cls, Feature feature, Feature[] fields, boolean reloadable) {
+        if (getRegistry() != null) {
+            getRegistry().registerBlock(cls, feature, fields, reloadable);
+        }
+    }
+
+    // === MÉTHODES D'ACCÈS AUX PARSERS (via ScriptRegistry) ===
+
+    /**
+     * @deprecated Utiliser directement SqriptForge.getCoreRegistry().registerOperator()
+     */
+    @Deprecated
+    public static void registerOperator(ScriptOperator operator) {
+        if (getRegistry() != null) {
+            getRegistry().registerOperator(operator);
+        }
     }
 
     public static <T extends ScriptElement<?>, U extends ScriptElement<?>> TypeParserDefinition<T, U> getParser(T from, Class<U> to) {
-        TypeParserDefinition<T, U> a = null;
-        if (ScriptManager.typeParsers.get(from.getClass()) != null) {
-            a = (TypeParserDefinition<T, U>) ScriptManager.typeParsers.get(from.getClass()).get(to);
-            //System.out.println("Found parser for "+from+" "+to);
+        if (getRegistry() != null) {
+            return getRegistry().findTypeParser((Class<T>) from.getClass(), to);
         }
-        return a;
+        return null;
     }
-
 
     public static boolean isParsable(Class from, Class toType) {
-        return typeParsers.get(from) != null && typeParsers.get(from).get(toType) != null;
+        if (getRegistry() != null) {
+            return getRegistry().findTypeParser(from, toType) != null;
+        }
+        return false;
     }
 
-
     public static <T extends ScriptElement<?>, U extends ScriptElement<?>> U parseOrDefault(T from, Class<U> toType, U defaultValue) {
-        if(from == null)
+        if (from == null)
             return defaultValue;
-        U result = parse(from,toType);
+        U result = parse(from, toType);
         if (result != null)
             return result;
         else
             return defaultValue;
     }
+
+    // === MÉTHODES D'ACCÈS AUX OPÉRATIONS (via ScriptRegistry) ===
+
     public static <T extends ScriptElement<?>, U extends ScriptElement<?>> U parse(T from, Class<U> toType) {
-        if(from.getClass() == toType || from.getClass().isAssignableFrom(toType))
+        if (from.getClass() == toType || from.getClass().isAssignableFrom(toType))
             return (U) from;
-        TypeParserDefinition<T, U> typeParserDefinition = getParser(from, toType);
-        if (typeParserDefinition != null)
-            return typeParserDefinition.getParser().parse(from);
-        else if (toType == TypeString.class)
+
+        if (getRegistry() != null) {
+            TypeParserDefinition<T, U> typeParserDefinition = getRegistry().findTypeParser((Class<T>) from.getClass(), toType);
+            if (typeParserDefinition != null)
+                return typeParserDefinition.getParser().parse(from);
+        }
+
+        if (toType == TypeString.class)
             return (U) new TypeString(from.toString());
         else
             return null;
-
     }
 
     public static OperatorDefinition getBinaryOperation(Class<? extends ScriptElement> a, Class<? extends ScriptElement> b, ScriptOperator o) {
-        //System.out.println("Getting binary operation for : "+o+" from "+a+" to "+b);
-        if (a == null)
-            a = ScriptElement.class;
-        OperatorDefinition op = null;
-        if (binaryOperations.get(o) != null) {
-            if (binaryOperations.get(o).get(ScriptElement.class) != null) {
-                op = binaryOperations.get(o).get(ScriptElement.class).get(b);
-                if (op != null) {
-                    //System.out.println("3)"+op+" for "+a +" "+b);
-                    return op;
-                }
-            }
-            if (binaryOperations.get(o).get(a) != null) {
-                op = binaryOperations.get(o).get(a).get(ScriptElement.class);
-                if (op != null) {
-                    //System.out.println("1)"+op+" for "+a +" "+b);
-                    return op;
-                }
-            }
-            if (binaryOperations.get(o).get(a) != null) {
-                final OperatorDefinition def = binaryOperations.get(o).get(a).get(b);
-                if (def != null && (op == null || def.getPriority() > op.getPriority()))
-                    op = binaryOperations.get(o).get(a).get(b);
-                if (op != null) {
-                    //System.out.println("2)"+op+" for "+a +" "+b);
-                    return op;
-                }
-            }
-            if(typeParsers.get(a) != null){
-                TypeParserDefinition<?,?> typeParserDefinition = typeParsers.get(a).get(b);
-                if (typeParserDefinition != null) {
-                    if (binaryOperations.get(o).get(typeParserDefinition.getFrom()) != null) {
-                        if ((op = binaryOperations.get(o).get(typeParserDefinition.getFrom()).get(typeParserDefinition.getTo())) != null) {
-                            return op;
-                        }
-                    }
-                }
-            }
+        if (getRegistry() != null) {
+            return getRegistry().findBinaryOperation(a, b, o);
+        }
+        return null;
+    }
 
+    // === MÉTHODES D'ACCÈS AUX DÉFINITIONS ===
 
-
+    public static OperatorDefinition getUnaryOperation(Class a, ScriptOperator o) {
+        if (getRegistry() != null) {
+            return getRegistry().findUnaryOperation(a, o);
         }
         return null;
     }
@@ -189,118 +314,44 @@ public class ScriptManager {
         return null;
     }
 
-    public static OperatorDefinition getUnaryOperation(Class a, ScriptOperator o) {
-        try {
-            return unaryOperations.get(o).get(a);
-        } catch (NullPointerException e) {
-            log.error("Operation : '" + o + " is not supported by " + a.getClass().getSimpleName());
-        }
-        //System.out.println("Returning null");
-        return null;
-    }
-
-
     public static ActionDefinition getDefinitionFromAction(Class<? extends ScriptAction> cls) {
-        for (ActionDefinition actionDefinition : actions) {
-            if (actionDefinition.getActionClass() == cls)
-                return actionDefinition;
+        if (getRegistry() != null) {
+            return getRegistry().findActionDefinition(cls);
         }
         return null;
     }
+
+    // === CONFIGURATION ===
 
     public static ExpressionDefinition getDefinitionFromExpression(Class<? extends ScriptExpression> cls) {
-        return expressions.get(new ExpressionIdentifier(0, cls));
-    }
-
-    public static final boolean FULL_DEBUG = true;
-
-    public static void registerExpression(Class<? extends ScriptExpression> expressionClass, String name, int priority, Feature... features) throws Exception {
-        expressions.put(new ExpressionIdentifier(priority, expressionClass), new ExpressionDefinition(name, expressionClass, priority, features));
-        log.debug("Registering expression : " + name + " (" + expressionClass.getSimpleName() + ")" + " hash : " + new ExpressionIdentifier(priority, expressionClass).hashCode());
-        //log.debug(expressions);
-        //log.debug(expressions.values());
-    }
-
-    public static void registerNativeFunction(Class<? extends ScriptNativeFunction> func, String name, String[] definitions, String[] description, String example[]) {
-        TransformedPattern[] p = new TransformedPattern[definitions.length];
-        Pattern pa = Pattern.compile("(^[\\w]+)");
-        for (int i = 0; i < p.length; i++) {
-            Matcher m = pa.matcher(definitions[i]);
-            if (m.find())
-                p[i] = new TransformedPattern(m.group(1));
+        if (getRegistry() != null) {
+            return getRegistry().findExpressionDefinition(cls);
         }
-        nativeFunctions.put(func, new NativeDefinition(name, description, example, func).setTransformedPatterns(p));
-        log.debug("Registering native function : " + name + " (" + func.getSimpleName() + ")");
+        return null;
     }
 
-    public static void registerType(Class<? extends ScriptElement<?>> type, String name) throws Exception {
-        if (ScriptDecoder.parseType(name) != null)
-            throw new Exception("a Type with the name " + name + " already exists !");
-        TypeDefinition d = new TypeDefinition(name, new String[0], new String[]{""}, type);
-        types.put(type, d);
-        log.debug("Registering type : " + name + " (" + type.getSimpleName() + ")");
-    }
-
-    public static void registerPrimitive(Class<? extends PrimitiveType<?>> type, String name, String... patterns) {
-        log.debug("Registering primitive : " + name + " (" + type.getSimpleName() + ")");
-        TypeDefinition primitiveDefinition = new TypeDefinition(name, new String[0], new String[]{""}, type);
-        primitiveDefinition.transformedPattern = new TransformedPattern(patterns[0], 0, 0, new ScriptParameterDefinition[][]{{new ScriptParameterDefinition(type, false)}});
-        primitives.put(type, primitiveDefinition);
-    }
-
-
-    public static void registerLoop(Class<? extends ScriptEvent> cls, String name, String pattern, Side side, int priority) {
-        log.debug("Registering loop : " + name + " (" + cls.getSimpleName() + ")");
-        loops.add(new LoopDefinition(pattern, cls, side, name, priority));
-        loops.sort((a, b) -> b.getPriority() - a.getPriority());
-
-    }
-
-    public static void registerEvent(Class<? extends ScriptEvent> cls, Feature feature, Feature[] accesors) throws Exception {
-        log.debug("Registering event : " + feature.name() + " (" + cls.getSimpleName() + ")");
-        events.add(new EventDefinition(cls, feature, accesors));
-    }
-
-    public static void registerAction(Class<? extends ScriptAction> cls, String name, int priority, Feature... features) throws Exception {
-        log.debug("Registering action : " + name + " (" + cls.getSimpleName() + ")");
-        actions.add(new ActionDefinition(name, cls, priority, features));
-    }
-
-    public static void registerBlock(Class<? extends ScriptBlock> cls, Feature feature, Feature[] fields, boolean reloadable) {
-        log.debug("Registering block : " + feature.name() + " (" + cls.getSimpleName() + ")");
-        blocks.add(new BlockDefinition(cls, feature, fields, reloadable));
-    }
-
-
-    public static void registerOperator(ScriptOperator operator) {
-        for (ScriptOperator o : operators) {
-            if (o.symbol.equals(operator.symbol) && operator.unary == o.unary) {
-                log.error("Cannot register the operator " + operator + " as a" + (o.unary ? "n unary " : " binary ") + "operator with the symbol '" + operator.symbol + "' already exists.");
-                return;
-            }
-        }
-        //SqriptMod.log.info("Registering operator : "+operator.symbol);
-        operators.add(operator);
-    }
+    // === INITIALISATION ===
 
     public static void preInit(File scriptsFolder) {
         log = LogManager.getLogger("Sqript");
         log.info("Sqript" + " version " + ScriptManager.version + " is running, by Nico-");
         scriptDir = scriptsFolder;
-
     }
 
     public static void init() {
-
         try {
             ScriptDataManager.load();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+        // Initialiser ScriptDecoder avec le registre
+        // ScriptDecoder supprimé - fonctionnalités migrées vers ScriptRegistry et SqriptUtils
+
+        // Initialisation des opérateurs intégrés (via le registre)
         initOperators();
         buildOperators();
-        ScriptDecoder.init();
+        // Initialisation des patterns d'opérateurs migrée vers ScriptRegistry
 
         try {
             ScriptManager.log.info("Loading scripts.");
@@ -309,11 +360,8 @@ public class ScriptManager {
             ScriptManager.log.error(e.getMessage());
         }
 
-
         SqriptForge.registerCommands();
-
     }
-
 
     public static void stop() {
         try {
@@ -323,46 +371,48 @@ public class ScriptManager {
         }
     }
 
+    // === OPÉRATEURS INTÉGRÉS ===
 
-    //Built-in operators
     private static void initOperators() {
-        registerOperator(ScriptOperator.PLUS_UNARY);
-        registerOperator(ScriptOperator.MINUS_UNARY);
-        registerOperator(ScriptOperator.MULTIPLY);
-        registerOperator(ScriptOperator.MOD);
-        registerOperator(ScriptOperator.QUOTIENT);
-        registerOperator(ScriptOperator.DIVIDE);
-        registerOperator(ScriptOperator.ADD);
-        registerOperator(ScriptOperator.SUBTRACT);
-        registerOperator(ScriptOperator.MTE);
-        registerOperator(ScriptOperator.LTE);
-        registerOperator(ScriptOperator.LT);
-        registerOperator(ScriptOperator.MT);
-        registerOperator(ScriptOperator.NOT_EQUAL);
-        registerOperator(ScriptOperator.EQUAL);
-        registerOperator(ScriptOperator.NOT);
-        registerOperator(ScriptOperator.AND);
-        registerOperator(ScriptOperator.EXP);
-        registerOperator(ScriptOperator.OR);
-        registerOperator(ScriptOperator.FACTORIAL);
-
-    }
-
-
-    private static void buildOperators() {
-        for (ScriptOperator s : operators) {
-            //System.out.println("Building operator : "+s);
-            if (s.word && !s.unary) {
-                ScriptDecoder.operators_list.add("(\\)\\s+|^)" + Pattern.quote(s.symbol) + "(\\s+\\()");
-            } else if (s.word) {
-                ScriptDecoder.operators_list.add("(\\s+|^)" + Pattern.quote(s.symbol) + "(\\s+\\()");
-            } else {
-                ScriptDecoder.operators_list.add(Pattern.quote(s.symbol));
-            }
-            //System.out.println("Added : "+ScriptDecoder.operators_list.get(ScriptDecoder.operators_list.size()-1));
-            ScriptDecoder.operators_pattern.add(Pattern.compile(ScriptDecoder.operators_list.get(ScriptDecoder.operators_list.size() - 1)));
+        if (getRegistry() != null) {
+            getRegistry().registerOperator(ScriptOperator.PLUS_UNARY);
+            getRegistry().registerOperator(ScriptOperator.MINUS_UNARY);
+            getRegistry().registerOperator(ScriptOperator.MULTIPLY);
+            getRegistry().registerOperator(ScriptOperator.MOD);
+            getRegistry().registerOperator(ScriptOperator.QUOTIENT);
+            getRegistry().registerOperator(ScriptOperator.DIVIDE);
+            getRegistry().registerOperator(ScriptOperator.ADD);
+            getRegistry().registerOperator(ScriptOperator.SUBTRACT);
+            getRegistry().registerOperator(ScriptOperator.MTE);
+            getRegistry().registerOperator(ScriptOperator.LTE);
+            getRegistry().registerOperator(ScriptOperator.LT);
+            getRegistry().registerOperator(ScriptOperator.MT);
+            getRegistry().registerOperator(ScriptOperator.NOT_EQUAL);
+            getRegistry().registerOperator(ScriptOperator.EQUAL);
+            getRegistry().registerOperator(ScriptOperator.NOT);
+            getRegistry().registerOperator(ScriptOperator.AND);
+            getRegistry().registerOperator(ScriptOperator.EXP);
+            getRegistry().registerOperator(ScriptOperator.OR);
+            getRegistry().registerOperator(ScriptOperator.FACTORIAL);
         }
     }
+
+    private static void buildOperators() {
+        if (getRegistry() != null) {
+            for (ScriptOperator s : getRegistry().getOperators()) {
+                if (s.word && !s.unary) {
+                    ScriptRegistry.operators_list.add("(\\)\\s+|^)" + Pattern.quote(s.symbol) + "(\\s+\\()");
+                } else if (s.word) {
+                    ScriptRegistry.operators_list.add("(\\s+|^)" + Pattern.quote(s.symbol) + "(\\s+\\()");
+                } else {
+                    ScriptRegistry.operators_list.add(Pattern.quote(s.symbol));
+                }
+                ScriptRegistry.operators_pattern.add(Pattern.compile(ScriptRegistry.operators_list.get(ScriptRegistry.operators_list.size() - 1)));
+            }
+        }
+    }
+
+    // === GESTION DES ERREURS ===
 
     public static void handleError(ScriptToken line, Throwable throwable) {
         ScriptManager.log.error("Error while loading " + line.getScriptInstance().getName() + " : ");
@@ -374,12 +424,13 @@ public class ScriptManager {
             throwable.printStackTrace();
     }
 
+    // === CHARGEMENT DES SCRIPTS ===
+
     private static void loadFolder(File folder) throws Throwable {
         ScriptException.ScriptExceptionList list = new ScriptException.ScriptExceptionList();
         if (FMLCommonHandler.instance().getSide() == net.minecraftforge.fml.relauncher.Side.CLIENT)
             ScriptManager.loadResources();
         for (File f : folder.listFiles()) {
-            //System.out.println("Looping : "+f.getName()+" in : "+ Arrays.toString(folder.listFiles()));
             if (f.isDirectory()) {
                 try {
                     loadFolder(f);
@@ -387,7 +438,6 @@ public class ScriptManager {
                     if (e instanceof ScriptException.ScriptExceptionList) {
                         list.exceptionList.addAll(((ScriptException.ScriptExceptionList) (e)).exceptionList);
                     } else {
-                        //System.out.println("Throwing exception.");
                         throw e;
                     }
                 }
@@ -401,21 +451,29 @@ public class ScriptManager {
                     }
                 }
             } else if (f.toPath().toString().endsWith(".sq")) {
-                ScriptLoader loader = new ScriptLoader(f);
+                log.info("Found script file: " + f.getName());
                 try {
-                    ScriptInstance instance = loader.loadScript();
+                    // Chargeur simple - remplace l'ancien ScriptLoader
+                    String name = f.getName().replace(".sq", "");
+                    log.info("Creating ScriptInstance for: " + name);
+                    ScriptInstance instance = new ScriptInstance(name, f);
+                    log.info("Calling script load event for: " + name);
                     instance.callEvent(new ScriptContext(GLOBAL_CONTEXT), new EvtOnScriptLoad(f));
-                    //System.out.println("Added instance : "+instance.getName());
                     scripts.add(instance);
+                    log.info("Successfully loaded script: " + name);
                 } catch (Exception e) {
+                    log.error("Failed to load script: " + f.getName() + " - " + e.getMessage());
                     if (e instanceof ScriptException.ScriptExceptionList) {
                         list.exceptionList.addAll(((ScriptException.ScriptExceptionList) (e)).exceptionList);
                     } else {
-                        //System.out.println("Throwing exception.");
-                        throw e;
+                        // Créer une exception de script et l'ajouter à la liste au lieu de l'interrompre
+                        ScriptException scriptException = new ScriptException.ScriptSyntaxException(
+                                new ScriptToken("", 0, null),
+                                "Error loading script " + f.getName() + ": " + e.getMessage()
+                        );
+                        list.exceptionList.add(scriptException);
                     }
                 }
-
             }
         }
         if (!list.exceptionList.isEmpty()) {
@@ -465,7 +523,6 @@ public class ScriptManager {
         if (FMLCommonHandler.instance().getSide() == net.minecraftforge.fml.relauncher.Side.CLIENT)
             loadResources();
 
-
         log.info("All scripts are loaded");
         if (!elist.exceptionList.isEmpty())
             throw elist;
@@ -478,30 +535,26 @@ public class ScriptManager {
                     list.addAll(instance.getBlocksOfClass(ScriptBlockPacket.class));
                     list.addAll(instance.getBlocksOfClass(ScriptBlockTimeLoop.class));
                     list.addAll(instance.getBlocksOfClass(ScriptBlockFunction.class));
-                    //System.out.println("# Of blocks : " + instance.getBlocks().size());
                     for (ScriptBlock s : list) {
-                        //System.out.println("Displaying : " + s.getHead());
-                        ScriptLoader.dispScriptTree(s, 0);
+                        dispScriptTree(s, 0);
                     }
                     log.info("");
                 }
             } catch (Exception ignored) {
             }
-
         }
     }
 
     @SideOnly(net.minecraftforge.fml.relauncher.Side.CLIENT)
     public static void loadResources() throws IllegalAccessException {
-        //System.out.println("Adding "+mainFolder+" to loaded resources.");
         ScriptResourceLoader resourceLoader = new ScriptResourceLoader();
         Field defaultResourcePacksField = ObfuscationReflectionHelper.findField(Minecraft.getMinecraft().getClass(), "field_110449_ao");
         defaultResourcePacksField.setAccessible(true);
         ((ArrayList) defaultResourcePacksField.get(Minecraft.getMinecraft())).add(resourceLoader);
     }
 
+    // === GESTION DES ÉVÉNEMENTS ===
 
-    //Runs the events triggers and returns the final context (that has passed through all the triggers)
     public static ScriptContext callEventAndGetContext(ScriptEvent event) throws ScriptException {
         ScriptContext context = new ScriptContext(GLOBAL_CONTEXT);
         context.setReturnValue(new ScriptTypeAccessor(TypeBoolean.FALSE(), ""));
@@ -511,10 +564,8 @@ public class ScriptManager {
         return context;
     }
 
-
-    //True if the event has been cancelled
     public static boolean callEvent(ScriptEvent event) {
-        Optional<EventDefinition> optional = ScriptManager.events.stream().filter(a -> {
+        Optional<EventDefinition> optional = getEvents().stream().filter(a -> {
             return a.eventClass == event.getClass();
         }).findFirst();
         EventDefinition eventDefinition = null;
@@ -526,22 +577,22 @@ public class ScriptManager {
             try {
                 for (ScriptInstance script : scripts) {
                     if (script.callEvent(context, event)) {
-                        //System.out.println("Returning true");
                         result = true;
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
         return result;
     }
 
+    // === GESTION DES COMMANDES ===
+
     @SideOnly(net.minecraftforge.fml.relauncher.Side.CLIENT)
     public static void clearClientCommands() {
         for (ScriptBlockCommand command : commands) {
-            System.out.println("Removing command : "+command.getName());
+            System.out.println("Removing command : " + command.getName());
             ClientCommandHandler.instance.getCommands().remove(command.getName());
         }
     }
@@ -554,13 +605,15 @@ public class ScriptManager {
         }
     }
 
+    // === RECHARGEMENT ===
+
     public static void reload() throws Throwable {
         RELOADING = true;
 
         scripts.clear();
         ScriptNetworkManager.clear();
 
-        if(FMLCommonHandler.instance().getSide() == net.minecraftforge.fml.relauncher.Side.CLIENT)
+        if (FMLCommonHandler.instance().getSide() == net.minecraftforge.fml.relauncher.Side.CLIENT)
             clearClientCommands();
         clearServerCommands();
         commands.clear();
@@ -581,5 +634,29 @@ public class ScriptManager {
             throw elist;
     }
 
+    /**
+     * Affiche l'arbre de script pour debug
+     * Remplace l'ancienne méthode ScriptLoader.dispScriptTree
+     */
+    public static void dispScriptTree(IScript script, int indent) {
+        if (script == null) return;
 
+        String tab = "";
+        for (int j = 0; j < indent; j++) tab += "|    ";
+
+        if (script instanceof ScriptBlock) {
+            ScriptBlock block = (ScriptBlock) script;
+            log.info(tab + block.getClass().getSimpleName() + ": " + block.getHead());
+            if (block.getRoot() != null) {
+                dispScriptTree(block.getRoot(), indent + 1);
+            }
+        } else {
+            log.info(tab + script.getClass().getSimpleName() + ": " + script);
+        }
+    }
 }
+
+
+
+
+

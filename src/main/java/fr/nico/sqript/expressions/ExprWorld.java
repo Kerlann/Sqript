@@ -31,7 +31,7 @@ public class ExprWorld extends ScriptExpression {
                 world = FMLCommonHandler.instance().getMinecraftServerInstance().getEntityWorld();
                 String entityClassName = (String) parameters[0].getObject();
                 try {
-                    Class <? extends Entity > aClass = (Class< ? extends Entity >) Class.forName(entityClassName);
+                    Class<? extends Entity> aClass = (Class<? extends Entity>) Class.forName(entityClassName);
                     TypeArray typeArray = new TypeArray();
                     world.getEntitiesWithinAABB(aClass, axisAlignedBB).forEach(entity1 -> {
                         typeArray.add(new TypeEntity(entity1));
@@ -50,3 +50,8 @@ public class ExprWorld extends ScriptExpression {
         return false;
     }
 }
+
+
+
+
+

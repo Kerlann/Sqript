@@ -2,14 +2,13 @@ package fr.nico.sqript.actions;
 
 import com.google.common.collect.Lists;
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.actions.ScriptAction;
-import fr.nico.sqript.compiling.*;
+import fr.nico.sqript.core.compilation.*;
 import fr.nico.sqript.expressions.ExprCompiledExpression;
-import fr.nico.sqript.expressions.ExprReference;
 import fr.nico.sqript.expressions.ScriptExpression;
 import fr.nico.sqript.meta.Action;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
+import fr.nico.sqript.structures.ScriptElement;
 import fr.nico.sqript.structures.ScriptOperator;
 import fr.nico.sqript.types.ScriptType;
 
@@ -65,7 +64,17 @@ public class ActDefinition extends ScriptAction {
         if (matchedIndex == 2) {
             //System.out.println("Set ! : "+line);
 
-            ScriptExpression arg = ScriptDecoder.parse(line.with(parameters.get(0)), compileGroup);
+            ScriptExpression arg = null;
+            try {
+                CompilationResult<ScriptExpression> result = fr.nico.sqript.forge.SqriptForge.getHybridEngine().compileExpression(line.with(parameters.get(0)), compileGroup, ScriptElement.class);
+                if (result != null && result.isSuccess()) {
+                    arg = result.getResult();
+                } else {
+                    throw new fr.nico.sqript.core.compilation.ScriptException(line.with(parameters.get(0)), "Erreur de compilation d'expression dans ActDefinition");
+                }
+            } catch (Exception e) {
+                throw new fr.nico.sqript.core.compilation.ScriptException(line.with(parameters.get(0)), "Erreur de compilation d'expression dans ActDefinition : " + e.getMessage());
+            }
 
             /**
              * If a state, we only choose the expressions that can be set for performance issues.
@@ -82,7 +91,17 @@ public class ActDefinition extends ScriptAction {
                 }
             }
 
-            ScriptExpression to = ScriptDecoder.parse(line.with(parameters.get(1)), compileGroup,new Class[]{arg.getReturnType()});
+            ScriptExpression to = null;
+            try {
+                CompilationResult<ScriptExpression> result2 = fr.nico.sqript.forge.SqriptForge.getHybridEngine().compileExpression(line.with(parameters.get(1)), compileGroup, ScriptElement.class);
+                if (result2 != null && result2.isSuccess()) {
+                    to = result2.getResult();
+                } else {
+                    throw new fr.nico.sqript.core.compilation.ScriptException(line.with(parameters.get(1)), "Erreur de compilation d'expression dans ActDefinition");
+                }
+            } catch (Exception e) {
+                throw new fr.nico.sqript.core.compilation.ScriptException(line.with(parameters.get(1)), "Erreur de compilation d'expression dans ActDefinition : " + e.getMessage());
+            }
             if (to == null)
                 throw new ScriptException.ScriptUnknownExpressionException(line.with(parameters.get(1)));
             this.setParameters(Lists.newArrayList(arg, to));
@@ -94,3 +113,8 @@ public class ActDefinition extends ScriptAction {
 
     }
 }
+
+
+
+
+

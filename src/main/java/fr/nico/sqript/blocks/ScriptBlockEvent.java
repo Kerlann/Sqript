@@ -2,10 +2,14 @@ package fr.nico.sqript.blocks;
 
 import fr.nico.sqript.ScriptManager;
 import fr.nico.sqript.SqriptUtils;
+import fr.nico.sqript.core.compilation.CompilationResult;
+import fr.nico.sqript.core.compilation.ScriptCompilationContext;
+import fr.nico.sqript.core.compilation.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptToken;
 import fr.nico.sqript.events.ScriptEvent;
+import fr.nico.sqript.expressions.ScriptExpression;
 import fr.nico.sqript.meta.Block;
 import fr.nico.sqript.meta.Event;
-import fr.nico.sqript.compiling.*;
 import fr.nico.sqript.meta.EventDefinition;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
@@ -27,27 +31,30 @@ import java.util.Arrays;
 )
 public class ScriptBlockEvent extends ScriptBlock {
 
+    // Cache de compilation pour éviter de recompiler les mêmes arguments d'événements
+    private static final java.util.Map<String, ScriptExpression> eventArgCache = new java.util.concurrent.ConcurrentHashMap<>();
+    // Contexte de compilation réutilisable pour les arguments d'événements
+    private static final ScriptCompilationContext EVENT_ARG_CONTEXT = new ScriptCompilationContext();
     public Class<? extends ScriptEvent> eventType;
     public ScriptType[] parameters;
     public int marks;
-
     //By default, events will launch on server
     public Side side;
 
     public ScriptBlockEvent(ScriptToken head) throws ScriptException {
         super(head);
         getHead().setText(head.getText().trim().replaceFirst("(^|\\s+)(on|when)\\s+", "")); //Extracting the event parameters
-        getHead().setText(head.getText().substring(0,head.getText().length()-1)); //Removing the last ":"
+        getHead().setText(head.getText().substring(0, head.getText().length() - 1)); //Removing the last ":"
     }
 
     @Override
     public void init(ScriptLineBlock block) throws Exception {
         this.eventType = parseEvent(getHead());
-        if(eventType == null)
+        if (eventType == null)
             throw new ScriptException.ScriptUnknownEventException(getHead());
         this.side = eventType.getAnnotation(Event.class).feature().side();
         //System.out.println("Initialising : "+eventType+ " sided : "+side);
-        if(!side.isValid())
+        if (!side.isValid())
             return;
 
         super.init(block);
@@ -55,13 +62,13 @@ public class ScriptBlockEvent extends ScriptBlock {
 
     @Override
     public void displayTree(int i) {
-        ScriptLoader.dispScriptTree(getRoot(),i);
+        ScriptManager.dispScriptTree(getRoot(), i);
     }
 
-    public Class<? extends ScriptEvent> parseEvent(ScriptToken line) {
+    public Class<? extends ScriptEvent> parseEvent(ScriptToken line) throws ScriptException {
         //System.out.println("Parsing event for : "+line);
         line = line.with(line.getText().trim());
-        for (EventDefinition eventDefinition : ScriptManager.events) {
+        for (EventDefinition eventDefinition : ScriptManager.getEvents()) {
             //System.out.println("Checking for : "+eventDefinition.getEventClass());
             int matchedPatternIndex = -1;
             if ((matchedPatternIndex = eventDefinition.getMatchedPatternIndex(line.getText())) != -1) {
@@ -73,10 +80,30 @@ public class ScriptBlockEvent extends ScriptBlock {
                 int marks = eventDefinition.getTransformedPatterns()[matchedPatternIndex].getAllMarks(line.getText());
                 for (int i = 0; i < arguments.length; i++) {
                     try {
-                        if(arguments[i] != null)
-                            parameters[i] = ScriptDecoder.parse(line.with(arguments[i]),new ScriptCompilationContext(),transformedPattern.getValidTypes(i)).get(ScriptContext.fromGlobal());
-                        else parameters[i] = new TypeNull();
-                    } catch (Exception ignored) {
+                        if (arguments[i] != null) {
+                            ScriptExpression expr = null;
+
+                            // Vérifier le cache d'abord
+                            String cacheKey = arguments[i] + ":" + Arrays.toString(transformedPattern.getValidTypes(i));
+                            expr = eventArgCache.get(cacheKey);
+
+                            if (expr == null) {
+                                // Utiliser le contexte de compilation réutilisable
+                                CompilationResult<ScriptExpression> result = fr.nico.sqript.forge.SqriptForge.getHybridEngine().compileExpression(line.with(arguments[i]), EVENT_ARG_CONTEXT, transformedPattern.getValidTypes(i));
+                                if (result != null && result.isSuccess()) {
+                                    expr = result.getResult();
+                                    // Mettre en cache le résultat
+                                    eventArgCache.put(cacheKey, expr);
+                                } else {
+                                    String errorMsg = result != null && result.getError() != null ? result.getError().getMessage() : "Unknown compilation error";
+                                    throw new fr.nico.sqript.core.compilation.ScriptException(line.with(arguments[i]), "Erreur de compilation d'expression dans ScriptBlockEvent: " + errorMsg);
+                                }
+                            }
+
+                            parameters[i] = expr.get(ScriptContext.fromGlobal());
+                        } else parameters[i] = new TypeNull();
+                    } catch (Exception e) {
+                        throw new fr.nico.sqript.core.compilation.ScriptException(line.with(arguments[i]), "Erreur de compilation d'expression dans ScriptBlockEvent : " + e.getMessage());
                     }
                 }
                 try {
@@ -86,10 +113,11 @@ public class ScriptBlockEvent extends ScriptBlock {
                         this.parameters = parameters;
                         //System.out.println("Validated");
                         return eventDefinition.getEventClass();
-                    }else{
+                    } else {
                         //System.out.println("Not validated");
                     }
-                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException ignored) {
+                } catch (InstantiationException | IllegalAccessException | NoSuchMethodException |
+                         InvocationTargetException ignored) {
                 }
             }
         }
@@ -98,7 +126,7 @@ public class ScriptBlockEvent extends ScriptBlock {
 
     @Override
     protected void load() throws Exception {
-        if(fieldDefined("side"))
+        if (fieldDefined("side"))
             side = Side.from(getSubBlock("side").getRawContent());
         if (side != null && !side.isValid()) {
             return;
@@ -125,3 +153,7 @@ public class ScriptBlockEvent extends ScriptBlock {
     }
 
 }
+
+
+
+

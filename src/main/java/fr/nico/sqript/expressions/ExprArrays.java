@@ -1,14 +1,14 @@
 package fr.nico.sqript.expressions;
 
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.meta.Expression;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
-import fr.nico.sqript.types.TypeNull;
-import fr.nico.sqript.types.interfaces.IIndexedCollection;
 import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.TypeArray;
 import fr.nico.sqript.types.TypeDictionary;
+import fr.nico.sqript.types.TypeNull;
+import fr.nico.sqript.types.interfaces.IIndexedCollection;
 import fr.nico.sqript.types.primitive.TypeBoolean;
 import fr.nico.sqript.types.primitive.TypeNumber;
 
@@ -38,6 +38,11 @@ import java.util.stream.Collectors;
         priority = -1
 )
 public class ExprArrays extends ScriptExpression {
+
+    static final int hash(Object key) {
+        int h;
+        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
+    }
 
     @Override
     public ScriptType<?> get(ScriptContext context, ScriptType<?>[] parameters) throws ScriptException.ScriptNullReferenceException {
@@ -105,12 +110,12 @@ public class ExprArrays extends ScriptExpression {
                 a = (IIndexedCollection) parameters[1];
                 return new TypeBoolean(!a.contains(b));
             case 11://contains
-                if(parameters[1] instanceof TypeNull || parameters[0] instanceof TypeNull)
+                if (parameters[1] instanceof TypeNull || parameters[0] instanceof TypeNull)
                     return TypeBoolean.FALSE();
                 IIndexedCollection a2 = (IIndexedCollection) parameters[1];
                 IIndexedCollection a1 = (IIndexedCollection) parameters[0];
                 for (int i = 0; i < a2.size(); i++) {
-                    if(!a1.contains(a2.get(i)))
+                    if (!a1.contains(a2.get(i)))
                         return TypeBoolean.FALSE();
                 }
                 return TypeBoolean.TRUE();
@@ -122,11 +127,6 @@ public class ExprArrays extends ScriptExpression {
                 return (ScriptType<?>) a.copy();
         }
         return null;
-    }
-
-    static final int hash(Object key) {
-        int h;
-        return (key == null) ? 0 : (h = key.hashCode()) ^ (h >>> 16);
     }
 
     @Override
@@ -145,3 +145,7 @@ public class ExprArrays extends ScriptExpression {
         return false;
     }
 }
+
+
+
+

@@ -10,7 +10,6 @@ import fr.nico.sqript.types.primitive.TypeNumber;
 import fr.nico.sqript.types.primitive.TypeString;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @Expression(name = "Strings Expressions",
         features = {
@@ -26,7 +25,7 @@ public class ExprStrings extends ScriptExpression {
 
     @Override
     public ScriptType get(ScriptContext context, ScriptType[] parameters) {
-        switch(getMatchedName()){
+        switch (getMatchedName()) {
             case "Length of a string":
                 TypeString string = (TypeString) parameters[0];
                 return new TypeNumber(string.getObject().length());
@@ -38,12 +37,12 @@ public class ExprStrings extends ScriptExpression {
                 string = (TypeString) parameters[0];
                 TypeNumber start = (TypeNumber) parameters[1];
                 TypeNumber end = (TypeNumber) parameters[2];
-                return new TypeString(string.getObject().substring(start.getObject().intValue(),end.getObject().intValue()));
+                return new TypeString(string.getObject().substring(start.getObject().intValue(), end.getObject().intValue()));
             case "Split of a string":
                 string = (TypeString) parameters[0];
                 TypeString split = (TypeString) parameters[1];
                 ArrayList splits = new ArrayList();
-                for(String s : string.getObject().split(split.getObject())){
+                for (String s : string.getObject().split(split.getObject())) {
                     splits.add(new TypeString(s));
                 }
                 return new TypeArray(splits);
@@ -60,3 +59,8 @@ public class ExprStrings extends ScriptExpression {
         return false;
     }
 }
+
+
+
+
+

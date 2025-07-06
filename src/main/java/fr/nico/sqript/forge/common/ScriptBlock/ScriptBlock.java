@@ -2,14 +2,11 @@ package fr.nico.sqript.forge.common.ScriptBlock;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockHorizontal;
-import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyDirection;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumFacing;
@@ -23,15 +20,11 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Random;
 
-public class ScriptBlock extends Block{
+public class ScriptBlock extends Block {
 
+    public static final PropertyDirection FACING = BlockHorizontal.FACING;
     ResourceLocation drop;
     int harvestLevel;
-    public static final PropertyDirection FACING = BlockHorizontal.FACING;
-
-    public int getHarvestLevel() {
-        return harvestLevel;
-    }
 
     public ScriptBlock(Material materialIn, ResourceLocation drop, int harvestLevel) {
         super(materialIn);
@@ -39,27 +32,29 @@ public class ScriptBlock extends Block{
         this.harvestLevel = harvestLevel;
     }
 
+    public int getHarvestLevel() {
+        return harvestLevel;
+    }
+
     @SideOnly(Side.CLIENT)
-    public BlockRenderLayer getBlockLayer()
-    {
+    public BlockRenderLayer getBlockLayer() {
         return BlockRenderLayer.SOLID;
     }
 
     @Override
     public Item getItemDropped(IBlockState state, Random rand, int fortune) {
-        if(drop == null)
+        if (drop == null)
             return ForgeRegistries.ITEMS.getValue(getRegistryName());
         return ForgeRegistries.ITEMS.getValue(drop);
     }
 
     @Override
-    protected BlockStateContainer createBlockState()
-    {
+    protected BlockStateContainer createBlockState() {
         return new BlockStateContainer(this, FACING);
     }
 
     @Override
-    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand){
+    public IBlockState getStateForPlacement(World world, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer, EnumHand hand) {
         return this.getDefaultState().withProperty(FACING, placer.getHorizontalFacing());
     }
 
@@ -74,8 +69,13 @@ public class ScriptBlock extends Block{
     }
 
     public int getMetaFromState(IBlockState state) {
-        return ((EnumFacing) state.getValue(FACING)).getIndex();
+        return state.getValue(FACING).getIndex();
     }
 
 
 }
+
+
+
+
+

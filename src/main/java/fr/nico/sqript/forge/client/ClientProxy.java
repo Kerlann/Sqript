@@ -13,9 +13,9 @@ public class ClientProxy extends CommonProxy {
     private final HashMap<String, BufferedImage> customPlayerBufferedSkins = new HashMap<>();
     private final HashMap<String, ResourceLocation> customPlayerSkins = new HashMap<>();
 
-    public ResourceLocation getCustomPlayerSkin(String name){
+    public ResourceLocation getCustomPlayerSkin(String name) {
         ResourceLocation rl = getCustomPlayerSkins().get(name);
-        if(rl == null) {
+        if (rl == null) {
             BufferedImage image = customPlayerBufferedSkins.get(name);
             if (image == null) {
                 return null;
@@ -35,3 +35,8 @@ public class ClientProxy extends CommonProxy {
     }
 
 }
+
+
+
+
+

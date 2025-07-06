@@ -10,14 +10,12 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 public class RenderUtils {
-    public static double zDepth = 0.0D;
     public static final double circleSteps = 30.0;
+    public static double zDepth = 0.0D;
     public static int color;
 
     public static void drawItem(double x, double y, double scale, ItemStack itemstack) {
@@ -39,12 +37,12 @@ public class RenderUtils {
     public static void drawTitleContainer(int left, int top, int width, int height, String text) {
 
         GlStateManager.pushMatrix();
-        Gui.drawRect(left, top, left+width, top+10, 0xcc000000);
-        Gui.drawRect(left, top+10, left+width, top+height, 0x88000000);
-        GlStateManager.translate(left+2, top+2, 0);
+        Gui.drawRect(left, top, left + width, top + 10, 0xcc000000);
+        Gui.drawRect(left, top + 10, left + width, top + height, 0x88000000);
+        GlStateManager.translate(left + 2, top + 2, 0);
         GlStateManager.scale(0.7, 0.7, 1);
         Minecraft.getMinecraft().fontRenderer.drawString(text, 0, 0, 0xFFFFFFFF);
-        GL11.glColor3f(1,1,1);
+        GL11.glColor3f(1, 1, 1);
         GlStateManager.popMatrix();
     }
 
@@ -468,10 +466,10 @@ public class RenderUtils {
         GlStateManager.rotate(135.0F, 0.0F, 1.0F, 0.0F);
         RenderHelper.enableStandardItemLighting();
         GlStateManager.rotate(-135.0F, 0.0F, 1.0F, 0.0F);
-        GlStateManager.rotate(-((float) Math.atan((double) (mouseY / 40.0F))) * 20.0F, 1.0F, 0.0F, 0.0F);
-        ent.renderYawOffset = (float) Math.atan((double) (mouseX / 40.0F)) * 20.0F;
-        ent.rotationYaw = (float) Math.atan((double) (mouseX / 40.0F)) * 40.0F;
-        ent.rotationPitch = -((float) Math.atan((double) (mouseY / 40.0F))) * 20.0F;
+        GlStateManager.rotate(-((float) Math.atan(mouseY / 40.0F)) * 20.0F, 1.0F, 0.0F, 0.0F);
+        ent.renderYawOffset = (float) Math.atan(mouseX / 40.0F) * 20.0F;
+        ent.rotationYaw = (float) Math.atan(mouseX / 40.0F) * 40.0F;
+        ent.rotationPitch = -((float) Math.atan(mouseY / 40.0F)) * 20.0F;
         ent.rotationYawHead = ent.rotationYaw;
         ent.prevRotationYawHead = ent.rotationYaw;
         GlStateManager.translate(0.0F, 0.0F, 0.0F);
@@ -574,3 +572,8 @@ public class RenderUtils {
      * GL11.glDisable(GL11.GL_STENCIL_TEST); }
      */
 }
+
+
+
+
+

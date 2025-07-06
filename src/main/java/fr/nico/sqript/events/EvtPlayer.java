@@ -1,13 +1,11 @@
 package fr.nico.sqript.events;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.blocks.ScriptBlockEvent;
+import fr.nico.sqript.meta.Event;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptTypeAccessor;
 import fr.nico.sqript.structures.Side;
 import fr.nico.sqript.types.*;
-import fr.nico.sqript.meta.Event;
-import fr.nico.sqript.types.TypeArray;
 import fr.nico.sqript.types.primitive.TypeBoolean;
 import fr.nico.sqript.types.primitive.TypeResource;
 import fr.nico.sqript.types.primitive.TypeString;
@@ -40,7 +38,7 @@ public class EvtPlayer {
     public static class EvtOnPlayerMove extends ScriptEvent {
 
         public EvtOnPlayerMove(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
         }
 
     }
@@ -63,7 +61,7 @@ public class EvtPlayer {
         public net.minecraftforge.fml.relauncher.Side side;
 
         public EvtOnItemLeftClick(EntityPlayer player, ItemStack clicked, EnumHand hand, net.minecraftforge.fml.relauncher.Side side) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"),new ScriptTypeAccessor(new TypeItemStack(clicked),"[click[ed]] item"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"), new ScriptTypeAccessor(new TypeItemStack(clicked), "[click[ed]] item"));
             //System.out.println(ScriptManager.scripts.stream().map(a->a.getBlocks()).collect(Collectors.toList()));
             //System.out.println(ScriptManager.scripts.stream().map(a->a.getName()).collect(Collectors.toList()));
             this.clickedItem = clicked;
@@ -79,16 +77,16 @@ public class EvtPlayer {
         @Override
         public boolean check(ScriptType[] parameters, int marks) {
             boolean correctHands = true;
-            if (checkMark(2,marks))
+            if (checkMark(2, marks))
                 correctHands = hand == EnumHand.MAIN_HAND;
 
-            else if (checkMark(1,marks))
+            else if (checkMark(1, marks))
                 correctHands = hand == EnumHand.OFF_HAND;
 
-            if(parameters.length==0 || parameters[0] == null)
+            if (parameters.length == 0 || parameters[0] == null)
                 return correctHands;
 
-            return correctHands && ((ScriptManager.parse(parameters[0],TypeItem.class)).getObject().equals(clickedItem.getItem()));
+            return correctHands && ((ScriptManager.parse(parameters[0], TypeItem.class)).getObject().equals(clickedItem.getItem()));
         }
     }
 
@@ -110,7 +108,7 @@ public class EvtPlayer {
         public net.minecraftforge.fml.relauncher.Side side;
 
         public EvtOnItemRightClick(EntityPlayer player, ItemStack clicked, EnumHand hand, net.minecraftforge.fml.relauncher.Side side) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"),new ScriptTypeAccessor(new TypeItemStack(clicked),"[click[ed]] item"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"), new ScriptTypeAccessor(new TypeItemStack(clicked), "[click[ed]] item"));
             //System.out.println(ScriptManager.scripts.stream().map(a->a.getBlocks()).collect(Collectors.toList()));
             //System.out.println(ScriptManager.scripts.stream().map(a->a.getName()).collect(Collectors.toList()));
             this.clickedItem = clicked;
@@ -128,22 +126,22 @@ public class EvtPlayer {
             //System.out.println(side+" "+hand+" "+checkMark(2,marks)+" "+checkMark(1,marks)+" "+checkMark(4,marks)+" "+parameters[0]+" "+clickedItem+" "+((ScriptManager.parse(parameters[0],TypeItem.class)).getObject().equals(clickedItem.getItem())));
 
             boolean correctSide = true;
-            if(checkMark(2,marks))
+            if (checkMark(2, marks))
                 correctSide = side.isServer();
-            if(checkMark(1,marks))
+            if (checkMark(1, marks))
                 correctSide = side.isClient();
 
             boolean correctHands = true;
-            if (checkMark(4,marks))
+            if (checkMark(4, marks))
                 correctHands = hand == EnumHand.MAIN_HAND;
 
-            else if (checkMark(3,marks))
+            else if (checkMark(3, marks))
                 correctHands = hand == EnumHand.OFF_HAND;
 
-            if(parameters.length==0 || parameters[0] == null)
+            if (parameters.length == 0 || parameters[0] == null)
                 return correctHands;
 
-            return correctSide && correctHands && ((ScriptManager.parse(parameters[0],TypeItem.class)).getObject().equals(clickedItem.getItem()));
+            return correctSide && correctHands && ((ScriptManager.parse(parameters[0], TypeItem.class)).getObject().equals(clickedItem.getItem()));
         }
     }
 
@@ -183,7 +181,7 @@ public class EvtPlayer {
 
         public EvtOnPlayerSendCommand(EntityPlayer player, String commandName, String[] arguments) {
             super(new ScriptTypeAccessor(new TypePlayer(player), "(player|sender)"),
-                    new ScriptTypeAccessor(new TypeArray(new ArrayList<>(Arrays.stream(arguments).map(a->new TypeString(a)).collect(Collectors.toList()))), "(arguments|parameters)"),
+                    new ScriptTypeAccessor(new TypeArray(new ArrayList<>(Arrays.stream(arguments).map(a -> new TypeString(a)).collect(Collectors.toList()))), "(arguments|parameters)"),
                     new ScriptTypeAccessor(new TypeString(commandName), "command name"));
         }
     }
@@ -203,9 +201,9 @@ public class EvtPlayer {
     )
     public static class EvtOnItemPickup extends ScriptEvent {
 
-        public EvtOnItemPickup(EntityPlayer player,ItemStack item) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"),
-                    new ScriptTypeAccessor(new TypeItemStack(item),"[picked [up]] item"));
+        public EvtOnItemPickup(EntityPlayer player, ItemStack item) {
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"),
+                    new ScriptTypeAccessor(new TypeItemStack(item), "[picked [up]] item"));
         }
 
     }
@@ -225,9 +223,9 @@ public class EvtPlayer {
     )
     public static class EvtOnItemUse extends ScriptEvent {
 
-        public EvtOnItemUse(EntityPlayer player,ItemStack item) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"),
-                    new ScriptTypeAccessor(new TypeItemStack(item),"[used] item"));
+        public EvtOnItemUse(EntityPlayer player, ItemStack item) {
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"),
+                    new ScriptTypeAccessor(new TypeItemStack(item), "[used] item"));
         }
 
     }
@@ -245,14 +243,12 @@ public class EvtPlayer {
     )
     public static class EvtOnItemUsed extends ScriptEvent {
 
-        public EvtOnItemUsed(EntityPlayer player,ItemStack item) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"),
-                    new ScriptTypeAccessor(new TypeItemStack(item),"[used] item"));
+        public EvtOnItemUsed(EntityPlayer player, ItemStack item) {
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"),
+                    new ScriptTypeAccessor(new TypeItemStack(item), "[used] item"));
         }
 
     }
-
-
 
 
     @Cancelable
@@ -263,15 +259,15 @@ public class EvtPlayer {
                             "    cancel event #Removes pvp",
                     pattern = "player (hit|attacked)"),
             accessors = {
-                    @Feature(name = "Attacker",description = "The player that attacked.", pattern = "attacker", type = "player"),
-                    @Feature(name = "Victim",description = "The player that was attacked.", pattern = "victim", type = "player"),
+                    @Feature(name = "Attacker", description = "The player that attacked.", pattern = "attacker", type = "player"),
+                    @Feature(name = "Victim", description = "The player that was attacked.", pattern = "victim", type = "player"),
             }
     )
     public static class EvtOnPlayerHit extends ScriptEvent {
 
-        public EvtOnPlayerHit(EntityPlayer victim,EntityPlayer attacker) {
-            super(new ScriptTypeAccessor(new TypePlayer(victim),"victim"),
-                    new ScriptTypeAccessor(new TypePlayer(attacker),"attacker"));
+        public EvtOnPlayerHit(EntityPlayer victim, EntityPlayer attacker) {
+            super(new ScriptTypeAccessor(new TypePlayer(victim), "victim"),
+                    new ScriptTypeAccessor(new TypePlayer(attacker), "attacker"));
         }
 
     }
@@ -284,17 +280,17 @@ public class EvtPlayer {
                             "    cancel event #Removes pvp",
                     pattern = "player attack[ing] [{entity|resource}]"),
             accessors = {
-                    @Feature(name = "Attacker",description = "The player that attacked.", pattern = "attacker", type = "player"),
-                    @Feature(name = "Victim",description = "The entity that was attacked.", pattern = "victim", type = "entity"),
+                    @Feature(name = "Attacker", description = "The player that attacked.", pattern = "attacker", type = "player"),
+                    @Feature(name = "Victim", description = "The entity that was attacked.", pattern = "victim", type = "entity"),
             }
     )
     public static class EvtOnPlayerAttack extends ScriptEvent {
 
         Entity victim;
 
-        public EvtOnPlayerAttack(Entity victim,EntityPlayer attacker) {
-            super(new ScriptTypeAccessor(new TypeEntity(victim),"victim"),
-                    new ScriptTypeAccessor(new TypePlayer(attacker),"attacker"));
+        public EvtOnPlayerAttack(Entity victim, EntityPlayer attacker) {
+            super(new ScriptTypeAccessor(new TypeEntity(victim), "victim"),
+                    new ScriptTypeAccessor(new TypePlayer(attacker), "attacker"));
             this.victim = victim;
         }
 
@@ -321,13 +317,13 @@ public class EvtPlayer {
                             "    cancel event #Forbid jumping",
                     pattern = "[player] (jump|jumped)", side = Side.CLIENT),
             accessors = {
-                    @Feature(name = "Player",description = "The player that jumped.", pattern = "player", type = "player"),
+                    @Feature(name = "Player", description = "The player that jumped.", pattern = "player", type = "player"),
             }
     )
     public static class EvtOnPlayerJump extends ScriptEvent {
 
         public EvtOnPlayerJump(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
         }
 
     }
@@ -340,13 +336,13 @@ public class EvtPlayer {
                     examples = "on player login:",
                     pattern = "[player] (login|connection)"),
             accessors = {
-                    @Feature(name = "Player",description = "The player that logged in.", pattern = "player", type = "player"),
+                    @Feature(name = "Player", description = "The player that logged in.", pattern = "player", type = "player"),
             }
     )
     public static class EvtOnPlayerLogin extends ScriptEvent {
 
         public EvtOnPlayerLogin(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
         }
 
     }
@@ -358,9 +354,9 @@ public class EvtPlayer {
                     examples = "on right click on villager:",
                     pattern = "[right] click on ((1;(living|entity))|(2;{entity|resource})) [entity]"),
             accessors = {
-                    @Feature(name = "Interaction entity",description = "The entity that has been interacted with.", pattern = "(target|entity)", type = "entity"),
-                    @Feature(name = "Interaction hand",description = "The hand that has been used to interact.", pattern = "hand", type = "hand"),
-                    @Feature(name = "Player",description = "The player that interacted with the entity.", pattern = "player", type = "player"),
+                    @Feature(name = "Interaction entity", description = "The entity that has been interacted with.", pattern = "(target|entity)", type = "entity"),
+                    @Feature(name = "Interaction hand", description = "The hand that has been used to interact.", pattern = "hand", type = "hand"),
+                    @Feature(name = "Player", description = "The player that interacted with the entity.", pattern = "player", type = "player"),
             }
     )
     public static class EvtOnEntityInteract extends ScriptEvent {
@@ -368,8 +364,8 @@ public class EvtPlayer {
         Entity entity;
 
         public EvtOnEntityInteract(Entity entity, EnumHand hand, EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypeEntity(entity),"(target|entity)"),
-                    new ScriptTypeAccessor(new TypeHand(hand),"hand"),
+            super(new ScriptTypeAccessor(new TypeEntity(entity), "(target|entity)"),
+                    new ScriptTypeAccessor(new TypeHand(hand), "hand"),
                     new ScriptTypeAccessor(new TypePlayer(player), "player"));
             this.entity = entity;
         }
@@ -377,8 +373,8 @@ public class EvtPlayer {
         @Override
         public boolean validate(ScriptType[] parameters, int marks) {
             //System.out.println("Validating with : "+ Arrays.toString(parameters)+" "+(parameters[0]==null));
-            if (parameters[0] != null){
-                if(parameters[0] instanceof TypeResource)
+            if (parameters[0] != null) {
+                if (parameters[0] instanceof TypeResource)
                     return ForgeRegistries.ENTITIES.getValue((ResourceLocation) parameters[0].getObject()) != null;
                 else return parameters[0] instanceof TypeEntity
                         || parameters[0] instanceof TypeNull;
@@ -417,7 +413,7 @@ public class EvtPlayer {
     public static class EvtOnPlayerDrops extends ScriptEvent {
 
         public EvtOnPlayerDrops(EntityPlayer player, DamageSource damageSource, TypeArray typeArray) {
-            super(new ScriptTypeAccessor(player != null ? new TypePlayer(player) : new TypeNull(),"player"), new ScriptTypeAccessor(damageSource.getImmediateSource() != null ? new TypeEntity(damageSource.getImmediateSource()) : new TypeNull(),"attacker"), new ScriptTypeAccessor(new TypeDamageSource(damageSource),"damageType"), new ScriptTypeAccessor(typeArray,"drops"));
+            super(new ScriptTypeAccessor(player != null ? new TypePlayer(player) : new TypeNull(), "player"), new ScriptTypeAccessor(damageSource.getImmediateSource() != null ? new TypeEntity(damageSource.getImmediateSource()) : new TypeNull(), "attacker"), new ScriptTypeAccessor(new TypeDamageSource(damageSource), "damageType"), new ScriptTypeAccessor(typeArray, "drops"));
         }
 
     }
@@ -436,7 +432,7 @@ public class EvtPlayer {
     public static class EvtOnItemToss extends ScriptEvent {
 
         public EvtOnItemToss(EntityPlayer entityPlayer, EntityItem itemEntity) {
-            super(new ScriptTypeAccessor(entityPlayer != null ? new TypePlayer(entityPlayer) : new TypeNull(),"player"), new ScriptTypeAccessor(new TypeItemStack(itemEntity.getItem()),"item"));
+            super(new ScriptTypeAccessor(entityPlayer != null ? new TypePlayer(entityPlayer) : new TypeNull(), "player"), new ScriptTypeAccessor(new TypeItemStack(itemEntity.getItem()), "item"));
         }
 
     }
@@ -484,7 +480,7 @@ public class EvtPlayer {
     public static class EvtOnPlayerRespawn extends ScriptEvent {
 
         public EvtOnPlayerRespawn(EntityPlayer entityPlayer, boolean endConquered) {
-            super(new ScriptTypeAccessor(entityPlayer != null ? new TypePlayer(entityPlayer) : new TypeNull(),"player"), new ScriptTypeAccessor(new TypeBoolean(endConquered),"endConquered"));
+            super(new ScriptTypeAccessor(entityPlayer != null ? new TypePlayer(entityPlayer) : new TypeNull(), "player"), new ScriptTypeAccessor(new TypeBoolean(endConquered), "endConquered"));
         }
 
     }
@@ -501,9 +497,14 @@ public class EvtPlayer {
     public static class EvtOnPlayerTick extends ScriptEvent {
 
         public EvtOnPlayerTick(EntityPlayer player) {
-            super(new ScriptTypeAccessor(new TypePlayer(player),"player"));
+            super(new ScriptTypeAccessor(new TypePlayer(player), "player"));
         }
 
     }
 
 }
+
+
+
+
+

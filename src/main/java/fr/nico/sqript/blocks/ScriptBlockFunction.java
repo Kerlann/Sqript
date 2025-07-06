@@ -1,7 +1,7 @@
 package fr.nico.sqript.blocks;
 
-import fr.nico.sqript.compiling.ScriptException;
-import fr.nico.sqript.compiling.ScriptToken;
+import fr.nico.sqript.core.compilation.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptToken;
 import fr.nico.sqript.meta.Block;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.Side;
@@ -28,7 +28,7 @@ public class ScriptBlockFunction extends ScriptFunctionalBlock {
     public void init(ScriptLineBlock block) throws Exception {
         groupFields(block.getContent());
 
-        if(fieldDefined("side"))
+        if (fieldDefined("side"))
             side = Side.from(getSubBlock("side").getRawContent());
         //System.out.println("Loading function : "+getLine());
         if (side != null && !side.isValid()) {
@@ -41,3 +41,7 @@ public class ScriptBlockFunction extends ScriptFunctionalBlock {
         load();
     }
 }
+
+
+
+

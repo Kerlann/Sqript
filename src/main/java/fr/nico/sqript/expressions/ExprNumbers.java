@@ -1,14 +1,11 @@
 package fr.nico.sqript.expressions;
 
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.meta.Expression;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
 import fr.nico.sqript.types.ScriptType;
-import fr.nico.sqript.types.interfaces.IFormatable;
 import fr.nico.sqript.types.primitive.TypeBoolean;
-import fr.nico.sqript.types.primitive.TypeNumber;
-import fr.nico.sqript.types.primitive.TypeString;
 
 @Expression(name = "Number Expressions",
         features = {
@@ -22,10 +19,10 @@ public class ExprNumbers extends ScriptExpression {
 
         switch (getMatchedIndex()) {
             case 0:
-                double x = (double)parameters[0].getObject();
-                double a = (double)parameters[1].getObject();
-                double b = (double)parameters[2].getObject();
-                return new TypeBoolean(x<=b && x>=a);
+                double x = (double) parameters[0].getObject();
+                double a = (double) parameters[1].getObject();
+                double b = (double) parameters[2].getObject();
+                return new TypeBoolean(x <= b && x >= a);
 
         }
         return null;
@@ -36,3 +33,8 @@ public class ExprNumbers extends ScriptExpression {
         return false;
     }
 }
+
+
+
+
+

@@ -1,11 +1,10 @@
 package fr.nico.sqript.expressions;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.compiling.ScriptException;
-import fr.nico.sqript.compiling.ScriptToken;
-import fr.nico.sqript.structures.ScriptTypeAccessor;
+import fr.nico.sqript.core.compilation.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptToken;
 import fr.nico.sqript.structures.ScriptContext;
-import fr.nico.sqript.structures.ScriptElement;
+import fr.nico.sqript.structures.ScriptTypeAccessor;
 import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.TypeNull;
 
@@ -14,6 +13,15 @@ public class ExprReference extends ScriptExpression {
     public ScriptExpression scriptExpression;
 
     public boolean global = false;
+    Integer varHash = null;
+
+    public ExprReference(ScriptExpression scriptExpression) {
+        this.scriptExpression = scriptExpression;
+    }
+
+    public ExprReference(int varHash) {
+        this.varHash = varHash;
+    }
 
     @Override
     public void setLine(ScriptToken line) {
@@ -21,17 +29,7 @@ public class ExprReference extends ScriptExpression {
         global = line.getText().startsWith("$");
     }
 
-    Integer varHash = null;
-
     public void setVarHash(Integer varHash) {
-        this.varHash = varHash;
-    }
-
-    public ExprReference(ScriptExpression scriptExpression) {
-        this.scriptExpression = scriptExpression;
-    }
-
-    public ExprReference(int varHash) {
         this.varHash = varHash;
     }
 
@@ -50,7 +48,7 @@ public class ExprReference extends ScriptExpression {
             varHash = var.hashCode();
             if (varHash == 0)
                 varHash = varContext.getHash(line.getText(), false);
-            if(varContext.getAccessor(varHash) != null)
+            if (varContext.getAccessor(varHash) != null)
                 return varContext.getVariable(varHash);
             else return new TypeNull();
         } else {
@@ -77,10 +75,10 @@ public class ExprReference extends ScriptExpression {
             if (varHash == 0)
                 varHash = varContext.getHash(line.getText(), false);
             ScriptTypeAccessor typeAccessor = varContext.getAccessor(varHash);
-            if(typeAccessor != null)
+            if (typeAccessor != null)
                 typeAccessor.setElement(to);
-            else{
-                typeAccessor = new ScriptTypeAccessor(to,varHash);
+            else {
+                typeAccessor = new ScriptTypeAccessor(to, varHash);
                 typeAccessor.setKey(var);
                 varContext.put(typeAccessor);
             }
@@ -92,10 +90,10 @@ public class ExprReference extends ScriptExpression {
             //System.out.println("Context vars are : "+context.printVariables());
             //System.out.println("Result is null : "+(context.getAccessor(this.varHash)==null));
             ScriptTypeAccessor typeAccessor = varContext.getAccessor(varHash);
-            if(typeAccessor != null)
+            if (typeAccessor != null)
                 typeAccessor.setElement(to);
-            else{
-                typeAccessor = new ScriptTypeAccessor(to,varHash);
+            else {
+                typeAccessor = new ScriptTypeAccessor(to, varHash);
                 typeAccessor.setKey(line.getText());
                 varContext.put(typeAccessor);
             }
@@ -106,6 +104,11 @@ public class ExprReference extends ScriptExpression {
 
     @Override
     public String toString() {
-        return "ExprReference:" +line.getText();
+        return "ExprReference:" + line.getText();
     }
 }
+
+
+
+
+

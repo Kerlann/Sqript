@@ -1,6 +1,6 @@
 package fr.nico.sqript.expressions;
 
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.meta.Expression;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
@@ -9,8 +9,6 @@ import fr.nico.sqript.types.TypeArray;
 import fr.nico.sqript.types.TypeDictionary;
 import fr.nico.sqript.types.TypeNBTTagCompound;
 import fr.nico.sqript.types.primitive.TypeString;
-
-import java.util.Collection;
 
 @Expression(name = "Dictionaries",
         features = {
@@ -36,12 +34,12 @@ public class ExprDictionaries extends ScriptExpression {
             case 2:
                 ScriptType h = parameters[0];
                 TypeArray result = new TypeArray();
-                if(h instanceof TypeDictionary)
-                    for (ScriptType scriptType : ((TypeDictionary)h).getObject().keySet()) {
+                if (h instanceof TypeDictionary)
+                    for (ScriptType scriptType : ((TypeDictionary) h).getObject().keySet()) {
                         result.getObject().add(scriptType);
                     }
-                else if(h instanceof TypeNBTTagCompound){
-                    for (String key : ((TypeNBTTagCompound)h).getObject().getKeySet()) {
+                else if (h instanceof TypeNBTTagCompound) {
+                    for (String key : ((TypeNBTTagCompound) h).getObject().getKeySet()) {
                         result.getObject().add(new TypeString(key));
                     }
                 }
@@ -55,3 +53,8 @@ public class ExprDictionaries extends ScriptExpression {
         return false;
     }
 }
+
+
+
+
+

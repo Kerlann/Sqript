@@ -3,29 +3,31 @@ package fr.nico.sqript.structures;
 import fr.nico.sqript.meta.Type;
 import fr.nico.sqript.meta.TypeDefinition;
 
-@Type(name="element",parsableAs = {})
+@Type(name = "element", parsableAs = {})
 public class ScriptElement<T> {
 
     /*
     Classe un peu inutile pour l'instant mais plus tard par la création d'interface elle deviendra intéressante
      */
 
+    private T object;
+
+    public ScriptElement() {
+    }
+
+
+    public ScriptElement(T object) {
+        setObject(object);
+    }
+
     /**
      * Invoked once, when the type is registered.
      * Override this method to access this type definition and
      * define some OperationDefinition or ParseDefinition in it.
+     *
      * @param definition
      */
-    public void load(TypeDefinition definition){};
-
-    private T object;
-
-
-
-    public ScriptElement(){}
-
-    public ScriptElement(T object){
-        setObject(object);
+    public void load(TypeDefinition definition) {
     }
 
     public T getObject() {
@@ -33,12 +35,11 @@ public class ScriptElement<T> {
     }
 
 
-
     public void setObject(T object) {
         this.object = object;
     }
 
-    public Class getType(){
+    public Class getType() {
         return object.getClass();
     }
 
@@ -48,3 +49,8 @@ public class ScriptElement<T> {
     }
 
 }
+
+
+
+
+

@@ -10,7 +10,14 @@ import java.lang.annotation.RetentionPolicy;
 public @interface Type {
 
     String name();
+
     Class<? extends ScriptType>[] parsableAs();
+
     Side side() default Side.BOTH;
 
 }
+
+
+
+
+

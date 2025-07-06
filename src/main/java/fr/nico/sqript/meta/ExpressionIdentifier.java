@@ -7,7 +7,7 @@ import java.util.Objects;
 /**
  * Class that uses a priority to compare, and the given expressionClass to create a hash.
  */
-public class ExpressionIdentifier implements Comparable{
+public class ExpressionIdentifier implements Comparable {
 
     private final int priority;
     private final Class<? extends ScriptExpression> expressionClass;
@@ -24,7 +24,6 @@ public class ExpressionIdentifier implements Comparable{
     public Class<? extends ScriptExpression> getExpressionClass() {
         return expressionClass;
     }
-
 
 
     @Override
@@ -46,3 +45,8 @@ public class ExpressionIdentifier implements Comparable{
         return ((ExpressionIdentifier) o).priority - getPriority();
     }
 }
+
+
+
+
+

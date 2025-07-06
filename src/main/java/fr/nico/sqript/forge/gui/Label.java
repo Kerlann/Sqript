@@ -40,12 +40,12 @@ public class Label extends Widget {
         for (String displayText : displayLines) {
             GlStateManager.pushMatrix();
             //System.out.println(x - (rightToLeft ? fontRenderer.getStringWidth(displayText) * scale : 0));
-            GlStateManager.translate(x - (rightToLeft ? fontRenderer.getStringWidth(displayText) * scale : 0), y+i*Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT*scale, 0);
+            GlStateManager.translate(x - (rightToLeft ? fontRenderer.getStringWidth(displayText) * scale : 0), y + i * Minecraft.getMinecraft().fontRenderer.FONT_HEIGHT * scale, 0);
             GlStateManager.scale(scale, scale, 1);
             if (style_display == EnumDisplayStyle.NORMAL)
                 drawString(Minecraft.getMinecraft().fontRenderer, displayText, 0, 0, textColor);
             if (style_display == EnumDisplayStyle.CENTER)
-                drawCenteredString(Minecraft.getMinecraft().fontRenderer, displayText, (int) (style.getWidth()/2/getScale()), 0, textColor);
+                drawCenteredString(Minecraft.getMinecraft().fontRenderer, displayText, (int) (style.getWidth() / 2 / getScale()), 0, textColor);
             GlStateManager.popMatrix();
             i++;
         }
@@ -80,7 +80,7 @@ public class Label extends Widget {
     }
 
     public int getSizedWidth() {
-        return Arrays.stream(displayLines).map(s->fontRenderer.getStringWidth(s)*getScale()).max(Double::compare).get().intValue();
+        return Arrays.stream(displayLines).map(s -> fontRenderer.getStringWidth(s) * getScale()).max(Double::compare).get().intValue();
     }
 
     public int getSizedHeight() {
@@ -95,3 +95,8 @@ public class Label extends Widget {
         this.style_display = style_display;
     }
 }
+
+
+
+
+

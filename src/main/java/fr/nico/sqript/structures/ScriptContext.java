@@ -1,10 +1,11 @@
 package fr.nico.sqript.structures;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.compiling.ScriptException;
 import fr.nico.sqript.types.ScriptType;
+import net.minecraft.command.ICommandSender;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 
 /**
@@ -24,6 +25,29 @@ public class ScriptContext {
      * The parent of this ScriptContext.
      */
     private ScriptContext parent;
+
+    private ICommandSender sender;
+    /**
+     * A non-null accessor means that a returnValue is wanted here.
+     * If a child context has this accessor, to null, it will try to give the return to his parent, and recursively.
+     */
+    private ScriptTypeAccessor returnValue = null;
+
+    public ScriptContext() {
+    }
+
+    public ScriptContext(ScriptContext parent) {
+        this.parent = parent;
+    }
+
+    /**
+     * Utility method which creates a ScriptContext extending the global one
+     *
+     * @return A ScriptContext extending the global one
+     */
+    public static ScriptContext fromGlobal() {
+        return new ScriptContext(ScriptManager.GLOBAL_CONTEXT);
+    }
 
     /**
      * Removes the variable associated to the given name from this ScriptContext.
@@ -45,39 +69,6 @@ public class ScriptContext {
     }
 
     /**
-     * A non-null accessor means that a returnValue is wanted here.
-     * If a child context has this accessor, to null, it will try to give the return to his parent, and recursively.
-     */
-    private ScriptTypeAccessor returnValue = null;
-
-    /**
-     * Utility method which creates a ScriptContext extending the global one
-     *
-     * @return A ScriptContext extending the global one
-     */
-    public static ScriptContext fromGlobal() {
-        return new ScriptContext(ScriptManager.GLOBAL_CONTEXT);
-    }
-
-    public ScriptContext() {
-    }
-
-    public ScriptContext(ScriptContext parent) {
-        this.parent = parent;
-    }
-
-
-    /**
-     * Propagates the return value of this ScriptContext to its parent.
-     */
-    public void setReturnValue(ScriptType returnValue) {
-        if (this.returnValue != null)
-            this.returnValue.element = returnValue;
-        else if (parent != null)
-            parent.setReturnValue(returnValue);
-    }
-
-    /**
      * Debug purpose only.
      *
      * @return a String holding information about this ScriptContext.
@@ -91,7 +82,6 @@ public class ScriptContext {
             s += " => [" + parent.printVariables() + "]";
         return s;
     }
-
 
     /**
      * Returns the variable associated to the given hash.
@@ -112,13 +102,12 @@ public class ScriptContext {
         else return null;
     }
 
-
     public ScriptType<?> getVariable(String name) {
-        return getVariable(name,false);
+        return getVariable(name, false);
     }
 
     public ScriptType<?> getVariable(String name, boolean scoped) {
-        return getVariable(getHash(name,scoped));
+        return getVariable(getHash(name, scoped));
     }
 
     /**
@@ -186,7 +175,7 @@ public class ScriptContext {
      * @return the instance of this ScriptContext once the array is wrapped.
      */
     public ScriptContext wrap(ScriptTypeAccessor... accessors) {
-        if(accessors!=null)
+        if (accessors != null)
             for (ScriptTypeAccessor accessor : accessors) {
                 put(accessor);
             }
@@ -204,8 +193,30 @@ public class ScriptContext {
         return returnValue;
     }
 
+    /**
+     * Propagates the return value of this ScriptContext to its parent.
+     */
+    public void setReturnValue(ScriptType returnValue) {
+        if (this.returnValue != null)
+            this.returnValue.element = returnValue;
+        else if (parent != null)
+            parent.setReturnValue(returnValue);
+    }
+
     public void setReturnValue(ScriptTypeAccessor returnValue) {
         this.returnValue = returnValue;
+    }
+
+    public ICommandSender getSender() {
+        if (sender != null)
+            return sender;
+        if (parent != null)
+            return parent.getSender();
+        return null;
+    }
+
+    public void setSender(ICommandSender sender) {
+        this.sender = sender;
     }
 
     public ScriptTypeAccessor getAccessor(Integer varHash) {
@@ -220,10 +231,53 @@ public class ScriptContext {
     public String printPatterns() {
         String s = "(" + this.hashCode() + ") ";
         for (int a : variables.keySet()) {
-            s += "[" + variables.get(a).key+" ["+variables.get(a).getPattern()+"] " + "/" + a + ":" + variables.get(a).element + "] ";
+            s += "[" + variables.get(a).key + " [" + variables.get(a).getPattern() + "] " + "/" + a + ":" + variables.get(a).element + "] ";
         }
         if (parent != null)
             s += " => [" + parent.printVariables() + "]";
         return s;
     }
+
+    /**
+     * Sets a variable in this context
+     *
+     * @param name  The variable name
+     * @param value The value to set
+     */
+    public void setVariable(String name, ScriptType value) {
+        int hash = getHash(name, false);
+        ScriptTypeAccessor accessor = variables.get(hash);
+        if (accessor == null) {
+            // Create new accessor if it doesn't exist
+            accessor = new ScriptTypeAccessor(value, name);
+            put(accessor);
+        } else {
+            // Update existing accessor
+            accessor.element = value;
+        }
+    }
+
+    /**
+     * Sets a variable in this context by hash
+     *
+     * @param hash  The variable hash
+     * @param value The value to set
+     */
+    public void setVariable(int hash, ScriptType value) {
+        ScriptTypeAccessor accessor = variables.get(hash);
+        if (accessor == null) {
+            // Create new accessor if it doesn't exist
+            accessor = new ScriptTypeAccessor(value, "var_" + hash);
+            accessor.hash = hash;
+            put(accessor);
+        } else {
+            // Update existing accessor
+            accessor.element = value;
+        }
+    }
 }
+
+
+
+
+

@@ -1,12 +1,8 @@
 package fr.nico.sqript.forge.common;
 
-import com.mojang.authlib.Agent;
-import com.mojang.authlib.exceptions.AuthenticationException;
-import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
-import com.mojang.authlib.yggdrasil.YggdrasilUserAuthentication;
 import fr.nico.sqript.ScriptManager;
 import fr.nico.sqript.ScriptTimer;
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.events.*;
 import fr.nico.sqript.forge.capabilities.Capability;
 import fr.nico.sqript.forge.capabilities.CapabilityProvider;
@@ -16,7 +12,6 @@ import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.TypeArray;
 import fr.nico.sqript.types.TypeBlock;
 import fr.nico.sqript.types.TypeItemStack;
-import fr.nico.sqript.types.primitive.TypeString;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -47,7 +42,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.net.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -149,7 +143,8 @@ public class ScriptEventHandler {
         if (event.getSender() != null && event.getPhase() == EventPriority.NORMAL && event.getSender() instanceof EntityPlayer) {
             ScriptContext context = null;
             try {
-                context = ScriptManager.callEventAndGetContext(new EvtPlayer.EvtOnPlayerSendCommand((EntityPlayer) event.getSender(),  event.getCommand().getName(), event.getParameters()));
+                context = ScriptManager.callEventAndGetContext(new EvtPlayer.EvtOnPlayerSendCommand((EntityPlayer) event.getSender(), event.getCommand().getName(), event.getParameters()));
+                context.setSender(event.getSender());
 
                 if (context.getAccessor("arguments") != null && context.getAccessor("arguments").element != null)
                     event.setParameters(Arrays.stream(((TypeArray) context.getAccessor("arguments").element).getObject().toArray(new ScriptType<?>[0])).map(ScriptElement::getObject).toArray(String[]::new));
@@ -171,6 +166,7 @@ public class ScriptEventHandler {
             //System.out.println("Calling message sent with player : "+event.getPlayer());
             try {
                 context = ScriptManager.callEventAndGetContext(new EvtPlayer.EvtOnPlayerSendMessage(event.getPlayer(), event.getMessage()));
+                context.setSender(event.getPlayer());
                 if (context.getAccessor("message") != null && context.getAccessor("message").element != null && !context.getAccessor("message").element.getObject().equals(event.getMessage()))
                     event.setComponent(new TextComponentString((String) context.getAccessor("message").element.getObject()));
                 if ((boolean) context.getReturnValue().element.getObject()) {
@@ -188,8 +184,6 @@ public class ScriptEventHandler {
     public void onRenderLiving(RenderWorldLastEvent event) {
         ScriptManager.callEvent(new EvtRender.EvtOnRenderWorld(event.getPartialTicks()));
     }
-
-
 
 
     @SubscribeEvent
@@ -226,7 +220,7 @@ public class ScriptEventHandler {
     public void onBlockRightClick(PlayerInteractEvent.RightClickBlock event) {
         //System.out.println("On block right click");
         if (event.getEntity() instanceof EntityPlayer) {
-            if (ScriptManager.callEvent(new EvtBlock.EvtOnBlockClick((EntityPlayer) event.getEntity(),  new TypeBlock(event.getEntityPlayer().getEntityWorld().getBlockState(new BlockPos(event.getPos())), event.getPos(), event.getWorld()), event.getHand(), 1, event.getPos()))) {
+            if (ScriptManager.callEvent(new EvtBlock.EvtOnBlockClick((EntityPlayer) event.getEntity(), new TypeBlock(event.getEntityPlayer().getEntityWorld().getBlockState(new BlockPos(event.getPos())), event.getPos(), event.getWorld()), event.getHand(), 1, event.getPos()))) {
                 event.setCanceled(true);
             }
         }
@@ -297,7 +291,6 @@ public class ScriptEventHandler {
             ((EntityPlayerMP) event.player).connection.disconnect(new TextComponentString("Disconnected."));
         }
     }
-
 
 
     @SubscribeEvent
@@ -414,3 +407,7 @@ public class ScriptEventHandler {
     }
 
 }
+
+
+
+

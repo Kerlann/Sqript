@@ -1,10 +1,10 @@
 package fr.nico.sqript.expressions;
 
-import fr.nico.sqript.meta.Feature;
-import fr.nico.sqript.types.TypeConsole;
 import fr.nico.sqript.meta.Expression;
+import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.structures.ScriptContext;
 import fr.nico.sqript.types.ScriptType;
+import fr.nico.sqript.types.TypeConsole;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 
 @Expression(name = "Console Expressions",
@@ -14,7 +14,7 @@ public class ExprConsole extends ScriptExpression {
 
     @Override
     public ScriptType get(ScriptContext context, ScriptType[] parameters) {
-        switch(getMatchedIndex()){
+        switch (getMatchedIndex()) {
             case 0:
                 return new TypeConsole(FMLCommonHandler.instance().getMinecraftServerInstance());
 
@@ -27,3 +27,8 @@ public class ExprConsole extends ScriptExpression {
         return false;
     }
 }
+
+
+
+
+

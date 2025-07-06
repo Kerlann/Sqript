@@ -169,8 +169,12 @@ public class TextBox extends TextField {
             this.setResponderEntryValue(this.getId(), this.getText());
 
 
-            return;
         } else
             super.keyTyped(c, ke);
     }
 }
+
+
+
+
+

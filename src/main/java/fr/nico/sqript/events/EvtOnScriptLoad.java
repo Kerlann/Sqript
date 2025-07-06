@@ -19,7 +19,12 @@ import java.io.File;
 public class EvtOnScriptLoad extends ScriptEvent {
 
     public EvtOnScriptLoad(File scriptFile) {
-        super(new ScriptTypeAccessor(new TypeFile(scriptFile),"[script] file"));
+        super(new ScriptTypeAccessor(new TypeFile(scriptFile), "[script] file"));
     }
 
 }
+
+
+
+
+

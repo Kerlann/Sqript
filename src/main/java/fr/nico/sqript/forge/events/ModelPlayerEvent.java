@@ -2,7 +2,7 @@ package fr.nico.sqript.forge.events;
 
 import fr.nico.sqript.ScriptManager;
 import fr.nico.sqript.SqriptUtils;
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.events.EvtRender;
 import fr.nico.sqript.structures.ScriptContext;
 import fr.nico.sqript.types.TypeArray;
@@ -11,11 +11,10 @@ import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.eventhandler.Cancelable;
 
 public class ModelPlayerEvent extends PlayerEvent {
-    private ModelPlayer modelPlayer;
-    private float partialTicks;
+    private final ModelPlayer modelPlayer;
+    private final float partialTicks;
 
     public ModelPlayerEvent(EntityPlayer player, ModelPlayer modelPlayer, float partialTicks, float limbSwing, float limbSwingAmount, float netHeadYaw, float headPitch, float scaleFactor) {
         super(player);
@@ -89,3 +88,7 @@ public class ModelPlayerEvent extends PlayerEvent {
     }
 
 }
+
+
+
+

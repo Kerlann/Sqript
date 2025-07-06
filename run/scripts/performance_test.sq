@@ -1,0 +1,18 @@
+function broadcast({message}):
+    side: client
+    for {player} in all players:
+        send {message} to {player}
+
+command /broadcast <string>:
+    description: sends a message to all players
+    broadcast(arg 1)
+
+command /randomPlayer:
+    description: returns a random player
+    send random element of all players to sender
+
+command /test:
+    send "Hello World!" to sender
+
+command /testArgs <string>:
+    send arg 1 to sender

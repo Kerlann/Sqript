@@ -1,20 +1,19 @@
 package fr.nico.sqript.blocks;
 
 import fr.nico.sqript.ScriptManager;
-import fr.nico.sqript.actions.ScriptAction;
-import fr.nico.sqript.compiling.ScriptCompilationContext;
-import fr.nico.sqript.compiling.ScriptException;
-import fr.nico.sqript.compiling.ScriptLoader;
-import fr.nico.sqript.compiling.ScriptToken;
+import fr.nico.sqript.core.compilation.ScriptCompilationContext;
+import fr.nico.sqript.core.compilation.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptToken;
 import fr.nico.sqript.meta.Block;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.network.ScriptMessage;
 import fr.nico.sqript.network.ScriptNetworkManager;
-import fr.nico.sqript.structures.*;
+import fr.nico.sqript.structures.IScript;
+import fr.nico.sqript.structures.ScriptContext;
+import fr.nico.sqript.structures.Side;
 import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.TypeMessagePrototype;
 import fr.nico.sqript.types.TypePlayer;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.Arrays;
 
@@ -43,6 +42,10 @@ public class ScriptBlockPacket extends ScriptFunctionalBlock {
     IScript client = null;
     IScript server = null;
 
+    public ScriptBlockPacket(ScriptToken head) throws ScriptException {
+        super(head);
+    }
+
     public IScript getClient() {
         return client;
     }
@@ -56,23 +59,19 @@ public class ScriptBlockPacket extends ScriptFunctionalBlock {
         return new TypeMessagePrototype(new ScriptMessage(this.name, parameters));
     }
 
-    public ScriptBlockPacket(ScriptToken head) throws ScriptException {
-        super(head);
-    }
-
     @Override
     public void displayTree(int i) {
         String tab = "";
         for (int j = 0; j < i; j++) tab += "|    ";
-        ScriptManager.log.info(tab+""+name+" "+ Arrays.toString(parameters));
+        ScriptManager.log.info(tab + name + " " + Arrays.toString(parameters));
         tab += "|    ";
         if (client != null) {
-            ScriptManager.log.info(tab+"client :");
-            ScriptLoader.dispScriptTree(client, i + 2);
+            ScriptManager.log.info(tab + "client :");
+            ScriptManager.dispScriptTree(client, i + 2);
         }
         if (server != null) {
             ScriptManager.log.info(tab + "server :");
-            ScriptLoader.dispScriptTree(server,i + 2);
+            ScriptManager.dispScriptTree(server, i + 2);
         }
     }
 
@@ -82,10 +81,10 @@ public class ScriptBlockPacket extends ScriptFunctionalBlock {
         ScriptNetworkManager.registerMessage(this);
 
         //Compilation des fields "client" et "server"
-        if(fieldDefined("client") && Side.CLIENT.isEffectivelyValid()){
+        if (fieldDefined("client") && Side.CLIENT.isEffectivelyValid()) {
             client = getSubBlock("client").compile();
         }
-        if(fieldDefined("server") && Side.SERVER.isEffectivelyValid()){
+        if (fieldDefined("server") && Side.SERVER.isEffectivelyValid()) {
             ScriptCompilationContext compilationContext = new ScriptCompilationContext();
             compilationContext.add("(player|sender)", TypePlayer.class);
             server = getSubBlock("server").compile(compilationContext);
@@ -95,3 +94,8 @@ public class ScriptBlockPacket extends ScriptFunctionalBlock {
     }
 
 }
+
+
+
+
+

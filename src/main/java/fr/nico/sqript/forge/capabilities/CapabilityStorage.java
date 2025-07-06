@@ -4,7 +4,6 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraftforge.common.capabilities.Capability.IStorage;
-import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nullable;
 
@@ -29,7 +28,7 @@ public class CapabilityStorage implements IStorage<Capability> {
 
 
     @Nullable
-    public NBTBase writeNBT(net.minecraftforge.common.capabilities.Capability<Capability> capability,Capability instance, EnumFacing side) {
+    public NBTBase writeNBT(net.minecraftforge.common.capabilities.Capability<Capability> capability, Capability instance, EnumFacing side) {
         return toNBT(instance);
     }
 
@@ -39,3 +38,8 @@ public class CapabilityStorage implements IStorage<Capability> {
 
 
 }
+
+
+
+
+

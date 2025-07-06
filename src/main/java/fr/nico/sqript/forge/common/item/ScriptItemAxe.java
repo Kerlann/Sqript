@@ -7,7 +7,7 @@ public class ScriptItemAxe extends ItemAxe {
 
     public final String displayName;
 
-    public ScriptItemAxe(String displayName, String toolMaterial){
+    public ScriptItemAxe(String displayName, String toolMaterial) {
         super(ToolMaterial.valueOf(toolMaterial.toUpperCase()));
         this.displayName = displayName;
 
@@ -19,3 +19,7 @@ public class ScriptItemAxe extends ItemAxe {
     }
 
 }
+
+
+
+

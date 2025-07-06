@@ -1,7 +1,7 @@
 package fr.nico.sqript;
 
 import com.google.gson.*;
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.meta.*;
 import fr.nico.sqript.types.*;
 import fr.nico.sqript.types.primitive.TypeBoolean;
@@ -11,7 +11,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.Style;
@@ -23,7 +22,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import org.apache.logging.log4j.core.util.JsonUtils;
 import sun.reflect.ReflectionFactory;
 
 import java.io.*;
@@ -138,7 +136,7 @@ public class SqriptUtils {
 
 
         JsonObject events = new JsonObject();
-        for (EventDefinition eventDefinition : ScriptManager.events) {
+        for (EventDefinition eventDefinition : ScriptManager.getEvents()) {
             JsonObject event = new JsonObject();
             event.addProperty("name", eventDefinition.getFeature().name());
 
@@ -163,7 +161,7 @@ public class SqriptUtils {
         object.add("events", events);
 
         JsonObject actions = new JsonObject();
-        for (ActionDefinition actionDefinition : ScriptManager.actions) {
+        for (ActionDefinition actionDefinition : ScriptManager.getActions()) {
             for (Feature feature : actionDefinition.getFeatures()) {
                 JsonObject action = new JsonObject();
                 action.addProperty("group", actionDefinition.getName());
@@ -178,7 +176,7 @@ public class SqriptUtils {
         object.add("actions", actions);
 
         JsonObject expressions = new JsonObject();
-        for (ExpressionDefinition expressionDefinition : ScriptManager.expressions.values()) {
+        for (ExpressionDefinition expressionDefinition : ScriptManager.getExpressions().values()) {
             for (Feature feature : expressionDefinition.getFeatures()) {
                 JsonObject expression = new JsonObject();
                 expression.addProperty("group", expressionDefinition.getName());
@@ -194,7 +192,7 @@ public class SqriptUtils {
         object.add("expressions", expressions);
 
         JsonObject blocks = new JsonObject();
-        for (BlockDefinition blockDefinition : ScriptManager.blocks) {
+        for (BlockDefinition blockDefinition : ScriptManager.getBlocks()) {
             JsonObject block = new JsonObject();
             block.addProperty("name", blockDefinition.getFeature().name());
             block.addProperty("description", blockDefinition.getFeature().description());
@@ -327,7 +325,7 @@ public class SqriptUtils {
             case Constants.NBT.TAG_SHORT:
                 return new TypeNumber(tag.getShort(key));
             case Constants.NBT.TAG_BYTE:
-                return new TypeBoolean(tag.getByte(key) == 0 ? false : true);
+                return new TypeBoolean(tag.getByte(key) != 0);
             case Constants.NBT.TAG_BYTE_ARRAY:
                 ArrayList list = new ArrayList();
                 for (byte b : tag.getByteArray(key)) {
@@ -368,23 +366,23 @@ public class SqriptUtils {
 
     public static void setTag(NBTTagCompound tag, String key, String type, ScriptType value) {
         //System.out.println("Setting with type : "+type);
-        if(type.equalsIgnoreCase("byte")){
+        if (type.equalsIgnoreCase("byte")) {
             tag.setByte(key, ((Double) value.getObject()).byteValue());
             return;
         }
-        if(type.equalsIgnoreCase("float")){
+        if (type.equalsIgnoreCase("float")) {
             tag.setFloat(key, ((Double) value.getObject()).floatValue());
             return;
         }
-        if(type.equalsIgnoreCase("int")){
+        if (type.equalsIgnoreCase("int")) {
             tag.setInteger(key, ((Double) value.getObject()).intValue());
             return;
         }
-        if(type.equalsIgnoreCase("long")){
+        if (type.equalsIgnoreCase("long")) {
             tag.setLong(key, ((Double) value.getObject()).longValue());
             return;
         }
-        if(type.equalsIgnoreCase("short")){
+        if (type.equalsIgnoreCase("short")) {
             tag.setShort(key, ((Double) value.getObject()).shortValue());
             return;
         }
@@ -400,14 +398,75 @@ public class SqriptUtils {
     }
 
     @SideOnly(Side.CLIENT)
-    public static World getClientWorld(){
+    public static World getClientWorld() {
         return Minecraft.getMinecraft().world;
     }
 
     public static World getWorld(int id) {
-        if(FMLCommonHandler.instance().getMinecraftServerInstance() != null)
+        if (FMLCommonHandler.instance().getMinecraftServerInstance() != null)
             return FMLCommonHandler.instance().getMinecraftServerInstance().worlds[id];
         else
             return getClientWorld();
     }
+
+    // === MÉTHODES UTILITAIRES MIGRÉES DEPUIS SCRIPTDECODER ===
+
+    /**
+     * Obtient le nom d'un type
+     */
+    public static String getNameOfType(Class type) {
+        if (type == null) return "null";
+        return type.getSimpleName();
+    }
+
+    /**
+     * Calcule le niveau d'indentation d'une ligne
+     */
+    public static int getTabLevel(String line) {
+        if (line == null || line.trim().isEmpty()) return 0;
+        
+        int spaces = 0;
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            if (c == ' ') {
+                spaces++;
+            } else if (c == '\t') {
+                spaces += 4; // 1 tab = 4 espaces
+            } else {
+                break; // Premier caractère non-espace trouvé
+            }
+        }
+        
+        // Convertir les espaces en niveau d'indentation (4 espaces = 1 niveau)
+        int tabLevel = spaces / 4;
+        
+        // Debug logs
+        System.out.println("DEBUG getTabLevel: '" + line + "' -> spaces=" + spaces + ", level=" + tabLevel);
+        
+        return tabLevel;
+    }
+
+    /**
+     * Remplace la dernière occurrence d'un pattern
+     */
+    public static String replaceLast(String text, String regex, String replacement) {
+        return text.replaceAll("(?s)" + regex + "(?!.*?" + regex + ")", replacement);
+    }
+
+    /**
+     * Nettoie les commentaires d'une ligne
+     */
+    public static String getUncommentedPart(String text) {
+        if (text == null) return null;
+        int commentIndex = text.indexOf('#');
+        if (commentIndex != -1) {
+            return text.substring(0, commentIndex);
+        }
+        return text;
+    }
 }
+
+
+
+
+

@@ -6,3 +6,8 @@ import fr.nico.sqript.types.ScriptType;
 public interface IOperation {
     ScriptType<?> operate(ScriptType<?> o1, ScriptType<?> o2);
 }
+
+
+
+
+

@@ -13,22 +13,39 @@ import org.lwjgl.opengl.Display;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 
 @Expression(name = "System Expressions",
         features = {
-            @Feature(name = "Execution side", description = "Returns the current execution side.", examples = "execution side", pattern = "[execution] side", type = "string"),
-            @Feature(name = "Window title", description = "Returns the current window title.", examples = "set the window title to \"Sqript\"", pattern = "window (name|title)", type = "string"),
-            @Feature(name = "Window icons", description = "Returns the current window icons.", examples = "set window icons to [sample:favicon_wb_16.png,sample:favicon_wb_32.png]", pattern = "window icons", type = "array"),
+                @Feature(name = "Execution side", description = "Returns the current execution side.", examples = "execution side", pattern = "[execution] side", type = "string"),
+                @Feature(name = "Window title", description = "Returns the current window title.", examples = "set the window title to \"Sqript\"", pattern = "window (name|title)", type = "string"),
+                @Feature(name = "Window icons", description = "Returns the current window icons.", examples = "set window icons to [sample:favicon_wb_16.png,sample:favicon_wb_32.png]", pattern = "window icons", type = "array"),
         }
 )
 public class ExprSystem extends ScriptExpression {
 
+    private static ByteBuffer loadIcon(InputStream imageStream) throws IOException {
+        BufferedImage bufferedimage = ImageIO.read(imageStream);
+        int[] aint = bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), null, 0,
+                bufferedimage.getWidth());
+        ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
+
+        for (int i : aint) {
+            bytebuffer.putInt(i << 8 | i >> 24 & 255);
+        }
+
+        bytebuffer.flip();
+        return bytebuffer;
+    }
+
     @Override
     public ScriptType get(ScriptContext context, ScriptType[] parameters) {
 
-        switch(getMatchedIndex()){
+        switch (getMatchedIndex()) {
             case 0:
                 return new TypeString(FMLCommonHandler.instance().getSide().toString());
             case 1:
@@ -41,7 +58,7 @@ public class ExprSystem extends ScriptExpression {
 
     @Override
     public boolean set(ScriptContext context, ScriptType to, ScriptType[] parameters) {
-        switch(getMatchedIndex()){
+        switch (getMatchedIndex()) {
             case 0:
                 return false;
             case 1:
@@ -52,8 +69,8 @@ public class ExprSystem extends ScriptExpression {
                 ResourceLocation l16 = (ResourceLocation) array.getObject().get(0).getObject();
                 ResourceLocation l32 = (ResourceLocation) array.getObject().get(1).getObject();
                 try {
-                    InputStream i16 = new FileInputStream(new File(ScriptManager.scriptDir,l16.getNamespace()+"/"+l16.getPath()));
-                    InputStream i32 = new FileInputStream(new File(ScriptManager.scriptDir,l32.getNamespace()+"/"+l32.getPath()));
+                    InputStream i16 = new FileInputStream(new File(ScriptManager.scriptDir, l16.getNamespace() + "/" + l16.getPath()));
+                    InputStream i32 = new FileInputStream(new File(ScriptManager.scriptDir, l32.getNamespace() + "/" + l32.getPath()));
                     Display.setIcon(new ByteBuffer[]{loadIcon(i16), loadIcon(i32)});
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -63,18 +80,9 @@ public class ExprSystem extends ScriptExpression {
         return false;
     }
 
-    private static ByteBuffer loadIcon(InputStream imageStream) throws IOException {
-        BufferedImage bufferedimage = ImageIO.read(imageStream);
-        int[] aint = bufferedimage.getRGB(0, 0, bufferedimage.getWidth(), bufferedimage.getHeight(), (int[]) null, 0,
-                bufferedimage.getWidth());
-        ByteBuffer bytebuffer = ByteBuffer.allocate(4 * aint.length);
-
-        for (int i : aint) {
-            bytebuffer.putInt(i << 8 | i >> 24 & 255);
-        }
-
-        bytebuffer.flip();
-        return bytebuffer;
-    }
-
 }
+
+
+
+
+

@@ -8,11 +8,11 @@ import org.lwjgl.opengl.GL11;
 public class DropdownContainer extends Container {
     public static final int LABEL_DRAW_TEXT = 0;
     public static final int LABEL_DRAW_IMAGE = 1;
+    private final int extendedHeight;
     public int label_display_mode = 0;
     public boolean displayFromRight = false;
     private String displayText = "";
     private boolean extended = false;
-    private final int extendedHeight;
     private CuboidInfos buttonDimensions;
     private boolean hover;
     private boolean hold;
@@ -192,3 +192,8 @@ public class DropdownContainer extends Container {
     }
 
 }
+
+
+
+
+

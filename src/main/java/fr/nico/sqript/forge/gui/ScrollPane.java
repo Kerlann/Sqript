@@ -140,9 +140,9 @@ public class ScrollPane extends Container {
 
                     this.temp = 0;
                     if ((mouseX >= getX2() - sliderWidth && mouseX <= getX2() && mouseY <= getY() + sliderHeight + this.buffY
-                            && mouseY >= getY() + this.buffY) || (hold == true)) {
+                            && mouseY >= getY() + this.buffY) || (hold)) {
 
-                        if (hold == false) {
+                        if (!hold) {
 
                             this.hold = true;
                         } else if (this.prevY != mouseY) {
@@ -179,7 +179,7 @@ public class ScrollPane extends Container {
 
                 this.scrollValue = (int) (this.buffY * 100 / (this.style.height - (sliderHeight)));
                 if ((mouseX >= getX2() - sliderWidth && mouseX <= getX2() && mouseY <= getY() + sliderHeight + this.buffY
-                        && mouseY >= getY() + this.buffY) || (hold == true)) {
+                        && mouseY >= getY() + this.buffY) || (hold)) {
 
                     if (scrollStyle == 0) {
                         drawRect((int) (getX2() - sliderWidth), getY() + (int) this.buffY, getX2(), getY() + (int) sliderHeight + (int) this.buffY,
@@ -321,3 +321,8 @@ public class ScrollPane extends Container {
         this.sliderBackColor = sliderBackColor;
     }
 }
+
+
+
+
+

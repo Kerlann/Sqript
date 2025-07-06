@@ -2,10 +2,8 @@ package fr.nico.sqript.types;
 
 import fr.nico.sqript.ScriptManager;
 import fr.nico.sqript.meta.Type;
-import fr.nico.sqript.structures.ScriptElement;
 import fr.nico.sqript.types.primitive.TypeResource;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.util.Objects;
@@ -15,15 +13,10 @@ import java.util.Objects;
 public class TypeItem extends ScriptType<Item> {
 
     static {
-        ScriptManager.registerTypeParser(TypeResource.class,TypeItem.class, r-> {
+        ScriptManager.registerTypeParser(TypeResource.class, TypeItem.class, r -> {
             //System.out.println(r.getObject());
             return new TypeItem(Objects.requireNonNull(ForgeRegistries.ITEMS.getValue(r.getObject())));
-        },0);
-    }
-
-    @Override
-    public String toString() {
-        return this.getObject().getRegistryName().toString();
+        }, 0);
     }
 
     public TypeItem(Item item) {
@@ -31,8 +24,18 @@ public class TypeItem extends ScriptType<Item> {
     }
 
     @Override
+    public String toString() {
+        return this.getObject().getRegistryName().toString();
+    }
+
+    @Override
     public boolean equals(Object o) {
-        return getObject() == ((TypeItem)(o)).getObject();
+        return getObject() == ((TypeItem) (o)).getObject();
     }
 
 }
+
+
+
+
+

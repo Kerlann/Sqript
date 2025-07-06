@@ -3,14 +3,13 @@ package fr.nico.sqript.network;
 import fr.nico.sqript.ScriptDataManager;
 import fr.nico.sqript.ScriptManager;
 import fr.nico.sqript.blocks.ScriptBlockPacket;
-import fr.nico.sqript.compiling.ScriptDecoder;
-import fr.nico.sqript.compiling.ScriptException;
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.structures.ScriptClock;
 import fr.nico.sqript.structures.ScriptContext;
 import fr.nico.sqript.structures.ScriptTypeAccessor;
+import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.TypePlayer;
 import fr.nico.sqript.types.interfaces.ISerialisable;
-import fr.nico.sqript.types.ScriptType;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
@@ -24,7 +23,15 @@ import java.util.Objects;
 
 public class ScriptMessage implements IMessage {
 
+    String message_id;
+    ScriptType[] parameters;
+
     public ScriptMessage() {
+    }
+
+    public ScriptMessage(String message_id, ScriptType[] parameters) {
+        this.message_id = message_id;
+        this.parameters = parameters;
     }
 
     public String getMessage_id() {
@@ -40,14 +47,6 @@ public class ScriptMessage implements IMessage {
     }
 
     public void setParameters(ScriptType[] parameters) {
-        this.parameters = parameters;
-    }
-
-    String message_id;
-    ScriptType[] parameters;
-
-    public ScriptMessage(String message_id, ScriptType[] parameters) {
-        this.message_id = message_id;
         this.parameters = parameters;
     }
 
@@ -72,26 +71,26 @@ public class ScriptMessage implements IMessage {
     public void toBytes(ByteBuf buf) {
         ByteBufUtils.writeUTF8String(buf, message_id);
         buf.writeInt(parameters.length);
-        for(ScriptType parameter : parameters){
+        for (ScriptType parameter : parameters) {
             if (parameter instanceof ISerialisable) {
                 ISerialisable s = (ISerialisable) parameter;
-                ByteBufUtils.writeUTF8String(buf, Objects.requireNonNull(ScriptDecoder.getNameOfType(parameter.getClass())));
+                ByteBufUtils.writeUTF8String(buf, Objects.requireNonNull(fr.nico.sqript.SqriptUtils.getNameOfType(parameter.getClass())));
                 ByteBufUtils.writeTag(buf, s.write(new NBTTagCompound()));
-            }else{
-                ScriptManager.log.error("Could not serialize : "+parameter+" for message : "+message_id);
+            } else {
+                ScriptManager.log.error("Could not serialize : " + parameter + " for message : " + message_id);
             }
 
         }
 
     }
 
-    public static class ScriptMessageHandler implements IMessageHandler<ScriptMessage,ScriptMessage> {
+    public static class ScriptMessageHandler implements IMessageHandler<ScriptMessage, ScriptMessage> {
 
         @Override
         public ScriptMessage onMessage(ScriptMessage message, MessageContext ctx) {
             ScriptBlockPacket m = ScriptNetworkManager.getMessage(message.message_id);
-            if(m==null){
-                ScriptManager.log.error("No message registered on "+ctx.side+" side with id : "+message.message_id);
+            if (m == null) {
+                ScriptManager.log.error("No message registered on " + ctx.side + " side with id : " + message.message_id);
                 return null;
             }
             ScriptContext context = new ScriptContext(ScriptManager.GLOBAL_CONTEXT);
@@ -101,11 +100,11 @@ public class ScriptMessage implements IMessage {
                 e.printStackTrace();
             }
             try {
-                if(ctx.side == Side.CLIENT){
+                if (ctx.side == Side.CLIENT) {
                     ScriptClock clock = new ScriptClock(context);
                     clock.start(m.getClient());
-                }else {
-                    context.put(new ScriptTypeAccessor(new TypePlayer(ctx.getServerHandler().player),"(player|sender)"));
+                } else {
+                    context.put(new ScriptTypeAccessor(new TypePlayer(ctx.getServerHandler().player), "(player|sender)"));
                     ScriptClock clock = new ScriptClock(context);
                     clock.start(m.getServer());
                 }
@@ -116,3 +115,7 @@ public class ScriptMessage implements IMessage {
         }
     }
 }
+
+
+
+

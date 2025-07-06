@@ -1,17 +1,15 @@
 package fr.nico.sqript;
 
-import fr.nico.sqript.compiling.ScriptDecoder;
-import fr.nico.sqript.compiling.ScriptException;
-import fr.nico.sqript.structures.ScriptTypeAccessor;
+
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.structures.ScriptElement;
-import fr.nico.sqript.types.interfaces.ISerialisable;
+import fr.nico.sqript.structures.ScriptTypeAccessor;
 import fr.nico.sqript.types.ScriptType;
+import fr.nico.sqript.types.interfaces.ISerialisable;
 import fr.nico.sqript.types.primitive.TypeString;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 
-import javax.vecmath.Matrix3f;
-import javax.vecmath.Matrix4f;
 import java.io.File;
 
 
@@ -39,13 +37,13 @@ public abstract class ScriptDataManager {
     public static void save() throws Exception {
         NBTTagCompound total = new NBTTagCompound();
         for (ScriptTypeAccessor s : ScriptManager.GLOBAL_CONTEXT.getAccessors()) {
-            if(s.element == null)
+            if (s.element == null)
                 continue;
             if (s.element instanceof ISerialisable) {
                 ISerialisable savable = (ISerialisable) s.element;
                 String key = s.key;
                 NBTTagCompound value = savable.write(new NBTTagCompound());
-                String typeName = ScriptDecoder.getNameOfType(s.element.getClass());
+                String typeName = fr.nico.sqript.SqriptUtils.getNameOfType(s.element.getClass());
                 NBTTagCompound toAdd = new NBTTagCompound();
                 toAdd.setTag("value", value);
                 toAdd.setString("type", typeName);
@@ -57,10 +55,9 @@ public abstract class ScriptDataManager {
     }
 
 
-
     public static ScriptType instanciateWithData(String typeName, NBTTagCompound tag) throws Exception {
         //System.out.println("Instantiating : "+typeName+" with "+tag);
-        Class<? extends ScriptElement> typeClass = ScriptDecoder.parseType(typeName);
+        Class<? extends ScriptElement> typeClass = ScriptManager.getRegistry().parseType(typeName);
         assert typeClass != null;
         if (typeClass != TypeString.class) {
             try {
@@ -84,3 +81,8 @@ public abstract class ScriptDataManager {
 
 
 }
+
+
+
+
+

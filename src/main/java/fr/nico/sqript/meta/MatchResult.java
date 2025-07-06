@@ -28,6 +28,11 @@ public class MatchResult {
 
     @Override
     public String toString() {
-        return "n°"+getMatchedIndex()+":"+getMarks();
+        return "n°" + getMatchedIndex() + ":" + getMarks();
     }
 }
+
+
+
+
+

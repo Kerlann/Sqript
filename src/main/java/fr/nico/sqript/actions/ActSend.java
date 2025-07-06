@@ -1,8 +1,8 @@
 package fr.nico.sqript.actions;
 
 
+import fr.nico.sqript.core.compilation.ScriptException;
 import fr.nico.sqript.forge.SqriptForge;
-import fr.nico.sqript.compiling.ScriptException;
 import fr.nico.sqript.meta.Action;
 import fr.nico.sqript.meta.Feature;
 import fr.nico.sqript.network.ScriptMessage;
@@ -19,25 +19,25 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 
 @Action(name = "Send Actions",
         features = {
-            @Feature(name="Send element to console/server", description = "Sends an element to the console or the server, like a packet.",examples = "packet test_packet(message):\n" +
-                    "\tclient:\n" +
-                    "\t\tprint message\n" +
-                    "\tserver:\n" +
-                    "\t\tprint message\n" +
-                    "\n" +
-                    "command /sendPacket {string}:\n" +
-                    "\tsend test_packet(arg-1) to server",
-                    pattern = "send {element} to (console|server)"),
-            @Feature(name="Send element to a player/an element", description = "Sends an element to a player or another element, like a packet or a message.",
-                    examples = "packet test_packet(message):\n" +
-                            "\tclient:\n" +
-                            "\t\tprint message\n" +
-                            "\tserver:\n" +
-                            "\t\tprint message\n" +
-                            "\n" +
-                            "command /sendPacket {string}:\n" +
-                            "\tsend test_packet(arg-1) to player",
-                    pattern = "send {element} to {element}"),
+                @Feature(name = "Send element to console/server", description = "Sends an element to the console or the server, like a packet.", examples = "packet test_packet(message):\n" +
+                        "\tclient:\n" +
+                        "\t\tprint message\n" +
+                        "\tserver:\n" +
+                        "\t\tprint message\n" +
+                        "\n" +
+                        "command /sendPacket {string}:\n" +
+                        "\tsend test_packet(arg-1) to server",
+                        pattern = "send {element} to (console|server)"),
+                @Feature(name = "Send element to a player/an element", description = "Sends an element to a player or another element, like a packet or a message.",
+                        examples = "packet test_packet(message):\n" +
+                                "\tclient:\n" +
+                                "\t\tprint message\n" +
+                                "\tserver:\n" +
+                                "\t\tprint message\n" +
+                                "\n" +
+                                "command /sendPacket {string}:\n" +
+                                "\tsend test_packet(arg-1) to player",
+                        pattern = "send {element} to {element}"),
         }
 )
 public class ActSend extends ScriptAction {
@@ -48,7 +48,7 @@ public class ActSend extends ScriptAction {
         switch (getMatchedIndex()) {
             case 0:
                 ScriptType value = getParameter(1).get(context);
-                if(FMLCommonHandler.instance().getSide().isServer())
+                if (FMLCommonHandler.instance().getSide().isServer())
                     throw new ScriptException.ScriptBadSideException(this.getLine(), FMLCommonHandler.instance().getSide());
                 if (value instanceof TypeMessagePrototype) {
                     ScriptMessage msg = (ScriptMessage) value.getObject();
@@ -59,19 +59,22 @@ public class ActSend extends ScriptAction {
                 //System.out.println("Value expression : "+getParameter(1).getClass()+ " "+getParameter(1).getMatchedIndex());
                 value = getParameter(1).get(context);
                 ScriptType dest = getParameter(2).get(context);
-                 if (value instanceof TypeMessagePrototype) {
+                if (value instanceof TypeMessagePrototype) {
                     ScriptMessage msg = (ScriptMessage) value.getObject();
                     //Parameters has to be a TypeSender
                     if (dest instanceof TypeArray) {
                         for (ScriptType p : ((TypeArray) (dest)).getObject()) {
-                            ICommandSender sender = (ICommandSender) p.getObject();
+                            Object obj = p.getObject();
+                            ICommandSender sender = (ICommandSender) obj;
                             if (sender instanceof EntityPlayer) {
                                 EntityPlayerMP pl = (EntityPlayerMP) sender;
                                 SqriptForge.channel.sendTo(msg, pl);
                             }
                         }
                     } else {
-                        ICommandSender sender = (ICommandSender) dest.getObject();
+                        Object obj = dest.getObject();
+
+                        ICommandSender sender = (ICommandSender) obj;
                         if (sender instanceof EntityPlayer) {
                             EntityPlayerMP pl = (EntityPlayerMP) sender;
                             SqriptForge.channel.sendTo(msg, pl);
@@ -80,19 +83,22 @@ public class ActSend extends ScriptAction {
                         }
                     }
 
-                }else  {
+                } else {
                     String msg = value.toString();
-                    msg = msg.replaceAll("&","\247");
+                    msg = msg.replaceAll("&", "\247");
                     //Parameters has to be a TypeSender
                     if (dest instanceof TypeArray) {
                         for (ScriptType p : ((TypeArray) (dest)).getObject()) {
-                            ICommandSender sender = (ICommandSender) p.getObject();
+                            Object obj = p.getObject();
+
+                            ICommandSender sender = (ICommandSender) obj;
                             synchronized (FMLCommonHandler.instance().getMinecraftServerInstance()) {
                                 sender.sendMessage(new TextComponentString(msg));
                             }
                         }
                     } else {
-                        ICommandSender sender = (ICommandSender) dest.getObject();
+                        Object obj = dest.getObject();
+                        ICommandSender sender = (ICommandSender) obj;
                         sender.sendMessage(new TextComponentString(msg));
                     }
 
@@ -103,3 +109,8 @@ public class ActSend extends ScriptAction {
 
     }
 }
+
+
+
+
+

@@ -1,0 +1,2 @@
+command /minimal:
+    send "Minimal test!" to sender

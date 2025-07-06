@@ -6,10 +6,9 @@ import fr.nico.sqript.types.ScriptType;
 import fr.nico.sqript.types.TypeVector;
 import fr.nico.sqript.types.primitive.TypeNumber;
 import net.minecraft.util.math.Vec3d;
-import org.lwjgl.util.vector.Vector3f;
 
 @Native(
-        name="vector",
+        name = "vector",
         definitions = {
                 "scale(vector,number):vector",
                 "dot(vector,vector):number",
@@ -24,34 +23,6 @@ public class FuncVector extends ScriptNativeFunction {
         super(matchedDefinition);
     }
 
-    @Override
-    public ScriptType get(ScriptContext context, ScriptType... parameters) {
-        switch(matchedDefinition) {
-            case 0: {
-                Vec3d v1 = (Vec3d) parameters[0].getObject();
-                double s = (double) parameters[1].getObject();
-                return new TypeVector((Vec3d) v1.scale((float) s));
-            }
-            case 1: {
-                Vec3d v1 = (Vec3d) parameters[0].getObject();
-                Vec3d v2 = (Vec3d) parameters[1].getObject();
-                return new TypeNumber(dot(v1,v2));
-            }
-            case 2: {
-                Vec3d v1 = (Vec3d) parameters[0].getObject();
-                Vec3d v2 = (Vec3d) parameters[1].getObject();
-                return new TypeVector(cross(v1,v2,null));
-            }
-            case 3: {
-                double a = (double) parameters[0].getObject();
-                double b = (double) parameters[1].getObject();
-                double c = (double) parameters[2].getObject();
-                return new TypeVector(new Vec3d((float)a,(float)b,(float)c));
-            }
-        }
-        return null;
-    }
-
     public static double dot(Vec3d left, Vec3d right) {
         return left.x * right.x + left.y * right.y + left.z * right.z;
     }
@@ -59,11 +30,10 @@ public class FuncVector extends ScriptNativeFunction {
     public static Vec3d cross(
             Vec3d left,
             Vec3d right,
-            Vec3d dest)
-    {
+            Vec3d dest) {
 
         if (dest == null)
-            dest = new Vec3d(0,0,0);
+            dest = new Vec3d(0, 0, 0);
 
         dest = new Vec3d(
                 left.y * right.z - left.z * right.y,
@@ -73,4 +43,37 @@ public class FuncVector extends ScriptNativeFunction {
 
         return dest;
     }
+
+    @Override
+    public ScriptType get(ScriptContext context, ScriptType... parameters) {
+        switch (matchedDefinition) {
+            case 0: {
+                Vec3d v1 = (Vec3d) parameters[0].getObject();
+                double s = (double) parameters[1].getObject();
+                return new TypeVector(v1.scale((float) s));
+            }
+            case 1: {
+                Vec3d v1 = (Vec3d) parameters[0].getObject();
+                Vec3d v2 = (Vec3d) parameters[1].getObject();
+                return new TypeNumber(dot(v1, v2));
+            }
+            case 2: {
+                Vec3d v1 = (Vec3d) parameters[0].getObject();
+                Vec3d v2 = (Vec3d) parameters[1].getObject();
+                return new TypeVector(cross(v1, v2, null));
+            }
+            case 3: {
+                double a = (double) parameters[0].getObject();
+                double b = (double) parameters[1].getObject();
+                double c = (double) parameters[2].getObject();
+                return new TypeVector(new Vec3d((float) a, (float) b, (float) c));
+            }
+        }
+        return null;
+    }
 }
+
+
+
+
+
